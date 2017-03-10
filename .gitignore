@@ -1,0 +1,41 @@
+# Eclipse
+
+.classpath
+
+.project
+
+.settings/
+
+
+
+# Intellij
+
+.idea/
+
+*.iml
+
+*.iws
+out/
+
+
+# Mac
+
+.DS_Store
+
+
+
+# Maven
+
+log/
+
+target/
+
+
+*.class
+
+# Other recommended by http://islegend.com/development/setting-global-gitignore-mac-windows/
+Thumbs.db
+.log
+.sql
+.sass-cache/
+.codekit-config.json
