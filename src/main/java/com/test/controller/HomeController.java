@@ -7,12 +7,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
+    /**
+     * This method will show the index page
+     * @return ModelAndView of index page todo: maybe we don't need a model here...
+     */
     @RequestMapping("/")
     public ModelAndView showIndexPage()
     {
-        return new
-                ModelAndView("index","message","Go Team 3!!");
-
+        return new ModelAndView("index", "message", "Go Team 3!");
     }
+
+
 
 }
