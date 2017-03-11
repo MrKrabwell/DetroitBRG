@@ -11,12 +11,17 @@ public class HomeController {
      * This method will show the index page
      * @return ModelAndView of index page todo: maybe we don't need a model here...
      */
-    @RequestMapping("/")
+    @RequestMapping(value="/")
     public ModelAndView showIndexPage()
     {
         return new ModelAndView("index", "message", "Go Team 3!");
     }
 
 
+
+    @RequestMapping(value="test")
+    public ModelAndView test() {
+
+    }
 
 }

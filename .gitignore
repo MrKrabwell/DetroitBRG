@@ -1,37 +1,29 @@
 # Eclipse
-
 .classpath
-
 .project
-
 .settings/
 
 
 
 # Intellij
-
 .idea/
-
 *.iml
-
 *.iws
 out/
 
 
-# Mac
 
+# Mac
 .DS_Store
 
 
 
 # Maven
-
 log/
-
 target/
-
-
 *.class
+
+
 
 # Other recommended by http://islegend.com/development/setting-global-gitignore-mac-windows/
 Thumbs.db
@@ -39,3 +31,6 @@ Thumbs.db
 .sql
 .sass-cache/
 .codekit-config.json
+
+# For Hibernate, this includes username and password
+src/main/java/hibernate.cfg.xml
