@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.test.models.PhotosEntity" table="Photos" schema="DetroitBRG">
+        <id name="photoId">
+            <column name="photoID" sql-type="int(11)"/>
+        </id>
+        <property name="fileName">
+            <column name="fileName" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="latitude">
+            <column name="latitude" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+        <property name="longitude">
+            <column name="longitude" sql-type="varchar(30)" length="30" not-null="true"/>
+        </property>
+        <property name="votes">
+            <column name="votes" sql-type="int(11)"/>
+        </property>
+    </class>
+</hibernate-mapping>

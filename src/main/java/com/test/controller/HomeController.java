@@ -25,7 +25,11 @@ public class HomeController {
     }
 
 
-
+    /**
+     * This method is only for testing database access using Hibernate
+     * TODO: Delete this
+     * @return ModelAndView of test.jsp
+     */
     @RequestMapping(value="test")
     public ModelAndView test() {
         /*
