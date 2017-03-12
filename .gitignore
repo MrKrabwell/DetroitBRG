@@ -34,3 +34,5 @@ Thumbs.db
 
 # For Hibernate, this includes username and password
 src/main/java/hibernate.cfg.xml
+src/main/resources/hibernate.cfg.xml
+

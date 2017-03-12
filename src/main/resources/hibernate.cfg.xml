@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://detroitbrg.cjzopcqfj2na.us-west-2.rds.amazonaws.com:3306/DetroitBRG</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://detroitbrg.cjzopcqfj2na.us-west-2.rds.amazonaws.com:3306/DetroitBRG</property>
+    <property name="hibernate.connection.username">admin</property>
+    <property name="hibernate.connection.password">JavaTeam3</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="show_sql">true</property>
+    <mapping resource="UsersEntity.hbm.xml"/>
+    <mapping class="com.test.models.UsersEntity"/>
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
