@@ -17,49 +17,9 @@
 
   <body>
 
-  <h1>Testing DB Access!!</h1>
+  <h1>${img}</h1>
 
 
-    <!--
-    <table>
-
-      <tr>
-
-        <td>User ID</td><td>First Name</td><td>Last Name</td>
-
-      </tr>
-
-      <c:forEach var="element" items="${list}">
-
-        <tr>
-
-          <td>${element.getUserId()}</td>
-          <td>${element.getFirstName()}</td>
-          <td>${element.getLastName()}</td>
-
-        </tr>
-
-      </c:forEach>
-
-    </table>
-    -->
-
-  <div id="global">
-    <h4>The product has been saved.</h4>
-    <h5>Details:</h5>
-    Product Name: ${product.name}<br/>
-    Description: ${product.description}<br/>
-    <p>Following files are uploaded successfully.</p>
-    <ol>
-      <c:forEach items="${product.images}" var="image">
-        <li>${image.originalFilename}
-        <li>${image.images}
-          <img width="100" src="<c:url value="/resources/photos/"/>${image.originalFilename}"/>
-
-        </li>
-      </c:forEach>
-    </ol>
-  </div>
 
   </body>
 

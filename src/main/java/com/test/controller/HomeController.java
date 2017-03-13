@@ -6,24 +6,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HttpServletBean;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.List;
 
 @Controller
@@ -46,36 +38,26 @@ public class HomeController {
     }
 
 
+    private static final String UPLOAD_DIRECTORY ="/image";
+
     @RequestMapping("uploadPhoto")
-    public String uploadResources( HttpServletRequest servletRequest,
-                                   @ModelAttribute Product product,
-                                   Model model) {
+    public ModelAndView uploadResources( @RequestParam CommonsMultipartFile file, HttpSession session,
+                                   Model model ) throws IOException {
 
-        //Get the uploaded files and store them
-        List<MultipartFile> files = product.getImages();
-        List<String> fileNames = new ArrayList<String>();
-        if (null != files && files.size() > 0)
-        {
-            for (MultipartFile multipartFile : files) {
+        ServletContext context = session.getServletContext();
+        String path = context.getRealPath(UPLOAD_DIRECTORY);
+        String filename = file.getOriginalFilename();
 
-                String fileName = multipartFile.getOriginalFilename();
-                fileNames.add(fileName);
+        System.out.println(path+" "+filename);
 
-                File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
-                try
-                {
-                    multipartFile.transferTo(imageFile);
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
+        byte[] bytes = file.getBytes();
+        BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(
+                new File(path + File.separator + filename)));
+        stream.write(bytes);
+        stream.flush();
+        stream.close();
 
-        // Here, you can save the product details in database
-
-        model.addAttribute("product", product);
-        return "test";
+        return new ModelAndView("uploadform","filesuccess","File successfully saved!");
     }
 
 
