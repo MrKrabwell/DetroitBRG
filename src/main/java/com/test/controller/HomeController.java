@@ -6,9 +6,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HttpServletBean;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +39,90 @@ public class HomeController {
         return new ModelAndView("index", "message", "Go Team 3!");
     }
 
+
+    @RequestMapping(value="showSubmitPhotoPage")
+    public ModelAndView showSubmitPhotoPage() {
+        return new ModelAndView("submitPhoto");
+    }
+
+
+    @RequestMapping("uploadPhoto")
+    public String uploadResources( HttpServletRequest servletRequest,
+                                   @ModelAttribute Product product,
+                                   Model model) {
+
+        //Get the uploaded files and store them
+        List<MultipartFile> files = product.getImages();
+        List<String> fileNames = new ArrayList<String>();
+        if (null != files && files.size() > 0)
+        {
+            for (MultipartFile multipartFile : files) {
+
+                String fileName = multipartFile.getOriginalFilename();
+                fileNames.add(fileName);
+
+                File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
+                try
+                {
+                    multipartFile.transferTo(imageFile);
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Here, you can save the product details in database
+
+        model.addAttribute("product", product);
+        return "test";
+    }
+
+
+
+    /*
+    @RequestMapping(value="uploadPhoto")
+    public ModelAndView uploadPhoto(HttpServlet servletRequest,
+                                    @ModelAttribute Product product,
+                                    Model model) {
+
+            //Get the uploaded files and store them
+            List<MultipartFile> files = product.getImages();
+            List<String> fileNames = new ArrayList<String>();
+            if (null != files && files.size() > 0)
+            {
+                for (MultipartFile multipartFile : files) {
+
+                    String fileName = multipartFile.getOriginalFilename();
+                    fileNames.add(fileName);
+
+                    File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
+                    try
+                    {
+                        multipartFile.transferTo(imageFile);
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // Here, you can save the product details in database
+
+            model.addAttribute("product", product);
+            return "viewProductDetail";
+        }
+
+        @RequestMapping(value = "/product-input-form")
+        public String inputProduct(Model model) {
+            model.addAttribute("product", new Product());
+            return "productForm";
+        }
+    }
+
+        return null;
+    }
+    */
 
     /**
      * This method is only for testing database access using Hibernate
