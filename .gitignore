@@ -21,8 +21,9 @@ out/
 # Maven
 log/
 target/
-*.class
 
+*.class
+hibernate.cfg.xml
 
 
 # Other recommended by http://islegend.com/development/setting-global-gitignore-mac-windows/
