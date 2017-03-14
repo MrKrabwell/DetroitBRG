@@ -19,17 +19,7 @@ import java.util.List;
 
 @Controller
 public class ClarifaiController {
-//    ClarifaiClient client = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
-//           "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U").buildSync();
-//
-//    final List<ClarifaiOutput<Concept>> predictionResults =
-//            client.getDefaultModels().generalModel() // You can also do Clarifai.getModelByID("id") to get custom models
-//                    .predict()
-//                    .withInputs(
-//                            ClarifaiInput.forImage(ClarifaiImage.of("http://localhost:8080"))
-//                    )
-//                    .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
-//                    .get();
+
     @RequestMapping ("test")
     public void testClarifai(HttpServletRequest request) throws UnknownHostException {
         ClarifaiClient client = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
@@ -37,7 +27,7 @@ public class ClarifaiController {
 
         String imageURL = request.getScheme() + "://" +
                 request.getServerName() + ":" +
-                request.getServerPort() + "/images/20170310_151134.jpg";
+                request.getServerPort() + "/images/ScavengerHuntPic.jpg";
 
         final List<ClarifaiOutput<Concept>> predictionResults =
                 client.getDefaultModels().generalModel() // You can also do Clarifai.getModelByID("id") to get custom models

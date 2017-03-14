@@ -1,5 +1,10 @@
 package com.test.controller;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.lang.GeoLocation;
+import com.drew.metadata.exif.GpsDirectory;
 import com.test.entity.Photos;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +21,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.io.IOException;
 
 /**
  * This controller class is for file uploads
@@ -85,13 +91,39 @@ public class FileUploadController {
     }
 
 
+    private double[] getGeoLocation(String path, String filename) {
+        File file = new File(path + File.separator + filename);
+        double lat = 0;
+        double lng = 0;
+
+        try {
+            Metadata metadata = ImageMetadataReader.readMetadata(file);
+            if (metadata.containsDirectory(GpsDirectory.class)) {
+                GpsDirectory gpsDir = (GpsDirectory) metadata.getDirectory(GpsDirectory.class);
+                GeoLocation location = gpsDir.getGeoLocation();
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+            }
+        }
+        catch (ImageProcessingException e) {
+            // Do something todo: error!!
+        }
+        catch (IOException e) {
+            // Do something todo: error!!
+        }
+
+        return (new double[]{lat, lng});
+    }
+
+
+
     /**
      * This method will save the file information to the
      * @param path
      * @param filename
      * @return
      */
-    private boolean storeInfoToDatabase(String path, String filename) {
+    private boolean storeInfoToDatabase(String path, String filename, double[] latLng) {
         // Set up configuration (This is for using Hibernate 4.3.11)
         // TODO: SessionFactory has a large footprint, should only have one instance
         Configuration configuration = new Configuration();
@@ -109,8 +141,8 @@ public class FileUploadController {
         //
         Photos photo = new Photos();
         photo.setFileName(filename);
-        photo.setLatitude("");
-        photo.setLongitude("");
+        photo.setLatitude(Double.toString(latLng[0]));
+        photo.setLongitude(Double.toString(latLng[1]));
 
         session.save(photo);
         tr.commit();
@@ -126,6 +158,8 @@ public class FileUploadController {
 
         return true;
     }
+
+
 
 
 
@@ -159,9 +193,11 @@ public class FileUploadController {
         }
 
         // TODO: Get geolocation
+        // double[] latLon is a two element array, where first element is latitude, and second is Longitude
+        double[] latLon = getGeoLocation(path, filename);
 
         // TODO: Store to database
-        if (!storeInfoToDatabase(path, filename)) {
+        if (!storeInfoToDatabase(path, filename, latLon)) {
             return "error";
         }
 

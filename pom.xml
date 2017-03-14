@@ -80,9 +80,6 @@
             <scope>provided</scope>
         </dependency>
 
-
-
-    <!--                          Clairifai Dependencies                           -->
         <!-- Clairifai Dependency API -->
         <dependency>
             <groupId>com.clarifai.clarifai-api2</groupId>
@@ -95,6 +92,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
+        </dependency>
+
+        <!-- For metadata extraction -->
+        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.6.2</version>
         </dependency>
 
 
