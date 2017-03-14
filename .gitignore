@@ -3,27 +3,18 @@
 .project
 .settings/
 
-
-
 # Intellij
 .idea/
 *.iml
 *.iws
 out/
 
-
-
 # Mac
 .DS_Store
-
-
 
 # Maven
 log/
 target/
-
-*.class
-hibernate.cfg.xml
 
 
 # Other recommended by http://islegend.com/development/setting-global-gitignore-mac-windows/
@@ -33,12 +24,8 @@ Thumbs.db
 .sass-cache/
 .codekit-config.json
 
-
-
-
 # For Hibernate, this includes username and password
+hibernate.cfg.xml
 
-src/main/java/hibernate.cfg.xml
-
-src/main/resources/hibernate.cfg.xml
-
+# Compiled .class files
+*.class

@@ -22,7 +22,7 @@
   <h1>Submit your photo here!</h1>
 
 
-  <form action="uploadPhoto" method="get" enctype="multipart/form-data" >
+  <form action="uploadPhoto" method="post" enctype="multipart/form-data" >
 
     <label for="photo">Choose a Photo:</label>
 
@@ -31,8 +31,6 @@
     <input type="submit" value="Upload"/>
 
   </form>
-
-
 
 </body>
 

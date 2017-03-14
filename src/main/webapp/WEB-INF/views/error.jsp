@@ -1,12 +1,11 @@
 <%--
   Created by IntelliJ IDEA.
-  User: yosuk
-  Date: 3/10/2017
-  Time: 11:09 PM
+  User: Yosuke
+  Date: 3/13/17
+  Time: 22:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
   <head>
@@ -17,10 +16,9 @@
 
   <body>
 
-  <h1>Testing</h1>
+    <h2>Uh Oh! Something went wrong!</h2>
 
-  <img src="${img}" alt="Uploaded Picture"/>
-
+    <a href="/">Return to home</a>
 
   </body>
 

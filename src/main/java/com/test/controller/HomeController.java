@@ -7,19 +7,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import java.io.*;
 import java.util.List;
+
+/**
+ * This controller class is for showing pages
+ */
 
 @Controller
 public class HomeController {
+
 
     /**
      * This method will show the index page
@@ -32,79 +30,16 @@ public class HomeController {
     }
 
 
+    /**
+     * This method will show the image submission page
+     * @return ModelAndView of submission page
+     */
     @RequestMapping(value="showSubmitPhotoPage")
     public ModelAndView showSubmitPhotoPage() {
         return new ModelAndView("submitPhoto");
     }
 
 
-    private static final String UPLOAD_DIRECTORY ="/image";
-
-    @RequestMapping("uploadPhoto")
-    public ModelAndView uploadResources( @RequestParam CommonsMultipartFile file, HttpSession session,
-                                   Model model ) throws IOException {
-
-        ServletContext context = session.getServletContext();
-        String path = context.getRealPath(UPLOAD_DIRECTORY);
-        String filename = file.getOriginalFilename();
-
-        System.out.println(path+" "+filename);
-
-        byte[] bytes = file.getBytes();
-        BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(
-                new File(path + File.separator + filename)));
-        stream.write(bytes);
-        stream.flush();
-        stream.close();
-
-        return new ModelAndView("uploadform","filesuccess","File successfully saved!");
-    }
-
-
-
-    /*
-    @RequestMapping(value="uploadPhoto")
-    public ModelAndView uploadPhoto(HttpServlet servletRequest,
-                                    @ModelAttribute Product product,
-                                    Model model) {
-
-            //Get the uploaded files and store them
-            List<MultipartFile> files = product.getImages();
-            List<String> fileNames = new ArrayList<String>();
-            if (null != files && files.size() > 0)
-            {
-                for (MultipartFile multipartFile : files) {
-
-                    String fileName = multipartFile.getOriginalFilename();
-                    fileNames.add(fileName);
-
-                    File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
-                    try
-                    {
-                        multipartFile.transferTo(imageFile);
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            // Here, you can save the product details in database
-
-            model.addAttribute("product", product);
-            return "viewProductDetail";
-        }
-
-        @RequestMapping(value = "/product-input-form")
-        public String inputProduct(Model model) {
-            model.addAttribute("product", new Product());
-            return "productForm";
-        }
-    }
-
-        return null;
-    }
-    */
 
     /**
      * This method is only for testing database access using Hibernate
