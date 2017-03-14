@@ -12,6 +12,7 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.exif.GpsDirectory;
 import com.test.entity.Photos;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -128,8 +129,8 @@ public class FileUploadController {
 
     private double[] getGeoLocation(String path, String filename) {
         File file = new File(path + File.separator + filename);
-        double lat = 0;
-        double lng = 0;
+        double lat=0;
+        double lng=0;
 
         try {
             Metadata metadata = ImageMetadataReader.readMetadata(file);
@@ -142,9 +143,23 @@ public class FileUploadController {
         }
         catch (ImageProcessingException e) {
             // Do something todo: error!!
+            System.out.println("Uh oh!  Error getting geolocation information");
+            e.printStackTrace();
+            lat=0;
+            lng=0;
         }
         catch (IOException e) {
             // Do something todo: error!!
+            System.out.println("Uh oh!  Error getting geolocation information");
+            e.printStackTrace();
+            lat=0;
+            lng=0;
+        }
+        catch (NullPointerException e) {
+            System.out.println("No latitude or longitude information available!!");
+            e.printStackTrace();
+            lat=0;
+            lng=0;
         }
 
         return (new double[]{lat, lng});

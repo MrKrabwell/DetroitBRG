@@ -11,6 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
+
 <head>
 
   <title>Detroit BRG</title>
@@ -19,8 +20,7 @@
 
 <body>
 
-  <h1>Submit your photo here!</h1>
-
+  <h1>Submit your Detroit Photo</h1>
 
   <form action="uploadPhoto" method="post" enctype="multipart/form-data" >
 
@@ -28,9 +28,23 @@
 
     <input type="file" name="file" id="photo"/>
 
+    <select name="category">
+
+      <option value="beauty">Beautiful Detroit</option>
+
+      <option value="old">Old Detroit</option>
+
+      <option value="streetArt">Street Art</option>
+
+    </select>
+
     <input type="submit" value="Upload"/>
 
   </form>
+
+  <p>
+    <!--TODO: disclaimer-->Disclaimer: blah blah blah blah blah
+  </p>
 
 </body>
 

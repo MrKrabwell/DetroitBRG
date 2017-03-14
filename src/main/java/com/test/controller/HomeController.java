@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.ui.Model;
 
 /**
  * This controller class is for showing pages
@@ -35,6 +35,19 @@ public class HomeController {
     }
 
 
+    @RequestMapping(value="browse")
+    public String showBrowsePage(@RequestParam("cat") String category,
+                                 Model model) {
+
+        // Logging
+        System.out.println("Showing category " + category + " browse page");
+
+        // TODO: Access database to retrieve the photos in order of top score
+
+
+        // Show the browse page to user
+        return "browse";
+    }
 
 
 
