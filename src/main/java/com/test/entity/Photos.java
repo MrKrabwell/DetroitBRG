@@ -1,21 +1,15 @@
-package com.test.models;
-
-import javax.persistence.*;
+package com.test.entity;
 
 /**
- * Created by yosuk on 3/11/2017.
+ * Created by yosuk on 3/14/2017.
  */
-@Entity
-@Table(name = "Photos", schema = "DetroitBRG", catalog = "")
-public class PhotosEntity {
+public class Photos {
     private int photoId;
     private String fileName;
     private String latitude;
     private String longitude;
     private int votes;
 
-    @Id
-    @Column(name = "photoID", nullable = false)
     public int getPhotoId() {
         return photoId;
     }
@@ -24,8 +18,6 @@ public class PhotosEntity {
         this.photoId = photoId;
     }
 
-    @Basic
-    @Column(name = "fileName", nullable = true, length = 100)
     public String getFileName() {
         return fileName;
     }
@@ -34,8 +26,6 @@ public class PhotosEntity {
         this.fileName = fileName;
     }
 
-    @Basic
-    @Column(name = "latitude", nullable = true, length = 30)
     public String getLatitude() {
         return latitude;
     }
@@ -44,8 +34,6 @@ public class PhotosEntity {
         this.latitude = latitude;
     }
 
-    @Basic
-    @Column(name = "longitude", nullable = true, length = 30)
     public String getLongitude() {
         return longitude;
     }
@@ -54,8 +42,6 @@ public class PhotosEntity {
         this.longitude = longitude;
     }
 
-    @Basic
-    @Column(name = "votes", nullable = false)
     public int getVotes() {
         return votes;
     }
@@ -69,13 +55,13 @@ public class PhotosEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PhotosEntity that = (PhotosEntity) o;
+        Photos photos = (Photos) o;
 
-        if (photoId != that.photoId) return false;
-        if (votes != that.votes) return false;
-        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) return false;
-        if (latitude != null ? !latitude.equals(that.latitude) : that.latitude != null) return false;
-        if (longitude != null ? !longitude.equals(that.longitude) : that.longitude != null) return false;
+        if (photoId != photos.photoId) return false;
+        if (votes != photos.votes) return false;
+        if (fileName != null ? !fileName.equals(photos.fileName) : photos.fileName != null) return false;
+        if (latitude != null ? !latitude.equals(photos.latitude) : photos.latitude != null) return false;
+        if (longitude != null ? !longitude.equals(photos.longitude) : photos.longitude != null) return false;
 
         return true;
     }

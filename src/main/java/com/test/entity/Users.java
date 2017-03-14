@@ -1,19 +1,13 @@
-package com.test.models;
-
-import javax.persistence.*;
+package com.test.entity;
 
 /**
- * Created by yosuk on 3/11/2017.
+ * Created by yosuk on 3/14/2017.
  */
-@Entity
-@Table(name = "Users", schema = "DetroitBRG", catalog = "")
-public class UsersEntity {
+public class Users {
     private int userId;
     private String firstName;
     private String lastName;
 
-    @Id
-    @Column(name = "userID", nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -22,8 +16,6 @@ public class UsersEntity {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "firstName", nullable = true, length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -32,8 +24,6 @@ public class UsersEntity {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "lastName", nullable = true, length = 50)
     public String getLastName() {
         return lastName;
     }
@@ -47,11 +37,11 @@ public class UsersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UsersEntity that = (UsersEntity) o;
+        Users users = (Users) o;
 
-        if (userId != that.userId) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (userId != users.userId) return false;
+        if (firstName != null ? !firstName.equals(users.firstName) : users.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(users.lastName) : users.lastName != null) return false;
 
         return true;
     }

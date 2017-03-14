@@ -1,9 +1,9 @@
 package com.test.controller;
 
-import com.test.models.PhotosEntity;
-import org.hibernate.Criteria;
+import com.test.entity.Photos;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.util.List;
 
 /**
  * This controller class is for file uploads
@@ -105,13 +104,22 @@ public class FileUploadController {
         Session session = sessionFactory.openSession();
 
         // Begin the transaction
-        session.getTransaction().begin();
+        Transaction tr = session.beginTransaction();
+
+        //
+        Photos photo = new Photos();
+        photo.setFileName(filename);
+        photo.setLatitude("");
+        photo.setLongitude("");
+
+        session.save(photo);
+        tr.commit();
 
         // TODO: Need to fix to store information
         // Create a criteria
-        Criteria criteria = session.createCriteria(PhotosEntity.class);
+        //Criteria criteria = session.createCriteria(Photos.class);
 
-        List<PhotosEntity> list = criteria.list();
+        //List<Photos> list = criteria.list();
 
         // Close the session
         session.close();
@@ -153,9 +161,9 @@ public class FileUploadController {
         // TODO: Get geolocation
 
         // TODO: Store to database
-//        if (!storeInfoToDatabase(path, filename)) {
-//            return "error";
-//        }
+        if (!storeInfoToDatabase(path, filename)) {
+            return "error";
+        }
 
         // Add the image attribute to model
         model.addAttribute("uploadedImage",

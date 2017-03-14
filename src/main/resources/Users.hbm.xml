@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.test.models.UsersEntity" table="Users" schema="DetroitBRG">
+    <class name="com.test.entity.Users" table="Users" schema="DetroitBRG">
         <id name="userId">
             <column name="userID" sql-type="int(11)"/>
         </id>
