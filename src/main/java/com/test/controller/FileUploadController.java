@@ -12,18 +12,14 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.exif.GpsDirectory;
 import com.test.entity.Photos;
-import org.apache.commons.lang3.ObjectUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import com.test.dataaccess.DatabaseAccess;
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,8 +35,9 @@ import java.util.List;
 public class FileUploadController {
 
     /* Class fields */
-    private static final String UPLOAD_DIRECTORY ="images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
-
+    private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
+    private static final String CLARIFAI_APP_ID = "zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A"; // Coleman's API ID for Clarifai
+    private static final String CLARIFAI_API_KEY = "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U"; // Coleman's API Key for Clarifai
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -69,26 +66,31 @@ public class FileUploadController {
 
 
 
-    private void testingClarify(byte[] bytes) {
-        ClarifaiClient client = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
-                "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U").buildSync();
+    /**
+     * This method will validate whether the image is within the category
+     * @param file CommonsMultipartFile of file to validate
+     * @param category String category to check against
+     * @return boolean true if within category, false if otherwise
+     */
+    private boolean validateImageClarifai(CommonsMultipartFile file, String category) {
+        // Initialize the ClarifaiClient
+        ClarifaiClient client = new ClarifaiBuilder(CLARIFAI_APP_ID, CLARIFAI_API_KEY).buildSync();
 
+        // Send the image to Clarifai API and get the results
         final List<ClarifaiOutput<Concept>> predictionResults =
                 client.getDefaultModels().generalModel() // You can also do Clarifai.getModelByID("id") to get custom models
                         .predict()
-                        .withInputs(
-                                ClarifaiInput.forImage(ClarifaiImage.of(bytes)
-                                ))
+                        .withInputs(ClarifaiInput.forImage(ClarifaiImage.of(file.getBytes())))
                         .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
                         .get();
 
-        System.out.println("");
+        // TODO: parse through predictionResults to get the results
+        // This puts the data into a JSON Array
+        JSONArray jsonDataArray = new JSONArray(predictionResults.get(0).data());
 
 
-        return;
+        return true;
     }
-
-
 
 
 
@@ -114,9 +116,6 @@ public class FileUploadController {
             stream.close();
             System.out.println(filename + " successfully stored!");
 
-            // TODO: This is testing clarify capabilities
-            testingClarify(bytes);
-
             return true;
         }
         catch (IOException e) {
@@ -127,10 +126,16 @@ public class FileUploadController {
     }
 
 
+    /**
+     * This method will get the latitude and longitude of the image, if available
+     * @param path String path of where the image is
+     * @param filename String name of the file
+     * @return double[] first element is latitude, second element is longitude
+     */
     private double[] getGeoLocation(String path, String filename) {
         File file = new File(path + File.separator + filename);
-        double lat=0;
-        double lng=0;
+        double lat=0.0;
+        double lng=0.0;
 
         try {
             Metadata metadata = ImageMetadataReader.readMetadata(file);
@@ -142,14 +147,12 @@ public class FileUploadController {
             }
         }
         catch (ImageProcessingException e) {
-            // Do something todo: error!!
             System.out.println("Uh oh!  Error getting geolocation information");
             e.printStackTrace();
             lat=0;
             lng=0;
         }
         catch (IOException e) {
-            // Do something todo: error!!
             System.out.println("Uh oh!  Error getting geolocation information");
             e.printStackTrace();
             lat=0;
@@ -166,54 +169,6 @@ public class FileUploadController {
     }
 
 
-
-    /**
-     * This method will save the file information to the
-     * @param path
-     * @param filename
-     * @return
-     */
-    private boolean storeInfoToDatabase(String path, String filename, double[] latLng) {
-        // Set up configuration (This is for using Hibernate 4.3.11)
-        // TODO: SessionFactory has a large footprint, should only have one instance
-        Configuration configuration = new Configuration();
-        configuration.configure("hibernate.cfg.xml");
-        StandardServiceRegistryBuilder ssrb =
-                new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-
-        // Create session with session factory
-        SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
-        Session session = sessionFactory.openSession();
-
-        // Begin the transaction
-        Transaction tr = session.beginTransaction();
-
-        //
-        Photos photo = new Photos();
-        photo.setFileName(filename);
-        photo.setLatitude(Double.toString(latLng[0]));
-        photo.setLongitude(Double.toString(latLng[1]));
-
-        session.save(photo);
-        tr.commit();
-
-        // TODO: Need to fix to store information
-        // Create a criteria
-        //Criteria criteria = session.createCriteria(Photos.class);
-
-        //List<Photos> list = criteria.list();
-
-        // Close the session
-        session.close();
-
-        return true;
-    }
-
-
-
-
-
-
     /**
      * This method will upload the photo that the user
      * @param file CommonsMultipartFile file uploaded by user
@@ -222,7 +177,8 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value="uploadPhoto", method= RequestMethod.POST)
-    public String uploadResources(@RequestParam CommonsMultipartFile file,
+    public String uploadResources(@RequestParam("file") CommonsMultipartFile file,
+                                  @RequestParam("category") String category,
                                         HttpSession session,
                                         HttpServletRequest request,
                                         Model model ) {
@@ -237,17 +193,34 @@ public class FileUploadController {
             return "error";
         }
 
-        // Write to the images directory
-        if (!saveImageToDirectory(file, path, filename)) {
+        // Check to see if image meets the criteria
+        // TODO: perhaps change the validate to take in a category parameter
+        if (!validateImageClarifai(file, category)) {
+            model.addAttribute("message", "Your submission doesn't seem to fit the category...");
+            return "invalid-photo";
+        }
+
+
+        // Get geolocation
+        // double[] latLon is a two element array, where first element is latitude, and second is Longitude
+        double[] latLng = getGeoLocation(path, filename);
+
+        // TODO: if latLng is {0,0}, ask user to input geoLocation, maybe do this in the getGeoLocation method
+
+
+        // Create a new Photos entity to store into the database
+        Photos photo = new Photos();
+        photo.setFileName(filename);
+        photo.setLatitude(Double.toString(latLng[0]));
+        photo.setLongitude(Double.toString(latLng[1]));
+
+        // Store photo entity to database
+        if (!DatabaseAccess.insertToDatabase(photo)) {
             return "error";
         }
 
-        // TODO: Get geolocation
-        // double[] latLon is a two element array, where first element is latitude, and second is Longitude
-        double[] latLon = getGeoLocation(path, filename);
-
-        // TODO: Store to database
-        if (!storeInfoToDatabase(path, filename, latLon)) {
+        // Write to the images directory
+        if (!saveImageToDirectory(file, path, filename)) {
             return "error";
         }
 
@@ -257,7 +230,7 @@ public class FileUploadController {
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/" + filename);
 
-        return "confirmUpload";
+        return "confirm-upload";
     }
 
 }
