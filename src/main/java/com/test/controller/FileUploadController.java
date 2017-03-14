@@ -1,19 +1,22 @@
 package com.test.controller;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpRequest;
+import com.test.models.PhotosEntity;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import javax.servlet.Servlet;
+import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.List;
 
 /**
  * This controller class is for file uploads
@@ -37,7 +40,7 @@ public class FileUploadController {
 
         // if the directory does not exist, create it
         if (!imagesDir.exists()) {
-            System.out.println("creating directory: " + imagesDir.getName());
+            System.out.println(imagesDir.getName() + " directory doesn't exist.  Creating directory...");
             try {
                 imagesDir.mkdir();
                 System.out.println("Directory successfully created!");
@@ -50,6 +53,73 @@ public class FileUploadController {
         }
         return true;
     }
+
+
+    /**
+     * This method will save the file to the path with filename
+     * @param file CommonsMultipartFile from user
+     * @param path String of path to save
+     * @param filename String of filename to save
+     * @return boolean true if saved successfully, false otherwise.
+     */
+    private boolean saveImageToDirectory(CommonsMultipartFile file,
+                                         String path,
+                                         String filename) {
+
+        // Attempt to store file to path
+        System.out.println("Attempting to store to " + path);
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+                    new File(path + File.separator + filename)));
+            stream.write(bytes);
+            stream.flush();
+            stream.close();
+            System.out.println(filename + " successfully stored!");
+            return true;
+        }
+        catch (IOException e) {
+            System.out.println("Error saving file...");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * This method will save the file information to the
+     * @param path
+     * @param filename
+     * @return
+     */
+    private boolean storeInfoToDatabase(String path, String filename) {
+        // Set up configuration (This is for using Hibernate 4.3.11)
+        // TODO: SessionFactory has a large footprint, should only have one instance
+        Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
+        StandardServiceRegistryBuilder ssrb =
+                new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+
+        // Create session with session factory
+        SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
+        Session session = sessionFactory.openSession();
+
+        // Begin the transaction
+        session.getTransaction().begin();
+
+        // TODO: Need to fix to store information
+        // Create a criteria
+        Criteria criteria = session.createCriteria(PhotosEntity.class);
+
+        List<PhotosEntity> list = criteria.list();
+
+        // Close the session
+        session.close();
+
+        return true;
+    }
+
+
 
 
     /**
@@ -70,28 +140,22 @@ public class FileUploadController {
         String path = context.getRealPath(UPLOAD_DIRECTORY);
         String filename = file.getOriginalFilename();
 
-        System.out.println("Attempting to store to " + path);
-
         // Create a new directory, if fails, show error page
         if (!createImagesDirectory(path)) {
             return "error";
         }
 
         // Write to the images directory
-        try {
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
-                    new File(path + File.separator + filename)));
-            stream.write(bytes);
-            stream.flush();
-            stream.close();
-            System.out.println(filename + " successfully stored!");
-        }
-        catch (IOException e) {
-            System.out.println("Error saving file...");
-            e.printStackTrace();
+        if (!saveImageToDirectory(file, path, filename)) {
             return "error";
         }
+
+        // TODO: Get geolocation
+
+        // TODO: Store to database
+//        if (!storeInfoToDatabase(path, filename)) {
+//            return "error";
+//        }
 
         // Add the image attribute to model
         model.addAttribute("uploadedImage",
