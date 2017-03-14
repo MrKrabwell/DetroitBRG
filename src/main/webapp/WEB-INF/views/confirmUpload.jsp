@@ -17,10 +17,9 @@
 
   <body>
 
-  <h1>Testing</h1>
+    <h1>This is your upload</h1>
 
-  <img src="${img}" alt="Uploaded Picture"/>
-
+    <image src="${uploadedImage}" alt="Uploaded Photo"/>
 
   </body>
 

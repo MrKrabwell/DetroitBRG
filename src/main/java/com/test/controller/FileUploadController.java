@@ -1,6 +1,7 @@
 package com.test.controller;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
@@ -21,7 +23,7 @@ import java.io.*;
 public class FileUploadController {
 
     /* Class fields */
-    private static final String UPLOAD_DIRECTORY ="WEB-INF/images";  // Directory path of uploads
+    private static final String UPLOAD_DIRECTORY ="images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
 
 
     /**
@@ -50,11 +52,18 @@ public class FileUploadController {
     }
 
 
+    /**
+     * This method will upload the photo that the user
+     * @param file CommonsMultipartFile file uploaded by user
+     * @param session HttpSession current HTTP session
+     * @param model Model of view
+     * @return
+     */
     @RequestMapping(value="uploadPhoto", method= RequestMethod.POST)
     public String uploadResources(@RequestParam CommonsMultipartFile file,
                                         HttpSession session,
-                                        Model model )
-            throws IOException {
+                                        HttpServletRequest request,
+                                        Model model ) {
 
         // Define the file path and name
         ServletContext context = session.getServletContext();
@@ -69,17 +78,28 @@ public class FileUploadController {
         }
 
         // Write to the images directory
-        byte[] bytes = file.getBytes();
-        BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(
-                new File(path + File.separator + filename)));
-        stream.write(bytes);
-        stream.flush();
-        stream.close();
-        System.out.println(filename + " successfully stored!");
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
+                    new File(path + File.separator + filename)));
+            stream.write(bytes);
+            stream.flush();
+            stream.close();
+            System.out.println(filename + " successfully stored!");
+        }
+        catch (IOException e) {
+            System.out.println("Error saving file...");
+            e.printStackTrace();
+            return "error";
+        }
 
-        model.addAttribute(file);
+        // Add the image attribute to model
+        model.addAttribute("uploadedImage",
+                        request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/images/" + filename);
 
-        return "test";
+        return "confirmUpload";
     }
 
 }
