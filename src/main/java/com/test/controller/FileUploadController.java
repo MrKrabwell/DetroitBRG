@@ -1,5 +1,11 @@
 package com.test.controller;
 
+import clarifai2.api.ClarifaiBuilder;
+import clarifai2.api.ClarifaiClient;
+import clarifai2.dto.input.ClarifaiInput;
+import clarifai2.dto.input.image.ClarifaiImage;
+import clarifai2.dto.model.output.ClarifaiOutput;
+import clarifai2.dto.prediction.Concept;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.imaging.ImageProcessingException;
@@ -22,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This controller class is for file uploads
@@ -60,6 +67,30 @@ public class FileUploadController {
     }
 
 
+
+    private void testingClarify(byte[] bytes) {
+        ClarifaiClient client = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
+                "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U").buildSync();
+
+        final List<ClarifaiOutput<Concept>> predictionResults =
+                client.getDefaultModels().generalModel() // You can also do Clarifai.getModelByID("id") to get custom models
+                        .predict()
+                        .withInputs(
+                                ClarifaiInput.forImage(ClarifaiImage.of(bytes)
+                                ))
+                        .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
+                        .get();
+
+        System.out.println("");
+
+
+        return;
+    }
+
+
+
+
+
     /**
      * This method will save the file to the path with filename
      * @param file CommonsMultipartFile from user
@@ -81,6 +112,10 @@ public class FileUploadController {
             stream.flush();
             stream.close();
             System.out.println(filename + " successfully stored!");
+
+            // TODO: This is testing clarify capabilities
+            testingClarify(bytes);
+
             return true;
         }
         catch (IOException e) {
