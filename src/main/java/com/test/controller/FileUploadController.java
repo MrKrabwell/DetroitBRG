@@ -215,6 +215,7 @@ public class FileUploadController {
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;
 
         // Create a new Photos entity to store into the database
+        // TODO: Change Entity to take in double for lat and lng, currently taking in string.
         Photos photo = new Photos();
         photo.setFileName(filename);
         photo.setLatitude(Double.toString(latLng[0]));

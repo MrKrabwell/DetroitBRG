@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: kamel
@@ -46,9 +47,7 @@
 
   <div class="googleMaps">
 
-    <h4>Google Maps placeholder</h4>
-
-    <img src="https://maps.googleapis.com/maps/api/staticmap?center=Detroit+Michigan&zoom=13&size=500x400&maptype=roadmap">
+    <img src="${gMapTopPhotosLocationURL}">
 
   </div>
 

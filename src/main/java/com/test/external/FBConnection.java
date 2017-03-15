@@ -18,7 +18,7 @@ public class FBConnection {
     // TODO: this needs to be modified to be dynamic with the server it is deployed on
     public static final String REDIRECT_URI = "http://localhost:8080/welcome-new-user";
 
-    static String accessToken = "";
+    public static String accessToken = "";
 
 
     /**

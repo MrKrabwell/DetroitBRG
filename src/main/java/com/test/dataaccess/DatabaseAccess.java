@@ -94,8 +94,33 @@ public class DatabaseAccess {
         catch (Exception e) {
             System.out.println("Error getting last Photos primary key!");
             e.printStackTrace();
-            return -1;
+            return -1; // -1 for error
         }
     }
 
+
+    public static List<Photos> getAllPhotos() {
+
+        System.out.println("Getting all Photos from database!");
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Create criteria to get the last photo primary key, ###Be careful with query case!!!!###
+            Criteria criteria = session.createCriteria(Photos.class);
+            List<Photos> allPhotosList = (List<Photos>) criteria.list();
+
+            // Close the session
+            session.close();
+
+            // Successfully got photos
+            System.out.println("Succesfully got all photos");
+            return allPhotosList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error getting all Photos from database!");
+            return null;
+        }
+    }
 }

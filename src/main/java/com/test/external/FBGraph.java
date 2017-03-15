@@ -33,7 +33,8 @@ public class FBGraph {
         String graph;
         try {
 
-            String g = "https://graph.facebook.com/me?" + accessToken;
+            // The APIrequest is asking for ID, first name, last name, full name, and email
+            String g = "https://graph.facebook.com/me?fields=id,name,first_name,last_name,email&" + accessToken;
             URL u = new URL(g);
             URLConnection c = u.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -44,6 +45,7 @@ public class FBGraph {
                 b.append(inputLine + "\n");
             in.close();
             graph = b.toString();
+            // Logging what the graph data looks like
             System.out.println(graph);
         } catch (Exception e) {
             e.printStackTrace();

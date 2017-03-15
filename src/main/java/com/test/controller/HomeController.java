@@ -1,12 +1,16 @@
 package com.test.controller;
 
+import com.test.dataaccess.DatabaseAccess;
 import com.test.external.FBConnection;
 import com.test.external.FBGraph;
+import com.test.external.GoogleMapsAPI;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -22,10 +26,20 @@ public class HomeController {
      * @return String index.jsp page
      */
     @RequestMapping(value="/")
-    public String showIndexPage(Model model)
+    public String showIndexPage(Model model, HttpServletRequest request)
     {
+        // TODO: Use a cookie to remember if the user is logged in or not.
+        Cookie[] cookie = request.getCookies();
+
+        // Add a facebook login URL to the model
         model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl());
 
+        // Add the top photos to front page
+        // TODO: Modify this to get top photos, not all photos
+        model.addAttribute("gMapTopPhotosLocationURL",
+                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getAllPhotos()));
+
+        // Show the index page
         return "index";
     }
 
@@ -37,41 +51,6 @@ public class HomeController {
     @RequestMapping(value="submit")
     public String showSubmitPhotoPage() {
         return "submit-photo";
-    }
-
-    /**
-     * This method is the redirect from facebook OAuth to register a new user.
-     * @param code code returned from FB's OAuth
-     * @param model Model to show information on page
-     * @return String either new-user page or error page, depending on result
-     */
-    @RequestMapping(value="welcome-new-user")
-    public String showLoginResult(@RequestParam("code") String code,
-                                  Model model) {
-
-        // See if we got anyting back for code
-        if (code == null || code.equals("")) {
-            // TODO: can we make it to show an error page here??
-            throw new RuntimeException("ERROR: Did not get any code parameter in callback.  Registeration failed");
-        }
-
-        // If code is valid, create a new fb connection
-        String accessToken = FBConnection.getAccessToken(code);
-
-        // Use the token to get fbGraph object i.e. user's info
-        FBGraph fbGraph = new FBGraph(accessToken);
-        String graph = fbGraph.getFBGraph();
-        Map<String, String> fbProfileData = fbGraph.getGraphData(graph);
-
-        // Create strings for displaying info
-        // TODO: register to database, if it doesn't exist already
-//        String out = "";
-//        out = out.concat("<div>Welcome " + fbProfileData.get("name"));
-//        out = out.concat("<div>Your Email: " + fbProfileData.get("email"));
-
-        model.addAttribute("userFirstName", fbProfileData.get("name"));
-
-        return "new-user";
     }
 
 
