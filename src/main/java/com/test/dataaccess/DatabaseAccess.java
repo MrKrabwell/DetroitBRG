@@ -7,10 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
 
 import java.util.List;
 
@@ -64,8 +61,11 @@ public class DatabaseAccess {
     }
 
 
+    /**
+     * This method returns the next primary key value for the Photos entity
+     * @return int of next value to use for primary key
+     */
     public static int getNextPhotoPrimaryKey() {
-
 
         try {
 
@@ -81,12 +81,13 @@ public class DatabaseAccess {
             // Close the session
             session.close();
 
-            // +1 because we want the next ID.  
+            // +1 because we want the next ID.
             return maxIDPhoto.get(0).getPhotoId() + 1;
         }
         catch (IndexOutOfBoundsException e) {
             // If it gets here, then the table is likely empty
             System.out.println("Photos has zero entries");
+            // TODO: change the auto_increment back to 0.
             e.printStackTrace();
             return 1;
         }

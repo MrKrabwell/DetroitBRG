@@ -11,9 +11,9 @@ import java.net.URLConnection;
  * This class uses facebook's OAuth to register users
  */
 public class FBConnection {
-    // These values are provided from facebook developer site.  Yosuke's App ID
-    public static final String FB_APP_ID = "1342858752429746";
-    public static final String FB_APP_SECRET = "21360e575c6da56492d041b7f5e8edd6";
+    // These values are provided from facebook developer site.  Yosuke's Detroit BRG App ID and App Secret
+    public static final String FB_APP_ID = "1114928768619109";
+    public static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
     // The URI below is what facebook uses to comeback to request a re-direct.
     // TODO: this needs to be modified to be dynamic with the server it is deployed on
     public static final String REDIRECT_URI = "http://localhost:8080/welcome-new-user";
