@@ -34,10 +34,9 @@ public class HomeController {
         // Add a facebook login URL to the model
         model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl());
 
-        // Add the top photos to front page
-        // TODO: Modify this to get top photos, not all photos
+        // Add the top 3 photos to front page
         model.addAttribute("gMapTopPhotosLocationURL",
-                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getAllPhotos()));
+                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getTopPhotos(0,3)));
 
         // Show the index page
         return "index";
@@ -51,26 +50,6 @@ public class HomeController {
     @RequestMapping(value="submit")
     public String showSubmitPhotoPage() {
         return "submit-photo";
-    }
-
-
-    /**
-     * This method will show the browse page for the appropriate category
-     * @param category String category of the browse TODO: Can this be an enum??
-     * @param model Model, if needed TODO: remove this if not needed
-     * @return String browse page
-     */
-    @RequestMapping(value="browse")
-    public String showBrowsePage(@RequestParam("cat") String category,
-                                 Model model) {
-
-        // Logging
-        System.out.println("Showing category " + category + " browse page");
-
-        // TODO: Access database to retrieve the photos in order of top score
-
-        // Show the browse page to user
-        return "browse";
     }
 
 }

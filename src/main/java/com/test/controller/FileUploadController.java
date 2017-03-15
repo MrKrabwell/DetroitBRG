@@ -133,8 +133,8 @@ public class FileUploadController {
      * @return double[] first element is latitude, second element is longitude
      */
     private double[] getGeoLocation(CommonsMultipartFile file) {
-        double lat=0.0;
-        double lng=0.0;
+        double lat = 0.0;
+        double lng = 0.0;
 
         try {
             // Convert CommonsMultipartFile to File

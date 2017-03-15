@@ -18,7 +18,11 @@
 
 <div class="BrowseImages">
 
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
+    <a href="imageDetails"><img src="${imageURL}${photos.get(0).fileName}" alt="${photos.get(0).fileName}"></a>
+
+    <a href="imageDetails"><img src="${imageURL}${photos.get(1).fileName}" alt="${photos.get(1).fileName}"></a>
+
+    <a href="imageDetails"><img src="${imageURL}${photos.get(2).fileName}" alt="${photos.get(2).fileName}"></a>
 
     <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
 

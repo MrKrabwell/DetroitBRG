@@ -23,7 +23,7 @@ public class DatabaseAccess {
     private static Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
     private static StandardServiceRegistryBuilder ssrb
             = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-    public static SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
+    private static SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
 
 
 
@@ -101,6 +101,7 @@ public class DatabaseAccess {
 
     public static List<Photos> getAllPhotos() {
 
+        // Logging
         System.out.println("Getting all Photos from database!");
 
         try {
@@ -115,7 +116,7 @@ public class DatabaseAccess {
             session.close();
 
             // Successfully got photos
-            System.out.println("Succesfully got all photos");
+            System.out.println("Successfully got all photos");
             return allPhotosList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,4 +124,48 @@ public class DatabaseAccess {
             return null;
         }
     }
+
+
+    /**
+     * This method will get the list of Photos entity of the provided index, sorted by number of votes.
+     * @param startIdx int start index of list sorted by top votes
+     * @param stopIdx int stop index of list sorted by top votes
+     * @return List<Photos> of top results
+     */
+    public static List<Photos> getTopPhotos(int startIdx, int stopIdx) {
+        // Logging
+        System.out.println("Getting top Photos (index " + startIdx + " to " + stopIdx + ") from database!");
+
+        // Make this so that it can still run with the index parameters jumbled i.e. swap
+        if (startIdx > stopIdx) {
+            System.out.println("Warning: getTopPhotos start index is larger and stop index.  Fixing...");
+            startIdx = startIdx + stopIdx;
+            stopIdx= startIdx - stopIdx;
+            startIdx = startIdx - stopIdx;
+        }
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
+            Criteria criteria = session.createCriteria(Photos.class);
+            criteria.addOrder( Order.desc("votes") )
+                    .setFirstResult(startIdx)
+                    .setMaxResults(stopIdx - startIdx + 1); // + 1 to make sure to include indexes
+            List<Photos> topPhotosList = (List<Photos>)criteria.list();
+
+            // Close the session
+            session.close();
+
+            // Successfully got photos
+            System.out.println("Successfully got top Photos (index " + startIdx + " to " + stopIdx + ")!");
+            return topPhotosList;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting top Photos (index " + startIdx + " to " + stopIdx + ")!");
+            return null;
+        }
+    }
+
 }
