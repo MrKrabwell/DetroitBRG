@@ -84,8 +84,8 @@ public class FileUploadController {
                         .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
                         .get();
 
-        // TODO: parse through predictionResults to get the results
-        // This puts the data into a JSON Array
+        // TODO: parse through predictionResults data object to get the results
+        // This puts the data into a JSON Array TODO: doesn't work...yet
         JSONArray jsonDataArray = new JSONArray(predictionResults.get(0).data());
 
 
@@ -126,19 +126,27 @@ public class FileUploadController {
     }
 
 
+
     /**
      * This method will get the latitude and longitude of the image, if available
-     * @param path String path of where the image is
-     * @param filename String name of the file
+     * @param file CommonsMultipartFile to get information
      * @return double[] first element is latitude, second element is longitude
      */
-    private double[] getGeoLocation(String path, String filename) {
-        File file = new File(path + File.separator + filename);
+    private double[] getGeoLocation(CommonsMultipartFile file) {
         double lat=0.0;
         double lng=0.0;
 
         try {
-            Metadata metadata = ImageMetadataReader.readMetadata(file);
+            // Convert CommonsMultipartFile to File
+            File convFile = new File(file.getOriginalFilename());
+            if (convFile.createNewFile()) {
+                FileOutputStream fos = new FileOutputStream(convFile);
+                fos.write(file.getBytes());
+                fos.close();
+            }
+
+            // Get the get location
+            Metadata metadata = ImageMetadataReader.readMetadata(convFile);
             if (metadata.containsDirectory(GpsDirectory.class)) {
                 GpsDirectory gpsDir = (GpsDirectory) metadata.getDirectory(GpsDirectory.class);
                 GeoLocation location = gpsDir.getGeoLocation();
@@ -149,20 +157,17 @@ public class FileUploadController {
         catch (ImageProcessingException e) {
             System.out.println("Uh oh!  Error getting geolocation information");
             e.printStackTrace();
-            lat=0;
-            lng=0;
+            return null;
         }
         catch (IOException e) {
             System.out.println("Uh oh!  Error getting geolocation information");
             e.printStackTrace();
-            lat=0;
-            lng=0;
+            return null;
         }
         catch (NullPointerException e) {
             System.out.println("No latitude or longitude information available!!");
             e.printStackTrace();
-            lat=0;
-            lng=0;
+            return null;
         }
 
         return (new double[]{lat, lng});
@@ -186,7 +191,6 @@ public class FileUploadController {
         // Define the file path and name
         ServletContext context = session.getServletContext();
         String path = context.getRealPath(UPLOAD_DIRECTORY);
-        String filename = file.getOriginalFilename();
 
         // Create a new directory, if fails, show error page
         if (!createImagesDirectory(path)) {
@@ -200,13 +204,15 @@ public class FileUploadController {
             return "invalid-photo";
         }
 
-
         // Get geolocation
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
-        double[] latLng = getGeoLocation(path, filename);
+        double[] latLng = getGeoLocation(file);
 
-        // TODO: if latLng is {0,0}, ask user to input geoLocation, maybe do this in the getGeoLocation method
+        // TODO: if latLng is null, ask user to input geoLocation, maybe do this in the getGeoLocation method
 
+        // Get highest primary key of Photos
+        String filename = file.getOriginalFilename();
+        filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;
 
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
@@ -215,7 +221,7 @@ public class FileUploadController {
         photo.setLongitude(Double.toString(latLng[1]));
 
         // Store photo entity to database
-        if (!DatabaseAccess.insertToDatabase(photo)) {
+        if (!DatabaseAccess.insertPhotoToDatabase(photo)) {
             return "error";
         }
 
