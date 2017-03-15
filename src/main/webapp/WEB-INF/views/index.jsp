@@ -22,7 +22,7 @@
 
   <div class="reglog">
 
-    <a href="showRegisteration">Register</a>
+    <a href="${facebookLogin}">Register with Facebook</a>
 
     <a href="showLogin">Log In</a>
 
@@ -30,7 +30,7 @@
 
   <div class="submission">
 
-    <a href="showSubmitPhotoPage">Submit Photos</a>
+    <a href="submit">Submit Photos</a>
 
   </div>
 
