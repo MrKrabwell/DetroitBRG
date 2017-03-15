@@ -48,6 +48,8 @@
 
     <h4>Google Maps placeholder</h4>
 
+    <img src="https://maps.googleapis.com/maps/api/staticmap?center=Detroit+Michigan&zoom=13&size=500x400&maptype=roadmap">
+
   </div>
 
 </body>
