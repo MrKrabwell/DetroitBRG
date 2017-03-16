@@ -36,8 +36,11 @@ public class HomeController {
         model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl());
 
         // Add the top 3 photos to front page
-        model.addAttribute("gMapTopPhotosLocationURL",
-                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getTopPhotos(0,3)));
+//        model.addAttribute("gMapTopPhotosLocationURL",
+//                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getTopPhotos(0,3)));
+
+        // Add an ability to call the category
+        model.addAttribute("category", PhotoCategory.values());
 
         // Show the index page
         return "index";
@@ -47,7 +50,7 @@ public class HomeController {
     /**
      * This method will show the image submission page
      * @param model Model to add the categories drop down
-     * @return
+     * @return submit-photo page
      */
     @RequestMapping(value="submit")
     public String showSubmitPhotoPage(Model model) {
