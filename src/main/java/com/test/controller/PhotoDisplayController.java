@@ -28,9 +28,9 @@ public class PhotoDisplayController {
                                  Model model) {
 
         // Logging
-        System.out.println("Showing category " + category + " browse page");
+        System.out.println("PhotoDisplayController.showBrowsePage: Showing category " + category + " browse page");
 
-        // TODO: becareful with the start and stop index
+        // TODO: be careful with the start and stop index
         // TODO: Make sure to take into consideration the category
         List<Photos> photos = DatabaseAccess.getTopPhotos(0,3);
 

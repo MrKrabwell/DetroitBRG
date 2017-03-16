@@ -1,8 +1,21 @@
 package com.test.entity;
 
 /**
- * Created by yosuk on 3/14/2017.
+ * This is the enum for the photo categories
  */
 public enum PhotoCategory {
-    BEATIFUL_DETROIT, OLD_DETROIT, STREET_ART
+    BEAUTY("Beauty"),
+    ART("Art"),
+    REMAINS("Remains");
+
+    private String name;
+
+    PhotoCategory(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -30,11 +30,11 @@
 
     <select name="category">
 
-      <option value="beauty">Beautiful Detroit</option>
+      <c:forEach items="${category}" var="category">
 
-      <option value="old">Old Detroit</option>
+        <option value="${category}"><c:out value="${category.toString()}"></c:out></option>
 
-      <option value="streetArt">Street Art</option>
+      </c:forEach>
 
     </select>
 

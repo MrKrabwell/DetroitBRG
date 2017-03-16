@@ -11,6 +11,7 @@ import com.drew.metadata.Metadata;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.exif.GpsDirectory;
+import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.dataaccess.DatabaseAccess;
 import org.json.JSONArray;
@@ -72,7 +73,7 @@ public class FileUploadController {
      * @param category String category to check against
      * @return boolean true if within category, false if otherwise
      */
-    private boolean validateImageClarifai(CommonsMultipartFile file, String category) {
+    private boolean validateImageClarifai(CommonsMultipartFile file, PhotoCategory category) {
         // Initialize the ClarifaiClient
         ClarifaiClient client = new ClarifaiBuilder(CLARIFAI_APP_ID, CLARIFAI_API_KEY).buildSync();
 
@@ -85,7 +86,7 @@ public class FileUploadController {
                         .get();
 
         // TODO: parse through predictionResults data object to get the results
-        // This puts the data into a JSON Array TODO: doesn't work...yet
+        // This puts the data into a JSON Array TODO: doesn't work...yet,  We can use the ClarifaiController
         JSONArray jsonDataArray = new JSONArray(predictionResults.get(0).data());
 
 
@@ -174,6 +175,7 @@ public class FileUploadController {
     }
 
 
+
     /**
      * This method will upload the photo that the user
      * @param file CommonsMultipartFile file uploaded by user
@@ -182,8 +184,8 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value="uploadPhoto", method= RequestMethod.POST)
-    public String uploadResources(@RequestParam("file") CommonsMultipartFile file,
-                                  @RequestParam("category") String category,
+    public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file,
+                                  @RequestParam("category") PhotoCategory category,
                                         HttpSession session,
                                         HttpServletRequest request,
                                         Model model ) {
@@ -198,7 +200,7 @@ public class FileUploadController {
         }
 
         // Check to see if image meets the criteria
-        // TODO: perhaps change the validate to take in a category parameter
+        // TODO: validateImageClarifai needs to take in
         if (!validateImageClarifai(file, category)) {
             model.addAttribute("message", "Your submission doesn't seem to fit the category...");
             return "invalid-photo";

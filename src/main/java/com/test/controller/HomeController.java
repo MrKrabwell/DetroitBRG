@@ -1,6 +1,7 @@
 package com.test.controller;
 
 import com.test.dataaccess.DatabaseAccess;
+import com.test.entity.PhotoCategory;
 import com.test.external.FBConnection;
 import com.test.external.FBGraph;
 import com.test.external.GoogleMapsAPI;
@@ -45,10 +46,12 @@ public class HomeController {
 
     /**
      * This method will show the image submission page
-     * @return String submit page
+     * @param model Model to add the categories drop down
+     * @return
      */
     @RequestMapping(value="submit")
-    public String showSubmitPhotoPage() {
+    public String showSubmitPhotoPage(Model model) {
+        model.addAttribute("category", PhotoCategory.values());
         return "submit-photo";
     }
 

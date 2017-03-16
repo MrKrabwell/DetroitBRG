@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: yosuk
@@ -18,27 +19,11 @@
 
 <div class="BrowseImages">
 
-    <a href="imageDetails"><img src="${imageURL}${photos.get(0).fileName}" alt="${photos.get(0).fileName}"></a>
+    <c:forEach var="photo" items="${photos}">
 
-    <a href="imageDetails"><img src="${imageURL}${photos.get(1).fileName}" alt="${photos.get(1).fileName}"></a>
+        <a href="imageDetails"><img src="${imageURL}${photo.fileName}" alt="${photo.fileName}"></a>
 
-    <a href="imageDetails"><img src="${imageURL}${photos.get(2).fileName}" alt="${photos.get(2).fileName}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
-
-    <a href="imageDetails"><img src="${picture}" alt="${picture.getName()}"></a>
+    </c:forEach>
 
 </div>
 

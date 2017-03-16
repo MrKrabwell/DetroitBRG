@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 import java.util.List;
 
@@ -166,6 +167,39 @@ public class DatabaseAccess {
             System.out.println("Error getting top Photos (index " + startIdx + " to " + stopIdx + ")!");
             return null;
         }
+    }
+
+
+    /**
+     * This returns the number of entries in entity
+     * @param entity Class object of entity you want to get
+     * @return int of number of rows
+     */
+    public static int getNumberOfEntries(Class entity) {
+
+        //Logging
+        System.out.println("DatabaseAccess.getNumberofEntries(" + entity.toString() + ")");
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
+            Criteria criteria = session.createCriteria(entity);
+            int numRows = (Integer)criteria.setProjection(Projections.rowCount()).uniqueResult();
+
+            // Close the session
+            session.close();
+
+            // Successfully got photos
+            System.out.println("Successfully got number of rows for " + entity.toString() + "!");
+            return numRows;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting number of rows for " + entity.toString() + "!");
+            return -1;
+        }
+
     }
 
 }
