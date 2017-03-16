@@ -12,13 +12,16 @@
             <column name="fileName" sql-type="varchar(100)" length="100" not-null="true"/>
         </property>
         <property name="latitude">
-            <column name="latitude" sql-type="varchar(30)" length="30" not-null="true"/>
+            <column name="latitude" sql-type="double" precision="-1" not-null="true"/>
         </property>
         <property name="longitude">
-            <column name="longitude" sql-type="varchar(30)" length="30" not-null="true"/>
+            <column name="longitude" sql-type="double" precision="-1" not-null="true"/>
         </property>
         <property name="votes">
             <column name="votes" sql-type="int(11)"/>
+        </property>
+        <property name="category">
+            <column name="category" sql-type="varchar(10)" length="10" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>
