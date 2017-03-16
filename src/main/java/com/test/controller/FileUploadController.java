@@ -207,12 +207,12 @@ public class FileUploadController {
                 }
                 break;
             case ART:
-                if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
+                if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
                     return "error";
                 }
                 break;
             case REMAINS:
-                if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
+                if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
                     return "error";
                 }
                 break;
@@ -227,9 +227,9 @@ public class FileUploadController {
         double[] latLng = getGeoLocation(file);
 
         // TODO: if latLng is null, ask user to input geoLocation, maybe do this in the getGeoLocation method
-        if (latLng == null) {
-            return "error";
-        }
+//        if (latLng == null) {
+//            return "error";
+//        }
 
         // Get highest primary key of Photos
         String filename = file.getOriginalFilename();
@@ -240,8 +240,14 @@ public class FileUploadController {
         Photos photo = new Photos();
         photo.setFileName(filename);
         photo.setCategory(category.toString());
-        photo.setLatitude(Double.toString(latLng[0]));
-        photo.setLongitude(Double.toString(latLng[1]));
+        if (latLng != null) {
+            photo.setLatitude(Double.toString(latLng[0]));
+            photo.setLongitude(Double.toString(latLng[1]));
+        }
+        else {
+            photo.setLatitude("0.0");
+            photo.setLongitude("0.0");
+        }
 
         // Store photo entity to database
         if (!DatabaseAccess.insertPhotoToDatabase(photo)) {

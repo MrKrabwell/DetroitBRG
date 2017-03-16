@@ -29,6 +29,9 @@ import java.util.List;
 
 public class ClarifaiAPI {
 
+    // Class Fields
+    final static double DETERMINE_THRESHOLD = 0.65;
+
     static {
         ClarifaiClient initialClient = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
                 "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U").buildSync();
@@ -57,11 +60,14 @@ public class ClarifaiAPI {
             initialClient.addInputs()
                     .plus(
                             ClarifaiInput.forImage(ClarifaiImage.of(trainingBeautyPhotoURL[i]))
-                                    .withConcepts(Concept.forID("BeautyDetroit"))
+                                    .withConcepts(Concept.forID("BeautyDetroit")) // ID
                     )
                     .executeSync();
         }
-        //Creating Model
+
+
+        // Creating Model
+        // Model, ID
         ClarifaiResponse<ConceptModel> BeautyModelResponse = initialClient.createModel("Beauty")
                 .withOutputInfo(ConceptOutputInfo.forConcepts(
                         Concept.forID("BeautyDetroit")
@@ -69,6 +75,7 @@ public class ClarifaiAPI {
                 .executeSync();
 
         //Train Model
+        // Model
         initialClient.trainModel("Beauty").executeSync();
 
 
@@ -95,7 +102,7 @@ public class ClarifaiAPI {
             initialClient.addInputs()
                     .plus(
                             ClarifaiInput.forImage(ClarifaiImage.of(trainingOldDetroitURL[i]))
-                                    .withConcepts(Concept.forID("oldDetroit"))
+                                    .withConcepts(Concept.forID("oldDetroit")) // ID
                     )
                     .executeSync();
         }
@@ -116,17 +123,19 @@ public class ClarifaiAPI {
             initialClient.addInputs()
                     .plus(
                             ClarifaiInput.forImage(ClarifaiImage.of(trainingOldDetroitURLNegative[i]))
-                                    .withConcepts(Concept.forID("oldDetroit").withValue(false))
+                                    .withConcepts(Concept.forID("oldDetroit").withValue(false))  // ID
                     )
                     .executeSync();
         }
         //Create Model
+        // Model, ID
         initialClient.createModel("oldDetroit")
                 .withOutputInfo(ConceptOutputInfo.forConcepts(
                         Concept.forID("oldDetroit")
                 ))
                 .executeSync();
-//Train Model oldDetroit Model with postive and false values
+        //Train Model oldDetroit Model with postive and false values
+        //Model
         initialClient.trainModel("oldDetroit").executeSync();
 
 
@@ -161,7 +170,7 @@ public class ClarifaiAPI {
             initialClient.addInputs()
                     .plus(
                             ClarifaiInput.forImage(ClarifaiImage.of(trainingStreetArtURL[i]))
-                                    .withConcepts(Concept.forID("StreetArt"))
+                                    .withConcepts(Concept.forID("StreetArt")) // ID
                     )
                     .executeSync();
         }
@@ -181,17 +190,17 @@ public class ClarifaiAPI {
             initialClient.addInputs()
                     .plus(
                             ClarifaiInput.forImage(ClarifaiImage.of(trainingStreetArtURLNegative[i]))
-                                    .withConcepts(Concept.forID("StreetArt").withValue(false))
+                                    .withConcepts(Concept.forID("StreetArt").withValue(false)) // ID
                     )
                     .executeSync();
         }
-//Create Street Art Model
+        //Create Street Art Model
         initialClient.createModel("StreetArt")
                 .withOutputInfo(ConceptOutputInfo.forConcepts(
                         Concept.forID("StreetArt")
                 ))
                 .executeSync();
-//Train Street Art Model
+        //Train Street Art Model
         initialClient.trainModel("StreetArt").executeSync();
     }
 
@@ -210,7 +219,8 @@ public class ClarifaiAPI {
             beautyPrediction = beautyPrediction.replaceAll("=", ":");
             JSONObject beautyJson = new JSONObject(beautyPrediction);
             double determine = beautyJson.getDouble("value");
-            if (determine >= 0.80) {
+            System.out.println("Beauty score: " + determine);
+            if (determine >= DETERMINE_THRESHOLD) {
                 return true;
             } else {
                 return false;
@@ -233,10 +243,11 @@ public class ClarifaiAPI {
                     .executeSync().get();
             String oldDetroitPrediction = predictionResults.get(0).data().get(0).toString();
             oldDetroitPrediction = oldDetroitPrediction.substring(7);
-            oldDetroitPrediction = oldDetroitPrediction.replaceAll("=", ";");
+            oldDetroitPrediction = oldDetroitPrediction.replaceAll("=", ":");
             JSONObject oldDetroitJson = new JSONObject(oldDetroitPrediction);
             double determine = oldDetroitJson.getDouble("value");
-            if (determine >= 0.80) {
+            System.out.println("Remains score: " + determine);
+            if (determine >= DETERMINE_THRESHOLD) {
                 return true;
             } else {
                 return false;
@@ -254,22 +265,23 @@ public class ClarifaiAPI {
     public static boolean streetArtModelClarifai(byte[] photoBytes) {
 
         try {
-            final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("streetArt").withInputs(ClarifaiInput.forImage(
+            final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("StreetArt").withInputs(ClarifaiInput.forImage(
                     ClarifaiImage.of(photoBytes)))
                     .executeSync().get();
             String streetArtPrediction = predictionResults.get(0).data().get(0).toString();
             streetArtPrediction = streetArtPrediction.substring(7);
-            streetArtPrediction = streetArtPrediction.replaceAll("=", ";");
+            streetArtPrediction = streetArtPrediction.replaceAll("=", ":");
             JSONObject streetArtJson = new JSONObject(streetArtPrediction);
             double determine = streetArtJson.getDouble("value");
-            if (determine >= 0.80) {
+            System.out.println("Art score: " + determine);
+            if (determine >= DETERMINE_THRESHOLD) {
                 return true;
             } else {
                 return false;
             }
         }
         catch (Exception e) {
-            System.out.println("Error!  Exception in oldDetroitModelClarifai!");
+            System.out.println("Error!  Exception in streetArtModelClarifai!");
             e.printStackTrace();
             return false;
         }
