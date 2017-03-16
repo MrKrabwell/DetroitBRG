@@ -92,6 +92,9 @@ public class PhotoDisplayController {
         // Add number of pages
         model.addAttribute("numPages",numPages);
 
+        // Add the current category
+        model.addAttribute("category",category);
+
         // Show the browse page to user
         return "browse";
     }

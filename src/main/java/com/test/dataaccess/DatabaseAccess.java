@@ -153,11 +153,7 @@ public class DatabaseAccess {
             startIdx = startIdx - stopIdx;
         }
 
-        // Make sure there are enough items in the list with cateory
-        if ((stopIdx - startIdx + 1) < getNumberOfEntries(category)) {
-            System.out.println("Warning: not enough entries in " + category.toString() + ", changing stop index.");
-            stopIdx = (startIdx + getNumberOfEntries(category) - 1); // -1 to account for index vs number of rows
-        }
+        // TODO: Make sure there are enough items in the list with cateory
 
         try {
             // Create a new session
@@ -209,14 +205,14 @@ public class DatabaseAccess {
 
             // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
             Criteria criteria = session.createCriteria(entity);
-            int numRows = (Integer)criteria.setProjection(Projections.rowCount()).uniqueResult();
+            Long numRows = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
 
             // Close the session
             session.close();
 
             // Successfully got photos
             System.out.println("Successfully got number of rows for " + entity.toString() + "!");
-            return numRows;
+            return numRows.intValue();
         }
         catch (Exception e) {
             System.out.println("Error getting number of rows for " + entity.toString() + "!");
@@ -239,8 +235,9 @@ public class DatabaseAccess {
             Session session = sessionFactory.openSession();
 
             // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
+            // return is a long because uniqueResults() returns a long
             Criteria criteria = session.createCriteria(Photos.class);
-            int numRows = (Integer)criteria.add(Restrictions.eq("category",category.toString()))
+            Long numRows = (Long)criteria.add(Restrictions.eq("category",category.toString()))
                     .setProjection(Projections.rowCount())
                     .uniqueResult();  // TODO: CAUSING PROBLEM HERE!!!!
 
@@ -249,7 +246,7 @@ public class DatabaseAccess {
 
             // Successfully got photos
             System.out.println("Successfully got number of rows for " + category.toString() + "!");
-            return numRows;
+            return numRows.intValue();
         }
         catch (Exception e) {
             System.out.println("Error getting number of rows for " + category.toString() + "!");

@@ -1,11 +1,5 @@
 package com.test.controller;
 
-import clarifai2.api.ClarifaiBuilder;
-import clarifai2.api.ClarifaiClient;
-import clarifai2.dto.input.ClarifaiInput;
-import clarifai2.dto.input.image.ClarifaiImage;
-import clarifai2.dto.model.output.ClarifaiOutput;
-import clarifai2.dto.prediction.Concept;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.imaging.ImageProcessingException;
@@ -15,7 +9,6 @@ import com.test.entity.PhotoCategory;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.Photos;
 import com.test.external.ClarifaiAPI;
-import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * This controller class is for file uploads
@@ -37,8 +29,7 @@ public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
-    private static final String CLARIFAI_APP_ID = "zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A"; // Coleman's APP ID for Clarifai
-    private static final String CLARIFAI_API_KEY = "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U"; // Coleman's API Key for Clarifai
+
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -64,35 +55,6 @@ public class FileUploadController {
         }
         return true;
     }
-
-
-
-    /**
-     * This method will validate whether the image is within the category
-     * @param file CommonsMultipartFile of file to validate
-     * @param category String category to check against
-     * @return boolean true if within category, false if otherwise
-     */
-    private boolean validateImageClarifai(CommonsMultipartFile file, PhotoCategory category) {
-        // Initialize the ClarifaiClient
-        ClarifaiClient client = new ClarifaiBuilder(CLARIFAI_APP_ID, CLARIFAI_API_KEY).buildSync();
-
-        // Send the image to Clarifai API and get the results
-        final List<ClarifaiOutput<Concept>> predictionResults =
-                client.getDefaultModels().generalModel() // You can also do Clarifai.getModelByID("id") to get custom models
-                        .predict()
-                        .withInputs(ClarifaiInput.forImage(ClarifaiImage.of(file.getBytes())))
-                        .executeSync() // optionally, pass a ClarifaiClient parameter to override the default client instance with another one
-                        .get();
-
-        // TODO: parse through predictionResults data object to get the results
-        // This puts the data into a JSON Array TODO: doesn't work...yet,  We can use the ClarifaiController
-        JSONArray jsonDataArray = new JSONArray(predictionResults.get(0).data());
-
-
-        return true;
-    }
-
 
 
     /**
@@ -221,7 +183,6 @@ public class FileUploadController {
                 break;
         }
 
-
         // Get geolocation
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
         double[] latLng = getGeoLocation(file);
@@ -236,7 +197,6 @@ public class FileUploadController {
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;
 
         // Create a new Photos entity to store into the database
-        // TODO: Change Entity to take in double for lat and lng, currently taking in string.
         Photos photo = new Photos();
         photo.setFileName(filename);
         photo.setCategory(category.toString());

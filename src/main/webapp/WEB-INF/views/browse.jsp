@@ -17,6 +17,8 @@
 
 <body>
 
+<h2>${category.toString()}</h2>
+
 <div class="BrowseImages">
 
     <c:forEach var="photo" items="${photos}">
@@ -37,7 +39,7 @@
 
     <c:forEach begin="1" end="${numPages}" varStatus="currentPage">
 
-        <a href="browse" name="currentPage">${currentPage}</a>
+        <a href="browse?cat=${category}&page=${currentPage}">${currentPage}</a>
 
     </c:forEach>
 

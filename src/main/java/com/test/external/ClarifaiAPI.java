@@ -31,14 +31,17 @@ public class ClarifaiAPI {
 
     // Class Fields
     final static double DETERMINE_THRESHOLD = 0.65;
+    private static final String CLARIFAI_APP_ID = "zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A"; // Coleman's APP ID for Clarifai
+    private static final String CLARIFAI_API_KEY = "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U"; // Coleman's API Key for Clarifai
 
     static {
-        ClarifaiClient initialClient = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
-                "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U").buildSync();
+        ClarifaiClient initialClient = new ClarifaiBuilder(CLARIFAI_APP_ID, CLARIFAI_API_KEY).buildSync();
         client = initialClient;
-/*******************************
- *-New Detroit Model and train-*
- *******************************/
+
+
+        /*******************************
+        *-New Detroit Model and train-*
+        *******************************/
         // Refresh the Model
         initialClient.deleteModel("Beauty").executeSync();
 
