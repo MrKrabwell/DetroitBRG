@@ -35,17 +35,21 @@
 
 <div class="PageControl">
 
-    <a href="back">Back</a>
+    <a href="browse?cat=${category}&page=${currentPage-1}">Back</a>
 
-    <c:forEach begin="1" end="${numPages}" varStatus="currentPage">
+    <c:forEach begin="1" end="${numPages}" var="page">
 
-        <a href="browse?cat=${category}&page=${currentPage}">${currentPage}</a>
+        <a href="browse?cat=${category}&page=${page}">${page}</a>
 
     </c:forEach>
 
-    <a href="forward">Forward</a>
+    <a href="browse?cat=${category}&page=${currentPage+1}">Forward</a>
 
 </div>
+
+<br>
+
+<a href="/">Home</a>
 
 </body>
 

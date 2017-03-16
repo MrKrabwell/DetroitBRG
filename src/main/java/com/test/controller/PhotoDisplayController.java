@@ -56,6 +56,14 @@ public class PhotoDisplayController {
         }
         model.addAttribute("numPages", numPages);
 
+        // Make sure requested page value is valid
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+        else if (currentPage > numPages) {
+            currentPage = numPages;
+        }
+
         // create Photo list to add to model depending on current page
         List<Photos> photos = null;  // Initialize
         if ( // This if statement is for displaying pages with NUM_PHOTO_PER_PAGE photos
