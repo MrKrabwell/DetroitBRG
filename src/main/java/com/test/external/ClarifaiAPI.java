@@ -27,7 +27,7 @@ import java.util.List;
 
 @Controller
 
-public class ClarifaiController {
+public class ClarifaiAPI {
 
     static {
         ClarifaiClient initialClient = new ClarifaiBuilder("zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A",
@@ -195,67 +195,84 @@ public class ClarifaiController {
         initialClient.trainModel("StreetArt").executeSync();
     }
 
-
-    public static ClarifaiClient client;
+    private static ClarifaiClient client;
 
     //Beauty Model Predictor
-    @RequestMapping("beautyModel")
-    public static boolean determineBeautyClarifai(byte[] photoBytes) throws InterruptedException {
-//TODO:Make the image pulled a byte or file instead of a url
+    public static boolean determineBeautyClarifai(byte[] photoBytes) {
 
-        final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("Beauty").withInputs(ClarifaiInput.forImage(
-                ClarifaiImage.of(photoBytes)))
-                .executeSync().get();
-        String beautyPrediction = predictionResults.get(0).data().get(0).toString();
-        beautyPrediction = beautyPrediction.substring(7);
-        //beautyPrediction = "[" + beautyPrediction + "]";
-        beautyPrediction = beautyPrediction.replaceAll("=", ":");
-        JSONObject beautyJson = new JSONObject(beautyPrediction);
-        double determine = beautyJson.getDouble("value");
-        if (determine >= 0.80) {
-            return true;
-        } else {
+        try {
+            final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("Beauty").withInputs(ClarifaiInput.forImage(
+                    ClarifaiImage.of(photoBytes)))
+                    .executeSync().get();
+            String beautyPrediction = predictionResults.get(0).data().get(0).toString();
+            beautyPrediction = beautyPrediction.substring(7);
+            //beautyPrediction = "[" + beautyPrediction + "]";
+            beautyPrediction = beautyPrediction.replaceAll("=", ":");
+            JSONObject beautyJson = new JSONObject(beautyPrediction);
+            double determine = beautyJson.getDouble("value");
+            if (determine >= 0.80) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error!  Exception in determineBeautyClarifai!");
+            e.printStackTrace();
             return false;
         }
+
     }
 
     //Old Detroit Predictor
-    @RequestMapping("oldDetroitModel")
-    public static boolean oldDetroitModelClarifai(byte[] photoBytes) throws InterruptedException {
+    public static boolean oldDetroitModelClarifai(byte[] photoBytes) {
 
-
-        final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("oldDetroit").withInputs(ClarifaiInput.forImage(
-                ClarifaiImage.of(photoBytes)))
-                .executeSync().get();
-        String oldDetroitPrediction = predictionResults.get(0).data().get(0).toString();
-        oldDetroitPrediction = oldDetroitPrediction.substring(7);
-        oldDetroitPrediction = oldDetroitPrediction.replaceAll("=", ";");
-        JSONObject oldDetroitJson = new JSONObject(oldDetroitPrediction);
-        double determine = oldDetroitJson.getDouble("value");
-        if (determine >= 0.80) {
-            return true;
-        } else {
+        try {
+            final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("oldDetroit").withInputs(ClarifaiInput.forImage(
+                    ClarifaiImage.of(photoBytes)))
+                    .executeSync().get();
+            String oldDetroitPrediction = predictionResults.get(0).data().get(0).toString();
+            oldDetroitPrediction = oldDetroitPrediction.substring(7);
+            oldDetroitPrediction = oldDetroitPrediction.replaceAll("=", ";");
+            JSONObject oldDetroitJson = new JSONObject(oldDetroitPrediction);
+            double determine = oldDetroitJson.getDouble("value");
+            if (determine >= 0.80) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error!  Exception in oldDetroitModelClarifai!");
+            e.printStackTrace();
             return false;
         }
+
     }
 
     //Street Art Predictor
-    @RequestMapping("streetArtModel")
-    public static boolean streetArtModelClarifai(byte[] photoBytes) throws InterruptedException {
+    public static boolean streetArtModelClarifai(byte[] photoBytes) {
 
-
-        final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("streetArt").withInputs(ClarifaiInput.forImage(
-                ClarifaiImage.of(photoBytes)))
-                .executeSync().get();
-        String streetArtPrediction = predictionResults.get(0).data().get(0).toString();
-        streetArtPrediction = streetArtPrediction.substring(7);
-        streetArtPrediction = streetArtPrediction.replaceAll("=", ";");
-        JSONObject streetArtJson = new JSONObject(streetArtPrediction);
-        double determine = streetArtJson.getDouble("value");
-        if (determine >= 0.80) {
-            return true;
-        } else {
+        try {
+            final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("streetArt").withInputs(ClarifaiInput.forImage(
+                    ClarifaiImage.of(photoBytes)))
+                    .executeSync().get();
+            String streetArtPrediction = predictionResults.get(0).data().get(0).toString();
+            streetArtPrediction = streetArtPrediction.substring(7);
+            streetArtPrediction = streetArtPrediction.replaceAll("=", ";");
+            JSONObject streetArtJson = new JSONObject(streetArtPrediction);
+            double determine = streetArtJson.getDouble("value");
+            if (determine >= 0.80) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Error!  Exception in oldDetroitModelClarifai!");
+            e.printStackTrace();
             return false;
         }
+
     }
 }

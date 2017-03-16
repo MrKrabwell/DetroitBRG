@@ -242,7 +242,7 @@ public class DatabaseAccess {
             Criteria criteria = session.createCriteria(Photos.class);
             int numRows = (Integer)criteria.add(Restrictions.eq("category",category.toString()))
                     .setProjection(Projections.rowCount())
-                    .uniqueResult();
+                    .uniqueResult();  // TODO: CAUSING PROBLEM HERE!!!!
 
             // Close the session
             session.close();

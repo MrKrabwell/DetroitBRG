@@ -14,6 +14,7 @@ import com.drew.metadata.exif.GpsDirectory;
 import com.test.entity.PhotoCategory;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.Photos;
+import com.test.external.ClarifaiAPI;
 import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -199,11 +200,27 @@ public class FileUploadController {
         }
 
         // Check to see if image meets the criteria
-        // TODO: validateImageClarifai needs to take in category, or call the correct method dependin on category
-        if (!validateImageClarifai(file, category)) {
-            model.addAttribute("message", "Your submission doesn't seem to fit the category...");
-            return "invalid-photo";
+        switch (category) {
+            case BEAUTY:
+                if (!ClarifaiAPI.determineBeautyClarifai(file.getBytes())) {
+                    return "error";
+                }
+                break;
+            case ART:
+                if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
+                    return "error";
+                }
+                break;
+            case REMAINS:
+                if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
+                    return "error";
+                }
+                break;
+            default:
+                System.out.println("Error!  Can't determine category");
+                break;
         }
+
 
         // Get geolocation
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
