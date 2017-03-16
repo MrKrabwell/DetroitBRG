@@ -12,8 +12,8 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.exif.GpsDirectory;
 import com.test.entity.PhotoCategory;
-import com.test.entity.Photos;
 import com.test.dataaccess.DatabaseAccess;
+import com.test.entity.Photos;
 import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +31,12 @@ import java.util.List;
 /**
  * This controller class is for file uploads
  */
-
 @Controller
 public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
-    private static final String CLARIFAI_APP_ID = "zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A"; // Coleman's API ID for Clarifai
+    private static final String CLARIFAI_APP_ID = "zVFg39Fi---sN1IcbsSsG13I7Ldc1Xdb2adszB5A"; // Coleman's APP ID for Clarifai
     private static final String CLARIFAI_API_KEY = "1KBAt4KfnY6gG094Okne07fpNI0aXn0drfVBAZ5U"; // Coleman's API Key for Clarifai
 
     /**
@@ -200,7 +199,7 @@ public class FileUploadController {
         }
 
         // Check to see if image meets the criteria
-        // TODO: validateImageClarifai needs to take in
+        // TODO: validateImageClarifai needs to take in category, or call the correct method dependin on category
         if (!validateImageClarifai(file, category)) {
             model.addAttribute("message", "Your submission doesn't seem to fit the category...");
             return "invalid-photo";
@@ -211,6 +210,9 @@ public class FileUploadController {
         double[] latLng = getGeoLocation(file);
 
         // TODO: if latLng is null, ask user to input geoLocation, maybe do this in the getGeoLocation method
+        if (latLng == null) {
+            return "error";
+        }
 
         // Get highest primary key of Photos
         String filename = file.getOriginalFilename();
@@ -220,6 +222,7 @@ public class FileUploadController {
         // TODO: Change Entity to take in double for lat and lng, currently taking in string.
         Photos photo = new Photos();
         photo.setFileName(filename);
+        photo.setCategory(category.toString());
         photo.setLatitude(Double.toString(latLng[0]));
         photo.setLongitude(Double.toString(latLng[1]));
 

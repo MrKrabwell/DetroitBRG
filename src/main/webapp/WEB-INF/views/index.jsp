@@ -37,11 +37,11 @@
 
   <div class="homepagePhotos">
 
-    <a href="browse?cat=old"><img src="<!--TODO: Old Detroit Photo-->" alt="Old Detroit"/></a>
+    <c:forEach items="${category}" var="category">
 
-    <a href="browse?cat=new"><img src="<!--TODO: Beauty Photo-->" alt="New Detroit"/></a>
+      <a href="browse?cat=${category}&page=1"><img src="<!--TODO: Category-->" alt="${category.toString()}"/></a>
 
-    <a href="browse?cat=street"><img src="<!--TODO: Street Art Photo-->" alt="Street Art"/></a>
+    </c:forEach>
 
   </div>
 

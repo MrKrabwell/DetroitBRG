@@ -1,5 +1,6 @@
 package com.test.dataaccess;
 
+import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -100,6 +102,11 @@ public class DatabaseAccess {
     }
 
 
+    /**
+     * This method returns all photos uploaded
+     * TODO: Do we need this method???
+     * @return List<Photos> of all photos
+     */
     public static List<Photos> getAllPhotos() {
 
         // Logging
@@ -127,13 +134,14 @@ public class DatabaseAccess {
     }
 
 
+    // TODO: Create a overloaded method where if no category is passed, it is all categories
     /**
      * This method will get the list of Photos entity of the provided index, sorted by number of votes.
      * @param startIdx int start index of list sorted by top votes
      * @param stopIdx int stop index of list sorted by top votes
-     * @return List<Photos> of top results
+     * @return List<Photos> of top results, null if nothing
      */
-    public static List<Photos> getTopPhotos(int startIdx, int stopIdx) {
+    public static List<Photos> getTopPhotos(int startIdx, int stopIdx, PhotoCategory category) {
         // Logging
         System.out.println("Getting top Photos (index " + startIdx + " to " + stopIdx + ") from database!");
 
@@ -145,6 +153,12 @@ public class DatabaseAccess {
             startIdx = startIdx - stopIdx;
         }
 
+        // Make sure there are enough items in the list with cateory
+        if ((stopIdx - startIdx + 1) < getNumberOfEntries(category)) {
+            System.out.println("Warning: not enough entries in " + category.toString() + ", changing stop index.");
+            stopIdx = (startIdx + getNumberOfEntries(category) - 1); // -1 to account for index vs number of rows
+        }
+
         try {
             // Create a new session
             Session session = sessionFactory.openSession();
@@ -152,6 +166,7 @@ public class DatabaseAccess {
             // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
             Criteria criteria = session.createCriteria(Photos.class);
             criteria.addOrder( Order.desc("votes") )
+                    .add(Restrictions.eq("category",category.toString()))
                     .setFirstResult(startIdx)
                     .setMaxResults(stopIdx - startIdx + 1); // + 1 to make sure to include indexes
             List<Photos> topPhotosList = (List<Photos>)criteria.list();
@@ -159,12 +174,20 @@ public class DatabaseAccess {
             // Close the session
             session.close();
 
+            // Make sure we got something back
+            if (topPhotosList == null) {
+                System.out.println("Warning: No row entries in " + category.toString() + "!");
+                return null;
+            }
+
             // Successfully got photos
-            System.out.println("Successfully got top Photos (index " + startIdx + " to " + stopIdx + ")!");
+            System.out.println("Successfully got top Photos (index " + startIdx + " to " + stopIdx + ") " +
+                    "for " + category.toString() + "!");
             return topPhotosList;
         }
         catch (Exception e) {
-            System.out.println("Error getting top Photos (index " + startIdx + " to " + stopIdx + ")!");
+            System.out.println("Error getting top Photos (index " + startIdx + " to " + stopIdx + ") " +
+                    "for " + category.toString() +"!");
             return null;
         }
     }
@@ -178,7 +201,7 @@ public class DatabaseAccess {
     public static int getNumberOfEntries(Class entity) {
 
         //Logging
-        System.out.println("DatabaseAccess.getNumberofEntries(" + entity.toString() + ")");
+        System.out.println("DatabaseAccess.getNumberOfEntries(" + entity.toString() + ")");
 
         try {
             // Create a new session
@@ -200,6 +223,38 @@ public class DatabaseAccess {
             return -1;
         }
 
+    }
+
+    /**
+     * This is an overloaded method to get the number of entries in the Photos table with a specific category
+     * @param category PhotosCategory of photos
+     * @return int number of entries in the Photos table with cateory
+     */
+    public static int getNumberOfEntries(PhotoCategory category) {
+        //Logging
+        System.out.println("DatabaseAccess.getNumberOfEntries(" + category.toString() + ")");
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Create criteria to get the top photos of index, ###Be careful with query case!!!!###
+            Criteria criteria = session.createCriteria(Photos.class);
+            int numRows = (Integer)criteria.add(Restrictions.eq("category",category.toString()))
+                    .setProjection(Projections.rowCount())
+                    .uniqueResult();
+
+            // Close the session
+            session.close();
+
+            // Successfully got photos
+            System.out.println("Successfully got number of rows for " + category.toString() + "!");
+            return numRows;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting number of rows for " + category.toString() + "!");
+            return -1;
+        }
     }
 
 }

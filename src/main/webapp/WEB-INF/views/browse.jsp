@@ -21,7 +21,11 @@
 
     <c:forEach var="photo" items="${photos}">
 
-        <a href="imageDetails"><img src="${imageURL}${photo.fileName}" alt="${photo.fileName}"></a>
+        <a href="imageDetails">
+
+            <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
+
+        </a>
 
     </c:forEach>
 
@@ -30,6 +34,12 @@
 <div class="PageControl">
 
     <a href="back">Back</a>
+
+    <c:forEach begin="1" end="${numPages}" varStatus="currentPage">
+
+        <a href="browse" name="currentPage">${currentPage}</a>
+
+    </c:forEach>
 
     <a href="forward">Forward</a>
 

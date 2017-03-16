@@ -1,6 +1,7 @@
 package com.test.external;
 
 import com.test.entity.Photos;
+
 import java.util.List;
 
 /**
@@ -36,6 +37,4 @@ public class GoogleMapsAPI {
         // Return the URL
         return gMapsURL;
     }
-
-
 }
