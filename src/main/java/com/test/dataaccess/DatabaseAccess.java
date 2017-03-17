@@ -254,4 +254,31 @@ public class DatabaseAccess {
         }
     }
 
+
+
+    public static Photos getPhoto(int photoID) {
+
+        //Logging
+        System.out.println("DatabaseAccess.getPhoto(" + photoID + ")");
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Get a unique photo with ID
+            Photos photo = (Photos)session.get(Photos.class, photoID);
+
+            // Close the session
+            session.close();
+
+            // Successfully got photos
+            System.out.println("Successfully got Photo with photoID = " + photoID + "!");
+            return photo;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting Photo with photoID = " + photoID + "!");
+            return null;
+        }
+    }
+
 }

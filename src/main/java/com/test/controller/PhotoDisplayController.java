@@ -3,6 +3,7 @@ package com.test.controller;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
+import javafx.scene.chart.PieChart;
 import org.hibernate.metamodel.relational.Database;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,6 +106,32 @@ public class PhotoDisplayController {
 
         // Show the browse page to user
         return "browse";
+    }
+
+
+    /**
+     * This method is going to show the detailed view of the image with upvote/downvote, and map view
+     * @param photoID
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("photo")
+    public String showPhotoDetails(@RequestParam("id") int photoID,
+                                   HttpServletRequest request,
+                                   Model model) {
+
+        // Get photo and add to model
+        Photos photo = DatabaseAccess.getPhoto(photoID);
+        model.addAttribute("photo", photo);
+
+        // Get URL of images
+        model.addAttribute("imageURL",
+                request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/images/");
+
+        return "photo-detail";
     }
 
 }

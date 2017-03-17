@@ -23,12 +23,12 @@
 
     <c:forEach var="photo" items="${photos}">
 
-        <a href="imageDetails">
+        <a href="photo?id=${photo.photoId}">
 
             <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 
         </a>
-
+        
     </c:forEach>
 
 </div>
@@ -37,11 +37,11 @@
 
     <a href="browse?cat=${category}&page=${currentPage-1}">Back</a>
 
-    <c:forEach begin="1" end="${numPages}" var="page">
+        <c:forEach begin="1" end="${numPages}" var="page">
 
-        <a href="browse?cat=${category}&page=${page}">${page}</a>
+            <a href="browse?cat=${category}&page=${page}">${page}</a>
 
-    </c:forEach>
+        </c:forEach>
 
     <a href="browse?cat=${category}&page=${currentPage+1}">Forward</a>
 
