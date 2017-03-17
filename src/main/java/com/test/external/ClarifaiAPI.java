@@ -100,7 +100,16 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.slate.com%2Fcontent%2Fdam%2Fslate%2Fblogs%2Fbrowbeat%2F2012%2F01%2F25%2Fdetropia_documentary_paints_a_bleak_picture_of_former_city_of_the_future%2F53383565.jpg.CROP.rectangle3-large.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.angryboar.com%2Fwp-content%2Fuploads%2F2013%2F11%2Fabandoned_buildings_in_Detroit_7-600x600.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.angryboar.com%2Fwp-content%2Fuploads%2F2013%2F11%2Fabandoned_buildings_in_Detroit_3-600x600.jpg&f=1",
-                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fphotos2.meetupstatic.com%2Fphotos%2Fevent%2Fc%2Fa%2Fb%2F4%2Fhighres_121911892.jpeg&f=1"};
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fphotos2.meetupstatic.com%2Fphotos%2Fevent%2Fc%2Fa%2Fb%2F4%2Fhighres_121911892.jpeg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstatic.guim.co.uk%2Fsys-images%2FGuardian%2FPix%2Fpictures%2F2012%2F2%2F15%2F1329316146544%2FPhotograph-of-dilapidated-007.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fplanphilly.com%2Fuploads%2Fmedia_items%2Fhttp-planphilly-com-eyesonthestreet-wp-content-uploads-2012-01-stagefright_edisonhs-jpg.639.384.s.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F736x%2F45%2F5c%2F67%2F455c677ad2133a42d96e05d6a987c962.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.5IGgabHvACE82MxsIVFm2wEsDh%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstreetsdept.files.wordpress.com%2F2013%2F06%2Fortliebs29.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstreetsdept.files.wordpress.com%2F2013%2F04%2Fboner18.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffarm2.static.flickr.com%2F1411%2F584801753_4776209507.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fl7.alamy.com%2Fzooms%2Fdf43d44b08884b6087d00b273f72150d%2Fnewly-opened-detroit-interchange-rosa-parks-transit-center-for-detroit-c2m3n5.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ftenthdimension.files.wordpress.com%2F2009%2F09%2Fseedetroitmcs111.jpg&f=1"};
         for (int i = 0; i < trainingOldDetroitURL.length; i++) {
             initialClient.addInputs()
                     .plus(
@@ -121,7 +130,22 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F200x150%2Ffd%2F58%2F72%2Ffd587200d60d32d8d98a98159e2d68dd.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fthepigyear.files.wordpress.com%2F2013%2F01%2Fdsc_0140.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fonthecommons.org%2Fsites%2Fdefault%2Ffiles%2Fimagecache%2F300w%2FBlightBuster.JPG&f=1",
-                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Factnowdetroit.files.wordpress.com%2F2012%2F04%2Fimg_4331.jpg&f=1"};
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Factnowdetroit.files.wordpress.com%2F2012%2F04%2Fimg_4331.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fvsphere-land.com%2Fwp-content%2Fuploads%2Fruined-building-hurricane-katrina.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.ooqpe9WWLRR2q8keTYpdVQEsDt%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffarm8.staticflickr.com%2F7275%2F7746231932_29399f2755_z.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fpunditfromanotherplanet.files.wordpress.com%2F2013%2F12%2Fmichigan-decay-flickr.jpg%3Fw%3D590&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fc2.staticflickr.com%2F8%2F7270%2F7745946140_309a26a83f_b.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffireplacechats.files.wordpress.com%2F2013%2F06%2Fdetroit-house-and-red-parked-car-roof-final-artcat.jpg%3Fw%3D560&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Factnowdetroit.files.wordpress.com%2F2012%2F04%2Fimg_4338.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F4.bp.blogspot.com%2F-Wkbv1tunNWg%2FUv_nBR8RjWI%2FAAAAAAAABGg%2FnsRLYe9mirg%2Fs1600%2Fusa-detroit.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffarm4.static.flickr.com%2F3636%2F3387120555_cdc7feb259_b.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffellowshipofminds.files.wordpress.com%2F2011%2F05%2Fdetroit.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fratedsworld.files.wordpress.com%2F2010%2F06%2Flouis-vuitton-house.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fi.dailymail.co.uk%2Fi%2Fpix%2F2012%2F08%2F06%2Farticle-2184246-1467B95A000005DC-982_964x569.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fthumb7.shutterstock.com%2Fdisplay_pic_with_logo%2F73694%2F73694%2C1288704180%2C1%2Fstock-photo-black-and-white-abandoned-house-against-colorful-blue-cloudy-sky-64234009.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia.gettyimages.com%2Fvideos%2Fexterior-shots-abandoned-run-down-houses-in-detroit-suburbs-with-video-id186770513%3Fs%3D640x640&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.GUbNkOaM5eFSlZTE4hbImQEsDH%26pid%3D15.1&f=1"};
         for (int i = 0; i < trainingOldDetroitURLNegative.length; i++) {
             initialClient.addInputs()
                     .plus(
@@ -168,7 +192,20 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.psst.ph%2Fwp-content%2Fuploads%2F2016%2F07%2F3035115-slide-graffiti-park-002.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.artofthestate.co.uk%2Fphotos%2Fleake_street_walls.jpg&f=1",
                 "https://duckduckgo.com/?q=street+tag&t=ffab&iax=1&ia=images&iai=http%3A%2F%2Fwww.stickersmania.fr%2F1220-1625-thickbox%2Fsticker-tag-graffiti-130x205-cm-ref-8832-.jpg",
-                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.pBTmW3kO99mguHVREoHS6AEsDi%26pid%3D15.1&f=1"};
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.pBTmW3kO99mguHVREoHS6AEsDi%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F4.bp.blogspot.com%2F_36SFFFDlygA%2FTTDmlvTDQmI%2FAAAAAAAALGo%2F2gDdhnT2GxA%2Fs1600%2Fgraffiti-tags-3.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F_i3h7VNlc6kY%2FSxC1k11ZS2I%2FAAAAAAAACxA%2FMdFtuA3dz-c%2Fs1600%2FGraffiti%2BTagging%2Bblue%2Bcolor.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.graffitiactionhero.org%2Fuploads%2F9%2F5%2F1%2F3%2F9513440%2F1203555_orig.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.SoiivpIhXcWX7FYOVnoiIwEsDg%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F_LYNVGEXliZ4%2FTUWHAZyoYsI%2FAAAAAAAABoI%2Fu71et0_U03g%2Fs1600%2Fgraffiti-skate-park.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fgraffiticollector.files.wordpress.com%2F2012%2F07%2Fmodacalle-moda-graffiti-022.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.marcofolio.net%2Fimages%2Fstories%2Fart%2Fphotoshop%2Fgraffiti%2F16_lapd_pig.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F2.bp.blogspot.com%2F-SZey1TCKOVU%2FT12TNlY1u2I%2FAAAAAAAACUA%2F_6AkX6BE2mk%2Fs640%2Fstreetart_6.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.all2need.com%2Fwp-content%2Fuploads%2F2013%2F02%2F3D-Street-Art-16.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fblog.gaborit-d.com%2Fwp-content%2Fuploads%2F2013%2F04%2Fstreetart-vol14-63.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.all2need.com%2Fwp-content%2Fuploads%2F2013%2F02%2F3D-Street-Art-20.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-sMcOYLr02AQ%2FUIFE6fhAGsI%2FAAAAAAAAbks%2FC79nccocOvU%2Fs1600%2Fstreetartnews_roa_puertorico.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.drodd.com%2Fimages10%2Fgraffiti-drawings8.jpg&f=1"};
         for (int i = 0; i < trainingStreetArtURL.length; i++) {
             initialClient.addInputs()
                     .plus(
@@ -187,7 +224,15 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fdenswca.files.wordpress.com%2F2012%2F06%2Fstayhigh-149.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TmjMbyu-3hXQ-oXxDSZR1gEsDH%26pid%3D15.1&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.usaoncanvas.com%2Fimages%2Farticles%2Fgraffiti_tag_street_art.jpg&f=1",
-                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia-cache-ak0.pinimg.com%2F736x%2F82%2Fee%2Fc4%2F82eec49e1dae41c81b0659905cf18978.jpg&f=1"};
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia-cache-ak0.pinimg.com%2F736x%2F82%2Fee%2Fc4%2F82eec49e1dae41c81b0659905cf18978.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F_LYNVGEXliZ4%2FTUWHGPA6yyI%2FAAAAAAAABoM%2FQOiDxpbqw3c%2Fs1600%2Flondon%2Bgraffiti%2Btags%2Balphabet.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F2.bp.blogspot.com%2F-PXQ6YIdzL_U%2FTY-35JQoc-I%2FAAAAAAAAADY%2FFZXwjbk7KBw%2Fs1600%2FHiphop%2BVs%2BGraffiti.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.doc.gold.ac.uk%2Fautograff%2Fwp%2Fwp-content%2Fuploads%2F2015%2F05%2Fautograff.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F236x%2F47%2F29%2F4f%2F47294f6b1d340f7617e88efe92f8c47d.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.graffitizen.com%2Fimages%2Fsniper-oner-handstyles-by-sniper-one-graffiti-tags-and-tagging-7086.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F564x%2F82%2F9b%2F5e%2F829b5e8d38c16e7c74f9eea4adec4f3c.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fimage.shutterstock.com%2Fz%2Fstock-vector-vector-graffiti-tags-writing-149500124.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F8d%2FGraffiti_tags.JPG&f=1"};
 
         for (int i = 0; i < trainingStreetArtURLNegative.length; i++) {
             initialClient.addInputs()
