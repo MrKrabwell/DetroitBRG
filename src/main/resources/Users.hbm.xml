@@ -9,10 +9,16 @@
             <column name="userID" sql-type="int(11)"/>
         </id>
         <property name="firstName">
-            <column name="firstName" sql-type="varchar(50)" length="50" not-null="true"/>
+            <column name="firstName" sql-type="varchar(50)" length="50"/>
         </property>
         <property name="lastName">
             <column name="lastName" sql-type="varchar(50)" length="50" not-null="true"/>
+        </property>
+        <property name="favorites">
+            <column name="favorites" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="admin">
+            <column name="admin" sql-type="tinyint(1)"/>
         </property>
     </class>
 </hibernate-mapping>

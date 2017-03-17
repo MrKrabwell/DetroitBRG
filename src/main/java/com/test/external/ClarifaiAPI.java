@@ -3,12 +3,17 @@ package com.test.external;
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
 import clarifai2.api.ClarifaiResponse;
+import clarifai2.api.request.ClarifaiPaginatedRequest;
+import clarifai2.api.request.ClarifaiRequest;
+import clarifai2.api.request.input.AddInputsRequest;
+import clarifai2.api.request.model.CreateModelRequest;
 import clarifai2.api.request.model.PredictRequest;
 import clarifai2.dto.input.ClarifaiInput;
 import clarifai2.dto.input.image.ClarifaiImage;
 import clarifai2.dto.input.image.ClarifaiURLImage;
 import clarifai2.dto.input.image.Crop;
 import clarifai2.dto.model.ConceptModel;
+import clarifai2.dto.model.ModelVersion;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.model.output_info.ConceptOutputInfo;
 import clarifai2.dto.prediction.Concept;
@@ -58,29 +63,111 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-qlPnvCg00h0%2FT-UuQDTp3lI%2FAAAAAAAABco%2FCrAeR7EnQqc%2Fs1600%2FPicture%2B002.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.freshwatercleveland.com%2Fgalleries%2FFeatures%2F2014%2FSeptember_2014%2FIssue_179%2Fmost_anticipated%2Fpublic_square_rendering.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fcbsdetroit.files.wordpress.com%2F2015%2F03%2Ffisher-building-e1434814315291.jpg%3Fw%3D1024&f=1",
-                
                 };
-        for (int i = 0; i < trainingBeautyPhotoURL.length; i++) {
-            initialClient.addInputs()
+
+        String[] trainingCategoryOne = {
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.gannett-cdn.com%2F-mm-%2Fcba46142da8fafe94960c089b9b502fb8d63f761%2Fc%3D136-0-2264-1600%26r%3Dx513%26c%3D680x510%2Flocal%2F-%2Fmedia%2F2017%2F01%2F23%2FDetroitFreePress%2FDetroitFreePress%2F636207780765061365-Old-Freep-Building-EC024.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.timeout.com%2Fimages%2F101657505%2Fimage.jpg&f=1",
+                "https://duckduckgo.com/?q=beautiful+architectural+&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Fs3.favim.com%2Forig%2F47%2Farchitecture-baroque-barrock-beautiful-building-Favim.com-433866.jpg"
+        };
+
+        String[] trainingCategoryTwo = {
+                "https://duckduckgo.com/?q=beautiful+architectural+&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Fs2.favim.com%2Forig%2F34%2Farchitecture-awesome-beautiful-building-buildings-Favim.com-272240.jpg",
+                "https://duckduckgo.com/?q=beautiful+architectural+&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Fs3.favim.com%2Forig%2F47%2Farchitecture-beautiful-beauty-buildings-city-Favim.com-438159.jpg",
+                "https://duckduckgo.com/?q=detroit+river+walk&t=ffab&iar=images&iax=1&ia=images&iai=http%3A%2F%2Fwww.portraitsbyrod.com%2Fwp-content%2Fuploads%2F2014%2F01%2FDetroit-Riverwalk-Final.jpg",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F736x%2Ff4%2F99%2F4d%2Ff4994d5acf68818ca5461dfe3d553d4a.jpg&f=1"
+        };
+
+        String[] trainingCategoryThree = {
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.detroityes.com%2Fwebisodes%2F2005%2F06-DetroitRises%2F01-Rise-006.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-qlPnvCg00h0%2FT-UuQDTp3lI%2FAAAAAAAABco%2FCrAeR7EnQqc%2Fs1600%2FPicture%2B002.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.freshwatercleveland.com%2Fgalleries%2FFeatures%2F2014%2FSeptember_2014%2FIssue_179%2Fmost_anticipated%2Fpublic_square_rendering.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fcbsdetroit.files.wordpress.com%2F2015%2F03%2Ffisher-building-e1434814315291.jpg%3Fw%3D1024&f=1"
+        };
+
+
+        AddInputsRequest air = initialClient.addInputs();
+        // Adding concepts for category one
+        for (int i = 0; i < trainingCategoryOne.length; i++) {
+            air
                     .plus(
-                            ClarifaiInput.forImage(ClarifaiImage.of(trainingBeautyPhotoURL[i]))
-                                    .withConcepts(Concept.forID("BeautyDetroit")) // ID
-                    )
-                    .executeSync();
+                            ClarifaiInput.forImage(ClarifaiImage.of(trainingCategoryOne[i]))
+                                    .withConcepts(Concept.forID("trainingOne")) // ID
+                    );
+        }
+
+        /*
+        ClarifaiPaginatedRequest.Builder thingy =   initialClient.getModelVersions("{model_id}");
+        ClarifaiRequest thingy2 = thingy.getPage(1);
+        thingy2.executeSync();
+        */
+
+        // Adding concepts for category two
+        for (int i = 0; i < trainingCategoryTwo.length; i++) {
+            air.plus(
+                            ClarifaiInput.forImage(ClarifaiImage.of(trainingCategoryTwo[i]))
+                                    .withConcepts(Concept.forID("trainingTwo")) // ID
+                    );
         }
 
 
+        // Adding concepts for category three
+        for (int i = 0; i < trainingCategoryThree.length; i++) {
+            air.plus(
+                            ClarifaiInput.forImage(ClarifaiImage.of(trainingCategoryThree[i]))
+                                    .withConcepts(Concept.forID("trainingThree")) // ID
+                    );
+        }
+
+        air.executeSync();
+
         // Creating Model
         // Model, ID
-        ClarifaiResponse<ConceptModel> BeautyModelResponse = initialClient.createModel("Beauty")
+        CreateModelRequest cmr = initialClient.createModel("Beauty");
+
+        cmr.withOutputInfo(ConceptOutputInfo.forConcepts(
+                        Concept.forID("trainingOne")
+                ));
+
+        cmr.withOutputInfo(ConceptOutputInfo.forConcepts(
+                Concept.forID("trainingTwo")
+        ));
+
+        cmr.withOutputInfo(ConceptOutputInfo.forConcepts(
+                Concept.forID("trainingThree")
+        ));
+
+
+        cmr.executeSync();
+
+
+        /*
+        // Model, ID
+        initialClient.createModel("Beauty")
                 .withOutputInfo(ConceptOutputInfo.forConcepts(
-                        Concept.forID("BeautyDetroit")
+                        Concept.forID("trainingTwo")
                 ))
                 .executeSync();
+
+
+        // Model, ID
+        initialClient.createModel("Beauty")
+                .withOutputInfo(ConceptOutputInfo.forConcepts(
+                        Concept.forID("trainingThree")
+                ))
+                .executeSync();
+        */
 
         //Train Model
         // Model
         initialClient.trainModel("Beauty").executeSync();
+
+
+
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
 
 
 /*******************************
@@ -150,6 +237,8 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fthumb7.shutterstock.com%2Fdisplay_pic_with_logo%2F73694%2F73694%2C1288704180%2C1%2Fstock-photo-black-and-white-abandoned-house-against-colorful-blue-cloudy-sky-64234009.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia.gettyimages.com%2Fvideos%2Fexterior-shots-abandoned-run-down-houses-in-detroit-suburbs-with-video-id186770513%3Fs%3D640x640&f=1",
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.GUbNkOaM5eFSlZTE4hbImQEsDH%26pid%3D15.1&f=1"};
+
+        // Add input images to concepts
         for (int i = 0; i < trainingOldDetroitURLNegative.length; i++) {
             initialClient.addInputs()
                     .plus(
@@ -158,6 +247,8 @@ public class ClarifaiAPI {
                     )
                     .executeSync();
         }
+
+
         //Create Model
         // Model, ID
         initialClient.createModel("oldDetroit")
@@ -165,6 +256,8 @@ public class ClarifaiAPI {
                         Concept.forID("oldDetroit")
                 ))
                 .executeSync();
+
+
         //Train Model oldDetroit Model with postive and false values
         //Model
         initialClient.trainModel("oldDetroit").executeSync();
@@ -260,6 +353,8 @@ public class ClarifaiAPI {
 
     //Beauty Model Predictor
     public static boolean determineBeautyClarifai(byte[] photoBytes) {
+
+        ClarifaiResponse<List<ModelVersion>> status = client.getModelVersions("Beauty").getPage(1).executeSync();
 
         try {
             final List<ClarifaiOutput<Prediction>> predictionResults = client.predict("Beauty").withInputs(ClarifaiInput.forImage(

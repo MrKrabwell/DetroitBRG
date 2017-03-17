@@ -26,10 +26,11 @@ public class HomeController {
         // TODO: Use a cookie to remember if the user is logged in or not.
         Cookie[] cookie = request.getCookies();
 
+
         // Add a facebook login URL to the model
         model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl());
 
-        // Add the top 3 photos to front page
+        // TODO: Add the top 3 photos to front page
 //        model.addAttribute("gMapTopPhotosLocationURL",
 //                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getTopPhotos(0,3)));
 

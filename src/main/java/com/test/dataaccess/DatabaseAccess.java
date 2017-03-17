@@ -2,6 +2,7 @@ package com.test.dataaccess;
 
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
+import com.test.entity.Users;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,7 +54,7 @@ public class DatabaseAccess {
             // Close the session
             session.close();
 
-            System.out.println("Successfully stored " + photo.toString() + " to databased");
+            System.out.println("Successfully stored " + photo.toString() + " to database");
             return true;
         }
         catch (Exception e) {
@@ -255,7 +256,11 @@ public class DatabaseAccess {
     }
 
 
-
+    /**
+     * This method return a single Photo entity with provided photoID primary key
+     * @param photoID int of photoID primary key
+     * @return Photos entity
+     */
     public static Photos getPhoto(int photoID) {
 
         //Logging
@@ -278,6 +283,78 @@ public class DatabaseAccess {
         catch (Exception e) {
             System.out.println("Error getting Photo with photoID = " + photoID + "!");
             return null;
+        }
+    }
+
+
+
+    public static Users getUser(String userID) {
+
+        //Logging
+        System.out.println("DatabaseAccess.userUser(" + userID + ")");
+
+        try {
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Get a unique user with ID
+            Users user = (Users)session.get(Users.class, userID);
+
+            // Close the session
+            session.close();
+
+            // Successfully got user
+            System.out.println("Successfully got User with userID = " + userID + "!");
+            return user;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting Photo with photoID = " + userID + "!");
+            return null;
+        }
+    }
+
+
+
+    public static boolean userExists(String userID) {
+
+        //Logging
+        System.out.println("DatabaseAccess.userExists(" + userID + ")");
+
+        if (getUser(userID) == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+
+    public static boolean registerNewUser(Users user) {
+        // Logging
+        System.out.println("Registering new user " + user.getUserId() + " to database.");
+
+        try {
+            // Create a new session and start transaction
+            Session session = sessionFactory.openSession();
+
+            // Begin the transaction
+            Transaction tr = session.beginTransaction();
+
+            // Insert into the database
+            session.save(user);
+            tr.commit();
+
+            // Close the session
+            session.close();
+
+            System.out.println("Successfully registering new user " + user.getUserId() + " to database");
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println("Error registering new user" + user.getUserId() + " to database!!");
+            e.printStackTrace();
+            return false;
         }
     }
 
