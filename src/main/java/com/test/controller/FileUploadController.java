@@ -165,22 +165,22 @@ public class FileUploadController {
         switch (category) {
             case BEAUTY:
                 if (!ClarifaiAPI.determineBeautyClarifai(file.getBytes())) {
-                    return "error";
+                    return "fail";
                 }
                 break;
             case ART:
                 if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
-                    return "error";
+                    return "fail";
                 }
                 break;
             case REMAINS:
                 if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
-                    return "error";
+                    return "fail";
                 }
                 break;
             default:
                 System.out.println("Error!  Can't determine category");
-                break;
+                return "error";
         }
 
         // Get geolocation

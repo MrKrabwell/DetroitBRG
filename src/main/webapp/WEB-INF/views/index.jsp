@@ -10,7 +10,7 @@
 <html>
 <head>
 
-  <title>Detroit BRG</title>
+  <title>DetroitABLE</title>
 
   <!-- TODO: link CSS -->
   <link href="../../resources/.css"/>
@@ -19,7 +19,7 @@
 
 <body>
 
-  <h1>Detroit BRG</h1>
+  <h1>DetroitABLE</h1>
 
   <div class="reglog">
 

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Yosuke
-  Date: 3/14/17
-  Time: 22:24
+  User: yosuk
+  Date: 3/17/2017
+  Time: 12:03 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,7 +12,11 @@
 </head>
 <body>
 
-    <h1>Welcome ${userFirstName}</h1>
+    <h2>Your photo doesn't match the category!</H2>
+
+    <a href="submit">Try again</a><br>
+
+    <a href="/">Home</a>
 
 </body>
 </html>

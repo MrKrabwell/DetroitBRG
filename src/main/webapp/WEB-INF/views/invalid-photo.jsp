@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Detroit BRG</title>
+    <title>DetroitABLE</title>
 </head>
 <body>
 

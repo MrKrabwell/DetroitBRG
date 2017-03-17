@@ -14,7 +14,7 @@
 
 <head>
 
-  <title>Detroit BRG</title>
+  <title>DetroitABLE</title>
 
 </head>
 
