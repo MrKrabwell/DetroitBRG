@@ -4,8 +4,6 @@ import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.external.GoogleMapsAPI;
-import javafx.scene.chart.PieChart;
-import org.hibernate.metamodel.relational.Database;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by yosuk on 3/15/2017.
+ * This class controller is for displaying photos in the browse and picture-details pages.
  */
 @Controller
 public class PhotoDisplayController {
@@ -26,8 +24,9 @@ public class PhotoDisplayController {
 
     /**
      * This method will show the browse page for the appropriate category
-     * @param category String category of the browse TODO: Can this be an enum??
-     * @param model Model, if needed TODO: remove this if not needed
+     * @param category String category of the browse
+     * @param currentPage int of current page that user is browsing
+     * @param model Model, if needed
      * @return String browse page
      */
     @RequestMapping(value="browse")
@@ -112,10 +111,10 @@ public class PhotoDisplayController {
 
     /**
      * This method is going to show the detailed view of the image with upvote/downvote, and map view
-     * @param photoID
-     * @param request
-     * @param model
-     * @return
+     * @param photoID int PhotoID of the photo to be displayed
+     * @param request HttpServletRequest to get the local machine URL
+     * @param model Model to add attributes to display on page
+     * @return String photo-detail page
      */
     @RequestMapping("photo")
     public String showPhotoDetails(@RequestParam("id") int photoID,

@@ -1,23 +1,17 @@
 package com.test.controller;
 
-import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.external.FBConnection;
-import com.test.external.FBGraph;
-import com.test.external.GoogleMapsAPI;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+
 
 /**
- * This controller class is for showing pages
+ * This controller class is for the home page
  */
-
 @Controller
 public class HomeController {
 

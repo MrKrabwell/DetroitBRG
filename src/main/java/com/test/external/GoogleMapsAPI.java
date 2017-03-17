@@ -45,8 +45,8 @@ public class GoogleMapsAPI {
 
     /**
      * This method will return a static Google Map with a single pin of a single photo
-     * @param photo
-     * @return
+     * @param photo the Photos entity to get the latitude and longitude information
+     * @return String Google Maps URL for the Google Maps API
      */
     public static String getMapsURLOfPhotoLocation(Photos photo) {
 

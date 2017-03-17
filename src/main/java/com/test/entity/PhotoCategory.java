@@ -8,6 +8,8 @@ public enum PhotoCategory {
     ART("Art"),
     REMAINS("Remains");
 
+    // TODO: Add enumerations to reflect more categories
+
     private String name;
 
     PhotoCategory(String name) {
