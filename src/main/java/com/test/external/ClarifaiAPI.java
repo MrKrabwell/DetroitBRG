@@ -58,7 +58,21 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-qlPnvCg00h0%2FT-UuQDTp3lI%2FAAAAAAAABco%2FCrAeR7EnQqc%2Fs1600%2FPicture%2B002.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.freshwatercleveland.com%2Fgalleries%2FFeatures%2F2014%2FSeptember_2014%2FIssue_179%2Fmost_anticipated%2Fpublic_square_rendering.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fcbsdetroit.files.wordpress.com%2F2015%2F03%2Ffisher-building-e1434814315291.jpg%3Fw%3D1024&f=1",
-                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fbf%2FEighth_Precinct_Police_Station_Detroit.jpg&f=1"};
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fbf%2FEighth_Precinct_Police_Station_Detroit.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F_hJlLDkmfIBc%2FS9l6YYXQu5I%2FAAAAAAAAAKA%2F0o2AHvDbs98%2Fs1600%2FPICT0232.JPG&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fi1289.photobucket.com%2Falbums%2Fb514%2Fdonnyj08%2FDetroit-Windsor%2FIMG_2033_zpsitcbs85v.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.1T4g65owPga-p-unvDrRtgEsDJ%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fc2.staticflickr.com%2F8%2F7165%2F6757768475_7e24a05069_z.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Filovedetroitmichigan.com%2Fwp-content%2Fgallery%2F30-architects-in-detroit%2Fisamu-noguchi-horace-e-dodge-and-son-memorial-fountain-1.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstatic.pechakucha.org%2Fpechakucha%2Fuploads%2Fevent_picture%2Fpicture%2F5416048dfbe5778ada000006%2Flarge_wide_untitled.png&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fmedia-cache-ak0.pinimg.com%2F736x%2Fc4%2F16%2F83%2Fc416836f56303d7c1feb80c202dd5f37.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn3.vox-cdn.com%2Fuploads%2Fchorus_image%2Fimage%2F48142881%2Fwaynecounty.0.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Filovedetroitmichigan.com%2Fwp-content%2Fgallery%2F30-architects-in-detroit%2Fpaul-philippe-cret-detroit-institute-of-arts-2.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Filovedetroitmichigan.com%2Fwp-content%2Fgallery%2F30-architects-in-detroit%2Fcass-gilbert-detroit-public-library-mgs.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fmichpics.files.wordpress.com%2F2014%2F06%2Fone-detroit-by-michael-g-smith.jpg%3Fw%3D500%26h%3D366&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP._KSqPBkamD_py0S9pTOSjwEsDE%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.johnportmanfilm.com%2Fwp-content%2Fuploads%2Fpm_0034_002_0002_Gm.jpg&f=1",
+                };
         for (int i = 0; i < trainingBeautyPhotoURL.length; i++) {
             initialClient.addInputs()
                     .plus(
@@ -109,7 +123,10 @@ public class ClarifaiAPI {
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstreetsdept.files.wordpress.com%2F2013%2F04%2Fboner18.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ffarm2.static.flickr.com%2F1411%2F584801753_4776209507.jpg&f=1",
                 "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fl7.alamy.com%2Fzooms%2Fdf43d44b08884b6087d00b273f72150d%2Fnewly-opened-detroit-interchange-rosa-parks-transit-center-for-detroit-c2m3n5.jpg&f=1",
-                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ftenthdimension.files.wordpress.com%2F2009%2F09%2Fseedetroitmcs111.jpg&f=1"};
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Ftenthdimension.files.wordpress.com%2F2009%2F09%2Fseedetroitmcs111.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fstanleybeamansears.com%2Fwp-content%2Fuploads%2F2013%2F08%2FDetroit-6-1024x585.jpg&f=1",
+                "https://images.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.-W9a3ypdlwL__h4-dJZ9MQEsDu%26pid%3D15.1&f=1",
+                "https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fad009cdnb.archdaily.net%2Fwp-content%2Fuploads%2F2013%2F08%2F52055e07e8e44e3e3000002c_it-s-time-to-envision-a-better-built-detroit-are-architects-ready-_shutterstock_94905997.jpg&f=1",};
         for (int i = 0; i < trainingOldDetroitURL.length; i++) {
             initialClient.addInputs()
                     .plus(
