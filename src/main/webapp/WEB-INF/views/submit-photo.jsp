@@ -43,7 +43,20 @@
   </form>
 
   <p>
-    <!--TODO: disclaimer-->Disclaimer: blah blah blah blah blah
+    We check if your photo matches the criteria for a given category.
+
+    For Beauty, photos must be of downtown architecture and rebuilt structures.
+    Pictures of houses and mansions outside Detroit will not pass.
+
+    For Old Detroit, photos must be inside abandoned structures or outside vacant buildings.
+    Pictures of ruined houses especially caved in roofs will not pass.
+
+    For Art, photos must contain images of colorful and creative images.
+    Pictures of crude graffiti tags containing single-line and/or single-color will not pass.
+
+    Any pictures outside of the city limits of Detroit will not pass.
+
+
   </p>
 
 </body>
