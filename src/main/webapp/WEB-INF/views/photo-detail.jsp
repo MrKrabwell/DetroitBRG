@@ -14,5 +14,11 @@
 
     <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 
+    <div class="googleMaps">
+
+        <img src="${gMapPhotoLocationURL}">
+
+    </div>
+
 </body>
 </html>

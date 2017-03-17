@@ -28,7 +28,7 @@
             <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 
         </a>
-        
+
     </c:forEach>
 
 </div>

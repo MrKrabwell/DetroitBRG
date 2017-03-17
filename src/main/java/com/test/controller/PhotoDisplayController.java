@@ -3,6 +3,7 @@ package com.test.controller;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
+import com.test.external.GoogleMapsAPI;
 import javafx.scene.chart.PieChart;
 import org.hibernate.metamodel.relational.Database;
 import org.springframework.stereotype.Controller;
@@ -125,11 +126,16 @@ public class PhotoDisplayController {
         Photos photo = DatabaseAccess.getPhoto(photoID);
         model.addAttribute("photo", photo);
 
-        // Get URL of images
+        // Get URL of images and add to model
         model.addAttribute("imageURL",
                 request.getScheme() + "://" +
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/");
+
+
+        // Add attribute of Google maps to model.  List because the method takes in a List of Photos
+        model.addAttribute("gMapPhotoLocationURL",
+                GoogleMapsAPI.getMapsURLOfPhotoLocation(DatabaseAccess.getPhoto(photoID)));
 
         return "photo-detail";
     }
