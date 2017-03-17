@@ -19,7 +19,9 @@
 
     <h1>This is your upload</h1>
 
-    <image src="${uploadedImage}" alt="Uploaded Photo"/>
+    <a href="/">Home</a><br>
+
+    <image src="${uploadedImage}" alt="Uploaded Photo" style="width:1000px;height:700px"/>
 
   </body>
 

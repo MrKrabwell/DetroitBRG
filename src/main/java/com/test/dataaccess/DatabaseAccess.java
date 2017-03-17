@@ -153,7 +153,7 @@ public class DatabaseAccess {
             startIdx = startIdx - stopIdx;
         }
 
-        // TODO: Make sure there are enough items in the list with cateory
+        // TODO: Make sure there are enough items in the list with category
 
         try {
             // Create a new session

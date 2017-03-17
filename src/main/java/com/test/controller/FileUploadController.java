@@ -194,7 +194,7 @@ public class FileUploadController {
 
         // Get highest primary key of Photos
         String filename = file.getOriginalFilename();
-        filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;
+        filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
 
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
