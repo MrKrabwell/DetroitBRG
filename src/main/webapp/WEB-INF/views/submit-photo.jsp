@@ -14,19 +14,46 @@
 
 <head>
 
-  <title>DetroitABLE</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Detroit ABLE</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="/webresources/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="/webresources/css/landing-page.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="/webresources/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
 </head>
 
 <body>
 
-  <h1>Submit your Detroit Photo</h1>
+  <h1 align="center" class="well">Submit your Detroit Photo</h1><br><br>
+
+  <div align="center">
 
   <form action="uploadPhoto" method="post" enctype="multipart/form-data" >
 
-    <label for="photo">Choose a Photo:</label>
+    <h4  for="photo">Choose a Photo:</h4><br>
 
-    <input type="file" name="file" id="photo"/>
+    <input type="file" name="file" id="photo"/><br>
+
+      <h4>Select a category:</h4><br>
 
     <select name="category">
 
@@ -40,7 +67,7 @@
 
     <input type="submit" value="Upload"/>
 
-  </form>
+  </form><br><br><br>
 
   <p>
     We check if your photo matches the criteria for a given category.<br><br>
@@ -58,6 +85,8 @@
 
 
   </p>
+
+  </div>
 
 </body>
 

@@ -22,7 +22,11 @@
         <property name="maxUploadSize" value="20848820" />
     </bean>
 
+    <!-- the mvc resources code below adds the mapping for the external styles you want to add, may need to bind some things
+    http://www.mkyong.com/spring-mvc/spring-mvc-how-to-include-js-or-css-files-in-a-jsp-page/-->
+    <mvc:resources mapping="/webresources/**" location="/webresources/"/>
 
+    <mvc:annotation-driven />
 
 
 </beans>
