@@ -15,9 +15,7 @@ public class FBConnection {
     public static final String FB_APP_ID = "1114928768619109";
     public static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
     // The URI below is what facebook uses to comeback to request a re-direct.
-    // TODO: this needs to be modified to be dynamic with the server it is deployed on
-    public static final String REDIRECT_URI = "http://localhost:8080/welcome-new-user";
-
+    public static final String REDIRECT_REQUEST = "register";
     public static String accessToken = "";
 
 
@@ -25,10 +23,10 @@ public class FBConnection {
      * This method returns the FB authentication URL
      * @return String URL of the FB authentication
      */
-    public static String getFBAuthUrl() {
+    public static String getFBAuthUrl(String redirectURL) {
         return "http://www.facebook.com/dialog/oauth?" + "client_id="
                 + FBConnection.FB_APP_ID + "&redirect_uri="
-                + REDIRECT_URI
+                + redirectURL + REDIRECT_REQUEST
                 + "&scope=email";
     }
 
@@ -38,21 +36,21 @@ public class FBConnection {
      * @param code
      * @return
      */
-    public static String getFBGraphUrl(String code) {
+    public static String getFBGraphUrl(String code, String redirectURL) {
 
         String fbGraphUrl = "https://graph.facebook.com/oauth/access_token?"
                 + "client_id=" + FBConnection.FB_APP_ID + "&redirect_uri="
-                + REDIRECT_URI
+                + redirectURL + REDIRECT_REQUEST
                 + "&client_secret=" + FB_APP_SECRET + "&code=" + code;
 
         return fbGraphUrl;
     }
 
-    public static String getAccessToken(String code) {
+    public static String getAccessToken(String code, String redirectURL) {
         if (accessToken.equals("")) {
             URL fbGraphURL;
             try {
-                fbGraphURL = new URL(getFBGraphUrl(code));
+                fbGraphURL = new URL(getFBGraphUrl(code,redirectURL));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Invalid code received " + e);

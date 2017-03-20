@@ -4,12 +4,14 @@ import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.external.GoogleMapsAPI;
+import javafx.scene.chart.PieChart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -137,6 +139,59 @@ public class PhotoDisplayController {
                 GoogleMapsAPI.getMapsURLOfPhotoLocation(DatabaseAccess.getPhoto(photoID)));
 
         return "photo-detail";
+    }
+
+
+    /**
+     * This method is responsible for updating the votes
+     * @param photoID
+     * @param upvote
+     * @param session
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="vote")
+    public String votePhoto(@RequestParam("photoId") int photoID,
+                            @RequestParam("type") boolean upvote,
+                            HttpSession session,
+                            HttpServletRequest request,
+                            Model model) {
+
+        // Get URL of images and add to model
+        model.addAttribute("imageURL",
+                request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/images/");
+
+        // Update the votes, if updating the database fails, return error page
+        // If user is not logged in, return them to the page.
+        if (LoginController.userLoggedIn(session) && upvote) {
+            Photos photo = DatabaseAccess.getPhoto(photoID);
+            photo.setVotes(photo.getVotes() + 1);
+            if (DatabaseAccess.updatePhoto(photo)) {
+                model.addAttribute("photo", photo);
+            }
+            else {
+                return "error";
+            }
+            return "photo-detail";
+        }
+        else if (LoginController.userLoggedIn(session) && !upvote) {
+            Photos photo = DatabaseAccess.getPhoto(photoID);
+            photo.setVotes(photo.getVotes() - 1);
+            if (DatabaseAccess.updatePhoto(photo)) {
+                model.addAttribute("photo", photo);
+            }
+            else {
+                return "error";
+            }
+            return "photo-detail";
+        }
+        else {
+            model.addAttribute("photo", DatabaseAccess.getPhoto(photoID));
+            return "photo-detail";
+        }
+
     }
 
 }

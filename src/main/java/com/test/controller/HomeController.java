@@ -1,12 +1,16 @@
 package com.test.controller;
 
+import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
+import com.test.entity.Users;
 import com.test.external.FBConnection;
+import javafx.scene.chart.PieChart;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -21,14 +25,34 @@ public class HomeController {
      * @return String index.jsp page
      */
     @RequestMapping(value="/")
-    public String showIndexPage(Model model, HttpServletRequest request)
-    {
-        // TODO: Use a cookie to remember if the user is logged in or not.
-        Cookie[] cookie = request.getCookies();
+    public String showIndexPage(HttpServletRequest request,
+                                HttpSession session,
+                                Model model) {
 
 
-        // Add a facebook login URL to the model
-        model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl());
+        //Check to see if user is logged in, and provide name
+        if (LoginController.userLoggedIn(session)) {
+            model.addAttribute("loggedIn", true);
+            Cookie[] cookies = request.getCookies();
+            for(Cookie cookie : cookies){
+                if("userID".equals(cookie.getName())){
+                    Users user = DatabaseAccess.getUser(cookie.getValue());
+                    model.addAttribute("userFirstName", user.getFirstName());
+                }
+            }
+        }
+        else {
+            model.addAttribute("loggedIn", false);
+            model.addAttribute("userFirstName", null);
+        }
+
+        // Add a facebook login URL to the model, first get redirect URL
+        model.addAttribute("facebookLogin",
+                FBConnection.getFBAuthUrl(
+                request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/"
+        ));
 
         // TODO: Add the top 3 photos to front page
 //        model.addAttribute("gMapTopPhotosLocationURL",

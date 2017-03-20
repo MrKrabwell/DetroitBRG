@@ -25,7 +25,7 @@
 
     <a href="${facebookLogin}">Register with Facebook</a>
 
-    <a href="showLogin">Log In</a>
+    <a href="login">Log In</a>
 
   </div>
 

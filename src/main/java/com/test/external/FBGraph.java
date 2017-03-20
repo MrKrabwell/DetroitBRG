@@ -33,7 +33,7 @@ public class FBGraph {
         String graph;
         try {
 
-            // The APIrequest is asking for ID, first name, last name, full name, and email
+            // The API request is asking for ID, first name, last name, full name, and email
             String g = "https://graph.facebook.com/me?fields=id,name,first_name,last_name,email&" + accessToken;
             URL u = new URL(g);
             URLConnection c = u.openConnection();
@@ -68,6 +68,9 @@ public class FBGraph {
             fbProfile.put("name", json.getString("name"));
             if (json.has("first_name")) {
                 fbProfile.put("first_name", json.getString("first_name"));
+            }
+            if (json.has("last_name")) {
+                fbProfile.put("last_name", json.getString("last_name"));
             }
             if (json.has("email")) {
                 fbProfile.put("email", json.getString("email"));

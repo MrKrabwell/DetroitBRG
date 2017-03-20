@@ -14,5 +14,7 @@
 
     <h1>Welcome ${userFirstName}</h1>
 
+    <a href="/">Return to Home</a>
+
 </body>
 </html>

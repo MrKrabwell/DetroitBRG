@@ -291,7 +291,7 @@ public class DatabaseAccess {
     public static Users getUser(String userID) {
 
         //Logging
-        System.out.println("DatabaseAccess.userUser(" + userID + ")");
+        System.out.println("DatabaseAccess.getUser(" + userID + ")");
 
         try {
             // Create a new session
@@ -329,7 +329,11 @@ public class DatabaseAccess {
     }
 
 
-
+    /**
+     * This method will register a new user into the
+     * @param user Users entity to register
+     * @return boolean true if registered successfully, false otherwise
+     */
     public static boolean registerNewUser(Users user) {
         // Logging
         System.out.println("Registering new user " + user.getUserId() + " to database.");
@@ -352,8 +356,41 @@ public class DatabaseAccess {
             return true;
         }
         catch (Exception e) {
-            System.out.println("Error registering new user" + user.getUserId() + " to database!!");
+            System.out.println("Error registering new user " + user.getUserId() + " to database!!");
             e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * This method will update the update the information about the photo
+     * @param photo Photos of the photo to update
+     * @return boolean true if successful, false otherwise.
+     */
+    public static boolean updatePhoto(Photos photo) {
+
+        // Logging
+        System.out.println("DatabaseAccess.updatePhoto(" + photo.toString() + ")");
+
+        try {
+            // Create a new session and start transaction
+            Session session = sessionFactory.openSession();
+
+            // Begin the transaction
+            Transaction tr = session.beginTransaction();
+
+            // Insert into the database
+            session.update(photo);
+            tr.commit();
+
+            // Close the session
+            session.close();
+
+            System.out.println("Successfully updated " + photo.toString() + " to database");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updating " + photo.toString() + " to database");
             return false;
         }
     }

@@ -6,19 +6,19 @@
 
     <class name="com.test.entity.Users" table="Users" schema="DetroitBRG">
         <id name="userId">
-            <column name="userID" sql-type="int(11)"/>
+            <column name="userID" sql-type="varchar(20)" length="20" not-null="true"/>
         </id>
         <property name="firstName">
-            <column name="firstName" sql-type="varchar(50)" length="50"/>
+            <column name="firstName" sql-type="varchar(50)" length="50" not-null="true"/>
         </property>
         <property name="lastName">
-            <column name="lastName" sql-type="varchar(50)" length="50" not-null="true"/>
+            <column name="lastName" sql-type="varchar(50)" length="50"/>
         </property>
         <property name="favorites">
-            <column name="favorites" sql-type="int(11)" not-null="true"/>
+            <column name="favorites" sql-type="int(11)"/>
         </property>
         <property name="admin">
-            <column name="admin" sql-type="tinyint(1)"/>
+            <column name="admin" sql-type="tinyint(1)" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>
