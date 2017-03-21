@@ -44,9 +44,9 @@
       }
     </style>
 
-    <!-- For Darkroom.js -->
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css'>
-    <link rel='stylesheet prefetch' href='http://rawgit.com/MattKetmo/darkroomjs/master/build/darkroom.css'>
+    <!-- For Croppie -->
+    <link rel="stylesheet" href="/webresources/css/croppie/croppie.css" />
+    <script src="/webresources/js/croppie/croppie.js"></script>
 
   </head>
 
@@ -71,9 +71,9 @@
       <input type="hidden" id="lat" name="lat" value="">
       <input type="hidden" id="lng" name="lng" value="">
 
-      <input type="submit" value="Upload" />
 
-      <!-- Darkroom JS -->
+
+      <input type="submit" value="Upload" />
 
     </form>
 
