@@ -13,9 +13,11 @@
 <body>
 <h2>DetroitABLE Terms of Service and Privacy Policy</h2>
 
+<h2>DetroitABLE Terms of Service and Privacy Policy</h2>
+
 <h3>1. Terms</h3>
 
-<p>By accessing the website at&nbsp;<a href="http://detroitBRG.com">http://detroitBRG.com</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
+<p>By accessing the website at <a href="http://sample-env-1.pec3km6hz2.us-west-2.elasticbeanstalk.com/">http://sample-env-1.pec3km6hz2.us-west-2.elasticbeanstalk.com/</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
 
 <h3>2. Use License</h3>
 
@@ -77,8 +79,7 @@
     <li>We will only retain personal information for as long as necessary for the fulfilment of those purposes.</li>
 </ul>
 
-<p>We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained. DetroitABLE may change this privacy policy from time to time at DetroitABLE's sole discretion.</p>
-
+<p>We are committed to conducting our business in accordance with these principles in order
 
 
 </body>
