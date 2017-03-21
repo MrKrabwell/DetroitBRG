@@ -53,7 +53,7 @@ public class FBConnection {
      * @return
      */
     public static String getAccessToken(String code, String redirectURL) {
-        if (accessToken.equals("")) {
+        //if (accessToken.equals("")) {  // Comment this out to allow for more users to login using facebook
             URL fbGraphURL;
             try {
                 fbGraphURL = new URL(getFBGraphUrl(code,redirectURL));
@@ -84,7 +84,7 @@ public class FBConnection {
                 throw new RuntimeException("ERROR: Access Token Invalid: "
                         + accessToken);
             }
-        }
+        //}
         return accessToken;
     }
 }
