@@ -58,27 +58,15 @@
 
     <form action="upload" method="post">
 
-      <input type="hidden" value="${category}" />
+      <input name="category" type="hidden" value="${category}" />
 
-      <!--
-      <select name="category">
-
-        <c:forEach items="${category}" var="category">
-
-          <option value="${category}"><c:out value="${category.toString()}"></c:out></option>
-
-        </c:forEach>
-
-      </select>
-      -->
       <input type="hidden" id="lat" name="lat" value="">
       <input type="hidden" id="lng" name="lng" value="">
-
-      <img src="${imageURL}" alt="Preview" style="width: 500px; length:750px"/>
-
       <input type="submit" value="Upload" />
 
     </form>
+
+    <img src="${imageURL}" alt="Preview" style="width: 500px; length:750px"/>
 
     <!-- Google Maps API -->
 

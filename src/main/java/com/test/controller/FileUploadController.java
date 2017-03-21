@@ -33,6 +33,8 @@ public class FileUploadController {
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads
     private final double[] DEFAULT_PHOTO_LOCATION = {42.3314, -83.0458}; // In center of Detroit
+    private static byte[] tempFile = null;
+    private static String tempFileName = null;
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -67,7 +69,7 @@ public class FileUploadController {
      * @param filename String of filename to save
      * @return boolean true if saved successfully, false otherwise.
      */
-    private boolean saveImageToDirectory(CommonsMultipartFile file,
+    private boolean saveImageToDirectory(byte[] file,
                                          String path,
                                          String filename) {
 
@@ -79,10 +81,9 @@ public class FileUploadController {
         // Attempt to store file to path
         System.out.println("Attempting to store to " + path);
         try {
-            byte[] bytes = file.getBytes();
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(
                     new File(path + File.separator + filename)));
-            stream.write(bytes);
+            stream.write(file);
             stream.flush();
             stream.close();
             System.out.println(filename + " successfully stored!");
@@ -160,6 +161,11 @@ public class FileUploadController {
                                     HttpServletRequest request,
                                     Model model ) {
 
+        // Temporarily store file to store later
+        tempFile = null;
+        tempFile = file.getBytes();
+        tempFileName = file.getOriginalFilename();
+
         // Get geolocation if available
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
         double[] latLng = getGeoLocation(file);
@@ -174,93 +180,31 @@ public class FileUploadController {
             model.addAttribute("lng", latLng[1]);
         }
 
-
         // Get URL of images and add to model
+        // TODO: FIX THIS
         model.addAttribute("imageURL",
                 request.getScheme() + "://" +
                         request.getServerName() + ":" +
-                        request.getServerPort() + "/temp");
+                        request.getServerPort() + "/temp/" +
+                        file.getOriginalFilename());
 
         // Add the Google maps API key
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
 
         // Add the categories to display
-        model.addAttribute("category", PhotoCategory.values());
-
-        /////////////////////
-
-        // Define the file path and name
-        ServletContext context = session.getServletContext();
-        String path = context.getRealPath(UPLOAD_DIRECTORY);
-
-        // Check to see if image meets the criteria
-        switch (category) {
-            case BEAUTY:
-                if (!ClarifaiAPI.determineBeautyClarifai(file.getBytes())) {
-                    return "invalid-photo";
-                }
-                break;
-            case ART:
-                if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
-                    return "invalid-photo";
-                }
-                break;
-            case REMAINS:
-                if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
-                    return "invalid-photo";
-                }
-                break;
-            default:
-                System.out.println("Error!  Can't determine category");
-                return "error";
-        }
-
-        // Get highest primary key of Photos
-        String filename = file.getOriginalFilename();
-        filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
-
-        // Create a new Photos entity to store into the database
-        Photos photo = new Photos();
-        photo.setFileName(filename);
-        photo.setCategory(category.toString());
-        if (latLng != null) {
-            photo.setLatitude(Double.toString(latLng[0]));
-            photo.setLongitude(Double.toString(latLng[1]));
-        }
-        else {
-            photo.setLatitude("0.0");
-            photo.setLongitude("0.0");
-        }
-
-        // Store photo entity to database
-        if (!DatabaseAccess.insertPhotoToDatabase(photo)) {
-            return "error";
-        }
-
-        // Write to the images directory
-        if (!saveImageToDirectory(file, path, filename)) {
-            return "error";
-        }
-
-
-
-
-        /////////////////////
+        model.addAttribute("category", category);
 
 
 
         // Show preview-upload page
-        // TODO: This needs to be changed back to preview upload
-        // return "preview-upload";
-        return "confirm-upload";
+        return "preview-upload";
     }
 
 
 
     // TODO: Upload after confiramtion
     @RequestMapping(value="upload", method=RequestMethod.POST)
-    public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file,
-                              @RequestParam("category") PhotoCategory category,
+    public String uploadPhoto(@RequestParam("category") PhotoCategory category,
                               @RequestParam("lat") double lat,
                               @RequestParam("lng") double lng,
                               HttpSession session) {
@@ -273,17 +217,17 @@ public class FileUploadController {
         // Check to see if image meets the criteria
         switch (category) {
             case BEAUTY:
-                if (!ClarifaiAPI.determineBeautyClarifai(file.getBytes())) {
+                if (!ClarifaiAPI.determineBeautyClarifai(tempFile)) {
                     return "invalid-photo";
                 }
                 break;
             case ART:
-                if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
+                if (!ClarifaiAPI.streetArtModelClarifai(tempFile)) {
                     return "invalid-photo";
                 }
                 break;
             case REMAINS:
-                if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
+                if (!ClarifaiAPI.oldDetroitModelClarifai(tempFile)) {
                     return "invalid-photo";
                 }
                 break;
@@ -293,7 +237,7 @@ public class FileUploadController {
         }
 
         // Get highest primary key of Photos
-        String filename = file.getOriginalFilename();
+        String filename = tempFileName;
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
 
         // Get the lat and lng from the page
@@ -318,7 +262,7 @@ public class FileUploadController {
         }
 
         // Write to the images directory
-        if (!saveImageToDirectory(file, path, filename)) {
+        if (!saveImageToDirectory(tempFile, path, filename)) {
             return "error";
         }
 
@@ -327,10 +271,19 @@ public class FileUploadController {
     }
 
 
-//    @RequestMapping(value = "temp")
-//    @ResponseBody
-//    public byte[] showTempImage()  {
-//        return tempImage.getBytes();
-//    }
+    /**
+     * This handles showing the temporary
+     * @param imageId
+     * @return
+     */
+    @RequestMapping(value = "/temp/{imageId}")
+    @ResponseBody
+    public byte[] getImage(@PathVariable String imageId)  {
+        // Wait until byte array
+        while (tempFile == null) {
+            // Do nothing
+        }
+        return tempFile;
+    }
 
 }
