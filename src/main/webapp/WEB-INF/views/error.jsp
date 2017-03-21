@@ -42,7 +42,7 @@
   <div align="center">
     <h2 class="text-danger">Uh Oh! Something went wrong!</h2>
 
-    <a href="/">Return to home</a>
+    <a href="/" class="btn btn-info" role="button">Return to home</a>
   </div>
 
 

@@ -31,7 +31,7 @@
   <!-- Custom Fonts -->
   <link href="/webresources/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
+  <link href="/webresources/css/InputButton.css" rel="stylesheet">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -51,11 +51,21 @@
 
     <h4  for="photo">Choose a Photo:</h4><br>
 
-    <input type="file" name="file" id="photo"/><br>
+    <!--<input type="file"  name="file" id="photo"/>-->
+
+    <span class="btn btn-default btn-file">
+    Browse <input type="file" name="file" id="photo"/>
+    </span>
+
+    <br>
 
       <h4>Select a category:</h4><br>
 
-    <select name="category">
+
+
+    <!--<select name="category">-->
+    <select class="form-control" >
+
 
       <c:forEach items="${category}" var="category">
 
@@ -63,9 +73,13 @@
 
       </c:forEach>
 
-    </select>
+    </select><br><br><br><br>
 
-    <input type="submit" value="Upload"/>
+    <!--<input type="submit" value="Upload"/>-->
+
+    <span class="btn btn-default btn-submit">
+    Upload <input type="submit"/>
+    </span>
 
   </form><br><br><br>
 

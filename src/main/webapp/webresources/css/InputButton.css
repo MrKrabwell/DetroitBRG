@@ -1,0 +1,47 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=.25);
+    opacity: .25;
+    outline: none;
+
+    background: darkseagreen;
+    cursor: inherit;
+    display: block;
+}
+
+.btn-submit input[type=submit] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=.25);
+    opacity: .25;
+    outline: none;
+
+    background: darkseagreen;
+    cursor: inherit;
+    display: block;
+}
+
+select.form-control {
+    width:auto;
+}

@@ -41,7 +41,9 @@
 
 <body>
 
-<h2>${category.toString()}</h2>
+<h2 align="center" class="well">${category.toString()}</h2><br>
+
+<a href="/" class="btn btn-info" role="button">Home</a><br><br><br>
 
 <div class="BrowseImages">
 
@@ -57,9 +59,11 @@
 
 </div>
 
+<br><br>
+
 <div class="PageControl">
 
-    <a href="browse?cat=${category}&page=${currentPage-1}">Back</a>
+    <a href="browse?cat=${category}&page=${currentPage-1}" class="btn btn-info" role="button">Back</a>
 
         <c:forEach begin="1" end="${numPages}" var="page">
 
@@ -67,13 +71,13 @@
 
         </c:forEach>
 
-    <a href="browse?cat=${category}&page=${currentPage+1}">Forward</a>
+    <a href="browse?cat=${category}&page=${currentPage+1}" class="btn btn-info" role="button">Forward</a>
 
 </div>
 
-<br>
 
-<a href="/">Home</a>
+
+
 
 </body>
 

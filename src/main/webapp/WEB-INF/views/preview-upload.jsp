@@ -89,6 +89,7 @@
     <script src='http://rawgit.com/MattKetmo/darkroomjs/master/build/darkroom.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js'></script>
 
+    <div align="center">
     <script>
         var dkrm = new Darkroom('#target', {
             // Size options
@@ -141,6 +142,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap">
 
     </script>
+    </div>
 
   </body>
 

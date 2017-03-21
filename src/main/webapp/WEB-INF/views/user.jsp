@@ -36,13 +36,11 @@
 
 </head>
 <body>
-    <div align="center">
+    < align="center">
         <h1>Welcome ${userFirstName}</h1>
+        <br><br>
+        <a href="/" class="btn btn-info" role="button">Return to Home</a>
     </div>
-
-
-
-    <a href="/">Return to Home</a>
 
 </body>
 </html>

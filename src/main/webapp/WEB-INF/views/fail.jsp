@@ -41,9 +41,9 @@
 
     <h2 class="well">Your photo doesn't match the category!</H2>
 
-    <a class="text-danger" href="submit">Try again</a><br>
+    <h1 class="text-danger" href="submit">Try again</h1><br>
 
-    <a href="/">Home</a>
+    <a href="/" class="btn btn-info" role="button">Home</a>
 
     </div>
 

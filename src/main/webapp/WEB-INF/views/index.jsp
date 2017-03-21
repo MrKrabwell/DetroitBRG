@@ -175,7 +175,7 @@
 <!-- /.content-section-a -->
 
 <a  name="contact"></a>
-<div class="banner">
+<!--<div class="banner">
 
     <div class="container">
 
@@ -198,10 +198,10 @@
             </div>
         </div>
 
-    </div>
+    </div>-->
     <!-- /.container -->
 
-</div>
+<!--</div>-->
 <!-- /.banner -->
 
 <!-- Footer -->
@@ -215,7 +215,7 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="${facebookLogin}">Register with Facebook</a>
+                        <a href="${facebookLogin}">Log in with Facebook</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <!--<li>
@@ -226,7 +226,7 @@
                         <a href="submit">Submit Photos</a>
                     </li>
                 </ul>
-                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                <p class="copyright text-muted small">Created by Grand Circus Java January 2017 Team 2!</p>
             </div>
         </div>
     </div>

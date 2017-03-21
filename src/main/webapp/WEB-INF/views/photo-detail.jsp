@@ -38,6 +38,8 @@
 </head>
 <body>
 
+    <div align="center">
+
   <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 
   <div class="googleMaps">
@@ -48,13 +50,14 @@
 
   <div>
 
-    <a href="vote?type=true&photoId=${photo.photoId}"> Upvote </a>
+    <a href="vote?type=true&photoId=${photo.photoId}" class="btn btn-info" role="button"> Upvote </a>
 
     Votes: ${photo.votes}
 
-    <a href="vote?type=false&photoId=${photo.photoId}"> Downvote </a>
+    <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a>
 
   </div>
+    </div>
 <!--
   <c:if test="${loggedIn == false}">
 
