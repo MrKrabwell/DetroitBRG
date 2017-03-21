@@ -414,7 +414,7 @@ public class DatabaseAccess {
             Session session = sessionFactory.openSession();
 
             // Create criteria to get the last photo primary key, ###Be careful with query case!!!!###
-            Criteria criteria = session.createCriteria(Photos.class);
+            Criteria criteria = session.createCriteria(VoteHistory.class);
             criteria.add(Restrictions.eq("photoId", photo.getPhotoId()));
             criteria.add(Restrictions.eq("userId", user.getUserId()));
             List<VoteHistory> voteHistories = criteria.list();
@@ -431,7 +431,7 @@ public class DatabaseAccess {
             return null;
         }
         catch (Exception e) {
-            System.out.println("Error getting last Photos primary key!");
+            System.out.println("Error getting vote history!");
             e.printStackTrace();
             return null;
         }
