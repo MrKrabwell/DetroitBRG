@@ -4,14 +4,12 @@ import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.external.GoogleMapsAPI;
-import javafx.scene.chart.PieChart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -132,6 +130,9 @@ public class PhotoDisplayController {
                 request.getScheme() + "://" +
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/");
+
+        // Add category to attribute
+        model.addAttribute("category", PhotoCategory.values());
 
         // Get API Key for Google Maps
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
