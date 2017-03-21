@@ -142,6 +142,10 @@ public class VoteController {
         if (voteHistories.size() == 1 && ((voteHistories.get(0).getUpvote()&0x01) != 0) == upvote) {
             return false;
         }
+        // If only one history, and different vote, then can vote
+        else if (voteHistories.size() == 1 && ((voteHistories.get(0).getUpvote()&0x01) != 0) != upvote) {
+            return true;
+        }
 
         // If two consecutive votes are the same and the next is also the same, then don't let them vote
         if (((voteHistories.get(0).getUpvote()&0x01) != 0) == ((voteHistories.get(1).getUpvote()&0x01) != 0)
