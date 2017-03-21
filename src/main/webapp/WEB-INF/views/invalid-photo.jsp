@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: yosuk
-  Date: 3/14/2017
-  Time: 4:47 PM
+  Date: 3/17/2017
+  Time: 12:03 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,13 +34,18 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 <body>
-    <div align="center">
-        ${message}
-    </div>
+<div align="center">
 
+    <h2 class="well">Your photo doesn't match the category!</H2>
 
+    <h1 class="text-danger" href="submit">Try again</h1><br>
+
+    <a href="/" class="btn btn-info" role="button">Home</a>
+
+</div>
 
 </body>
 </html>
