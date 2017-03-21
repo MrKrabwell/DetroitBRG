@@ -52,13 +52,11 @@
 
   <body>
 
-    <h1>This is your upload</h1>
+    <h1>Upload Preview</h1>
 
     <a href="/">Home</a><br><br><br>
 
-    <form action="upload" method="post" enctype="multipart/form-data" >
-
-      <input type="hidden" name="file" value="${originalImage}" id="photo"/><br>
+    <form action="upload" method="post">
 
       <select name="category">
 
@@ -70,69 +68,48 @@
 
       </select>
 
-      <input type="submit" value="Upload"/>
+      <input type="hidden" id="lat" name="lat" value="">
+      <input type="hidden" id="lng" name="lng" value="">
+
+      <input type="submit" value="Upload" />
+
+      <!-- Darkroom JS -->
 
     </form>
 
-
-
-
-    <br><br><br><br>
-    <div class="row">
-      <div class="col s12 m7">
-        <img src="${image}" id="target">
-      </div>
-    </div>
-
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js'></script>
-    <script src='http://rawgit.com/MattKetmo/darkroomjs/master/build/darkroom.js'></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js'></script>
-
-    <div align="center">
-    <script>
-        var dkrm = new Darkroom('#target', {
-            // Size options
-            minWidth: 100,
-            minHeight: 100,
-            maxWidth: 600,
-            maxHeight: 500,
-            ratio: 4/3,
-            backgroundColor: '#000',
-            // Plugins options
-            plugins: {
-                //save: false,
-                crop: {
-                    quickCropKey: 67, //key "c"
-                }
-            },
-            // Post initialize script
-            initialize: function() {
-//		var cropPlugin = this.plugins['crop'];
-                // cropPlugin.selectZone(170, 25, 300, 300);
-//		cropPlugin.requireFocus();
-            }
-        });
-    </script>
+    <!-- Google Maps API -->
 
     <div id="map"></div>
 
-    <script>
+    <script type="text/javascript">
+
+      var latLng = {lat: ${lat}, lng: ${lng}};
+      document.getElementById("lat").value = ${lat};
+      document.getElementById("lng").value = ${lng};
 
       function initMap() {
 
-        var uluru = {lat: ${lat}, lng: ${lng}}
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 10,
-          center: uluru
+          zoom: 15,
+          center: latLng
         });
 
+        map.setOptions({disableDoubleClickZoom: true });
+
         var marker = new google.maps.Marker({
-          position: uluru,
+          position: latLng,
           map: map
         });
 
+        map.addListener('dblclick', function(event) {
+
+          marker.setPosition(event.latLng);
+
+          document.getElementById("lat").value = marker.getPosition().lat();
+          document.getElementById("lng").value = marker.getPosition().lng();
+
+        });
       }
 
     </script>

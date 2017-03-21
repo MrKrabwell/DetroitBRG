@@ -19,6 +19,7 @@ import org.apache.commons.codec.binary.Base64;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.*;
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
+    private final double[] DEFAULT_PHOTO_LOCATION = {42.3314, -83.0458};
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -68,6 +70,11 @@ public class FileUploadController {
     private boolean saveImageToDirectory(CommonsMultipartFile file,
                                          String path,
                                          String filename) {
+
+        // Create a new directory, if fails, show error page
+        if (!createImagesDirectory(path)) {
+            return false;
+        }
 
         // Attempt to store file to path
         System.out.println("Attempting to store to " + path);
@@ -153,13 +160,14 @@ public class FileUploadController {
                                     HttpServletRequest request,
                                     Model model ) {
 
-        // Get geolocation
+        // Get geolocation if available
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
         double[] latLng = getGeoLocation(file);
 
-        // If latLng is null, ask user to input geoLocation
+        // If latLng is null, default location is set
         if (latLng == null) {
-            model.addAttribute("askUserGeo", true);
+            model.addAttribute("lat", DEFAULT_PHOTO_LOCATION[0]);
+            model.addAttribute("lng", DEFAULT_PHOTO_LOCATION[1]);
         }
         else {
             model.addAttribute("lat", latLng[0]);
@@ -171,16 +179,14 @@ public class FileUploadController {
 
         // Create base 64 key to use Darkroom.js
         StringBuilder sb = new StringBuilder();
-        sb.append("data:image/png;base64,");
+        sb.append("data:image/jpeg;base64,");
         sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(file.getBytes(), false)));
         model.addAttribute("image",sb.toString());
-
-        // Also add the original photo for uploading later
-        model.addAttribute("originalImage", file);
 
         // Add the categories to display
         model.addAttribute("category", PhotoCategory.values());
 
+        // Show preview-upload page
         return "preview-upload";
     }
 
@@ -188,34 +194,34 @@ public class FileUploadController {
 
     // TODO: Upload after confiramtion
     @RequestMapping(value="upload", method=RequestMethod.POST)
-    public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file,
+    public String uploadPhoto(
                               @RequestParam("category") PhotoCategory category,
+                              @RequestParam("lat") double lat,
+                              @RequestParam("lng") double lng,
                               HttpSession session) {
+
+        // Temporary
+        CommonsMultipartFile file = new CommonsMultipartFile(null);
 
         // Define the file path and name
         ServletContext context = session.getServletContext();
         String path = context.getRealPath(UPLOAD_DIRECTORY);
 
-        // Create a new directory, if fails, show error page
-        if (!createImagesDirectory(path)) {
-            return "error";
-        }
-
         // Check to see if image meets the criteria
         switch (category) {
             case BEAUTY:
                 if (!ClarifaiAPI.determineBeautyClarifai(file.getBytes())) {
-                    return "fail";
+                    return "invalid-photo";
                 }
                 break;
             case ART:
                 if (!ClarifaiAPI.streetArtModelClarifai(file.getBytes())) {
-                    return "fail";
+                    return "invalid-photo";
                 }
                 break;
             case REMAINS:
                 if (!ClarifaiAPI.oldDetroitModelClarifai(file.getBytes())) {
-                    return "fail";
+                    return "invalid-photo";
                 }
                 break;
             default:
@@ -227,8 +233,8 @@ public class FileUploadController {
         String filename = file.getOriginalFilename();
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
 
-        // TODO: GET LAT LNG
-        double[] latLng = {0.0,0.0};
+        // Get the lat and lng from the page
+        double[] latLng = {lat, lng};
 
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
@@ -253,7 +259,7 @@ public class FileUploadController {
             return "error";
         }
 
-        // TODO: FIX THIS TO HAVE ACTUAL PAGE
+        // Return the view.
         return "confirm-upload";
 
     }
