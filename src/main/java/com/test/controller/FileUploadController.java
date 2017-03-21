@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.codec.binary.Base64;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,7 +31,6 @@ public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
-    private static byte[] tempImage;
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -152,15 +153,6 @@ public class FileUploadController {
                                     HttpServletRequest request,
                                     Model model ) {
 
-        // Add the image attribute to model
-        model.addAttribute("imageURL",
-                request.getScheme() + "://" +
-                        request.getServerName() + ":" +
-                        request.getServerPort() + "/temp-image");
-
-        // Save temporary image
-        tempImage = file.getBytes();
-
         // Get geolocation
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
         double[] latLng = getGeoLocation(file);
@@ -177,22 +169,24 @@ public class FileUploadController {
         // Return the API key
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
 
+        // Create base 64 key to use Darkroom.js
+        StringBuilder sb = new StringBuilder();
+        sb.append("data:image/png;base64,");
+        sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(file.getBytes(), false)));
+        model.addAttribute("image",sb.toString());
+
+        // Also add the original photo for uploading later
+        model.addAttribute("originalImage", file);
+
+        // Add the categories to display
+        model.addAttribute("category", PhotoCategory.values());
+
         return "preview-upload";
     }
 
 
-    /**
-     * This method will provide a temporary URL to be displayed while the user confirms their upload
-     * @param
-     * @return
-     */
-    @RequestMapping(value = "temp-image")
-    @ResponseBody
-    public byte[] showPreview()  {
-        return tempImage;
-    }
 
-
+    // TODO: Upload after confiramtion
     @RequestMapping(value="upload", method=RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file,
                               @RequestParam("category") PhotoCategory category,
@@ -232,7 +226,6 @@ public class FileUploadController {
         // Get highest primary key of Photos
         String filename = file.getOriginalFilename();
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
-
 
         // TODO: GET LAT LNG
         double[] latLng = {0.0,0.0};

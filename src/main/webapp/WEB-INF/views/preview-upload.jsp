@@ -44,29 +44,75 @@
       }
     </style>
 
+    <!-- For Darkroom.js -->
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css'>
+    <link rel='stylesheet prefetch' href='http://rawgit.com/MattKetmo/darkroomjs/master/build/darkroom.css'>
+
   </head>
 
   <body>
 
     <h1>This is your upload</h1>
 
-    <a href="/">Home</a><br>
+    <a href="/">Home</a><br><br><br>
 
-    <image src="${imageURL}" alt="Preview Photo" style="width:1000px;height:700px"/>
+    <form action="upload" method="post" enctype="multipart/form-data" >
+
+      <input type="hidden" name="file" value="${originalImage}" id="photo"/><br>
+
+      <select name="category">
+
+        <c:forEach items="${category}" var="category">
+
+          <option value="${category}"><c:out value="${category.toString()}"></c:out></option>
+
+        </c:forEach>
+
+      </select>
+
+      <input type="submit" value="Upload"/>
+
+    </form>
 
 
 
-    <figure class="image-container target">
-      <div class="darkroom-container">
-        <div class="darkroom-toolbar">
-          <div class="darkroom-button-group">
-            <button type="button" class="darkroom-button darkroom-button-default" disabled="">
-              <svg class="darkroom-icon">
-                <use xlink:href="#undo"></use></svg></button><button type="button" class="darkroom-button darkroom-button-default" disabled=""><svg class="darkroom-icon"><use xlink:href="#redo"></use></svg></button></div><div class="darkroom-button-group"><button type="button" class="darkroom-button darkroom-button-default"><svg class="darkroom-icon"><use xlink:href="#rotate-left"></use></svg></button><button type="button" class="darkroom-button darkroom-button-default"><svg class="darkroom-icon"><use xlink:href="#rotate-right"></use></svg></button></div><div class="darkroom-button-group"><button type="button" class="darkroom-button darkroom-button-default darkroom-button-active"><svg class="darkroom-icon"><use xlink:href="#crop"></use></svg></button><button type="button" class="darkroom-button darkroom-button-success"><svg class="darkroom-icon"><use xlink:href="#done"></use></svg></button><button type="button" class="darkroom-button darkroom-button-danger"><svg class="darkroom-icon"><use xlink:href="#close"></use></svg></button></div><div class="darkroom-button-group"><button type="button" class="darkroom-button darkroom-button-default"><svg class="darkroom-icon"><use xlink:href="#save"></use></svg></button></div></div><div class="darkroom-image-container"><div class="canvas-container" style="width: 600px; height: 450px; position: relative; -moz-user-select: none;"><canvas class="lower-canvas" style="position: absolute; width: 600px; height: 450px; left: 0px; top: 0px; -moz-user-select: none;" width="600" height="450"></canvas><canvas class="upper-canvas " style="position: absolute; width: 600px; height: 450px; left: 0px; top: 0px; -moz-user-select: none; cursor: crosshair;" width="600" height="450"></canvas></div></div><div class="darkroom-source-container" style="display: none;"><div class="canvas-container" style="width: 1024px; height: 685px; position: relative; -moz-user-select: none;"><canvas class="lower-canvas" style="position: absolute; width: 1024px; height: 685px; left: 0px; top: 0px; -moz-user-select: none;" width="1024" height="685"></canvas><canvas class="upper-canvas " style="position: absolute; width: 1024px; height: 685px; left: 0px; top: 0px; -moz-user-select: none;" width="1024" height="685"></canvas></div></div><img src="./images/domokun-big.jpg" alt="DomoKun" id="target" style="display: none;" class="canvas-img"></div>
-    </figure>
 
+    <br><br><br><br>
+    <div class="row">
+      <div class="col s12 m7">
+        <img src="${image}" id="target">
+      </div>
+    </div>
 
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js'></script>
+    <script src='http://rawgit.com/MattKetmo/darkroomjs/master/build/darkroom.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.js'></script>
 
+    <script>
+        var dkrm = new Darkroom('#target', {
+            // Size options
+            minWidth: 100,
+            minHeight: 100,
+            maxWidth: 600,
+            maxHeight: 500,
+            ratio: 4/3,
+            backgroundColor: '#000',
+            // Plugins options
+            plugins: {
+                //save: false,
+                crop: {
+                    quickCropKey: 67, //key "c"
+                }
+            },
+            // Post initialize script
+            initialize: function() {
+//		var cropPlugin = this.plugins['crop'];
+                // cropPlugin.selectZone(170, 25, 300, 300);
+//		cropPlugin.requireFocus();
+            }
+        });
+    </script>
 
     <div id="map"></div>
 
