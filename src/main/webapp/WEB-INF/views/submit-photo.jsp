@@ -62,10 +62,7 @@
       <h4>Select a category:</h4><br>
 
 
-
-    <!--<select name="category">-->
     <select class="form-control" name="category">
-
 
       <c:forEach items="${category}" var="category">
 

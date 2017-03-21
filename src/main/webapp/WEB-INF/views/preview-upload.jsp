@@ -58,6 +58,9 @@
 
     <form action="upload" method="post">
 
+      <input type="hidden" value="${category}" />
+
+      <!--
       <select name="category">
 
         <c:forEach items="${category}" var="category">
@@ -67,11 +70,11 @@
         </c:forEach>
 
       </select>
-
+      -->
       <input type="hidden" id="lat" name="lat" value="">
       <input type="hidden" id="lng" name="lng" value="">
 
-
+      <img src="${imageURL}" alt="Preview" style="width: 500px; length:750px"/>
 
       <input type="submit" value="Upload" />
 
