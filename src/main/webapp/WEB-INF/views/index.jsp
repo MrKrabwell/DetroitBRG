@@ -215,7 +215,7 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="${facebookLogin}">Log in with Facebook</a>
+                        <a href="${facebookLogin}">Register with Facebook</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <!--<li>
