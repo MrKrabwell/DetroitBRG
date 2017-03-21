@@ -37,8 +37,8 @@
 
     <style>
         #map {
-            width: 100%;
-            height: 400px;
+            width: 50%;
+            height: 50%;
             background-color: grey;
         }
     </style>
@@ -46,11 +46,15 @@
 </head>
 <body>
 
-<div align="center">
 
-  <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
+
+  <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:40%;height:90%" align="left">
 
     <!-- Google Maps API -->
+
+  <div align="right">
+
+      <div align="top">
 
     <div id="map"></div>
 
@@ -81,17 +85,37 @@
 
     </script>
 
+  </div>
+
+  </div>
+
+
   <div>
+    <div align="left">
+
+        <br><br>
 
     <a href="vote?type=true&photoId=${photo.photoId}" class="btn btn-info" role="button"> Upvote </a>
 
     Votes: ${photo.votes}
 
-    <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a>
+    <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a><br><br>
+
+
+    <button type="button" class="btn btn-info" role="button" onclick="goBack()">Back to Gallery</button>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
+
+
+    </div>
 
   </div>
 
-</div>
 
   <c:if test="${message != null}">
 
