@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: yosuk
@@ -54,6 +55,26 @@
     <a href="vote?type=false&photoId=${photo.photoId}"> Downvote </a>
 
   </div>
+<!--
+  <c:if test="${loggedIn == false}">
+
+    <script>
+
+      alert("You must be logged in to do that!");
+
+    </script>
+
+  </c:if>
+-->
+  <c:if test="${message != null}">
+
+    <script>
+
+      alert("${message}");
+
+    </script>
+
+  </c:if>
 
 </body>
 </html>

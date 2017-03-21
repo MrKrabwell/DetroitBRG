@@ -53,6 +53,9 @@ public class VoteController {
         // If user is logged in
         if (LoginController.userLoggedIn(session)) {
 
+            // Add model to dynamically show the user that they can/can't vote
+            model.addAttribute("loggedIn", true);
+
             // Get user information
             Users user = DatabaseAccess.getUser(session.getAttribute("userID").toString());
 
@@ -90,12 +93,12 @@ public class VoteController {
                         return "photo-detail";
                     }
                     else {
-                        System.out.println("Error updating Photo.");
+                        System.out.println("Error updating vote information!");
                         return "error";
                     }
                 }
                 else {
-                    // TODO: let the user know they've already voted on the photo
+                    model.addAttribute("message", "You can only cast one vote per photo!");
                     model.addAttribute("photo", photo);
                     return "photo-detail";
                 }
@@ -103,7 +106,7 @@ public class VoteController {
         }
         // If user isn't logged in, then tell them you can't do that
         else {
-            // TODO: Add attribute to tell user that they aren't logged in
+            model.addAttribute("message", "You must be logged in to do that!");
             model.addAttribute("photo", photo);
             return "photo-detail";
         }
@@ -113,9 +116,10 @@ public class VoteController {
 
     /**
      * This method determines whether the user can vote on a photo
-     * @param user
-     * @param photo
-     * @return
+     * @param user Users entity to determine userID
+     * @param photo Photos entity to deterine photoID
+     * @param upvote boolean upvote direction to determine whether it can vote
+     * @return boolean true if user can vote, false otherwise
      */
     private boolean canVote(Users user, Photos photo, boolean upvote) {
 
