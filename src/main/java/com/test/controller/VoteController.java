@@ -49,6 +49,9 @@ public class VoteController {
         // Get photo entity
         Photos photo = DatabaseAccess.getPhoto(photoID);
 
+        // Get API Key for Google Maps
+        model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
+
         // Update the votes
         // If user is logged in
         if (LoginController.userLoggedIn(session)) {

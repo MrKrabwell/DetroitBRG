@@ -4,8 +4,8 @@ package com.test.entity;
  * This is the enum for the photo categories
  */
 public enum PhotoCategory {
-    BEAUTY("Skyline"),
-    ART("Street Art"),
+    BEAUTY("Beauty"),
+    ART("Art"),
     REMAINS("Remains");
 
     // TODO: Add enumerations to reflect more categories

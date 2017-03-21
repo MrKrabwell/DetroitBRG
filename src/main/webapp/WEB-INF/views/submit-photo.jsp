@@ -64,7 +64,7 @@
 
 
     <!--<select name="category">-->
-    <select class="form-control" >
+    <select class="form-control" name="category">
 
 
       <c:forEach items="${category}" var="category">

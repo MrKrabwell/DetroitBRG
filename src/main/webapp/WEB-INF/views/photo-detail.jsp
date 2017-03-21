@@ -35,18 +35,51 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+            background-color: grey;
+        }
+    </style>
+
 </head>
 <body>
 
-    <div align="center">
+<div align="center">
 
   <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 
-  <div class="googleMaps">
+    <!-- Google Maps API -->
 
-    <img src="${gMapPhotoLocationURL}">
+    <div id="map"></div>
 
-  </div>
+    <script type="text/javascript">
+
+        var latLng = {lat: ${photo.latitude}, lng: ${photo.longitude}};
+
+        function initMap() {
+
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: latLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+
+        }
+
+    </script>
+
+    <script async defer
+
+            src="https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap">
+
+    </script>
 
   <div>
 
@@ -57,18 +90,9 @@
     <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a>
 
   </div>
-    </div>
-<!--
-  <c:if test="${loggedIn == false}">
 
-    <script>
+</div>
 
-      alert("You must be logged in to do that!");
-
-    </script>
-
-  </c:if>
--->
   <c:if test="${message != null}">
 
     <script>

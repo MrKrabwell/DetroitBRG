@@ -45,6 +45,7 @@ public class PhotoDisplayController {
 
         // If no entries, show empty page
         if (numEntries < 1) {
+            System.out.println("Error! No entries in category: " + category.toString());
             return "error";
         }
 
@@ -132,10 +133,8 @@ public class PhotoDisplayController {
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/");
 
-
-        // Add attribute of Google maps to model.  List because the method takes in a List of Photos
-        model.addAttribute("gMapPhotoLocationURL",
-                GoogleMapsAPI.getMapsURLOfPhotoLocation(DatabaseAccess.getPhoto(photoID)));
+        // Get API Key for Google Maps
+        model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
 
         return "photo-detail";
     }
