@@ -9,17 +9,17 @@ import com.test.entity.PhotoCategory;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.Photos;
 import com.test.external.ClarifaiAPI;
+import com.test.external.GoogleMapsAPI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
+
 
 /**
  * This controller class is for file uploads
@@ -29,7 +29,7 @@ public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads TODO: Do we want this in WEB-INF??
-
+    private static byte[] tempImage;
 
     /**
      * This method creates a new images directory if it doesn't exist
@@ -145,12 +145,58 @@ public class FileUploadController {
      * @param model Model of view
      * @return
      */
-    @RequestMapping(value="uploadPhoto", method= RequestMethod.POST)
+    @RequestMapping(value="preview", method= RequestMethod.POST)
+    public String showUploadPreview(@RequestParam("file") CommonsMultipartFile file,
+                                    @RequestParam("category") PhotoCategory category,
+                                    HttpSession session,
+                                    HttpServletRequest request,
+                                    Model model ) {
+
+        // Add the image attribute to model
+        model.addAttribute("imageURL",
+                request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/temp-image");
+
+        // Save temporary image
+        tempImage = file.getBytes();
+
+        // Get geolocation
+        // double[] latLon is a two element array, where first element is latitude, and second is Longitude
+        double[] latLng = getGeoLocation(file);
+
+        // If latLng is null, ask user to input geoLocation
+        if (latLng == null) {
+            model.addAttribute("askUserGeo", true);
+        }
+        else {
+            model.addAttribute("lat", latLng[0]);
+            model.addAttribute("lng", latLng[1]);
+        }
+
+        // Return the API key
+        model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
+
+        return "preview-upload";
+    }
+
+
+    /**
+     * This method will provide a temporary URL to be displayed while the user confirms their upload
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "temp-image")
+    @ResponseBody
+    public byte[] showPreview()  {
+        return tempImage;
+    }
+
+
+    @RequestMapping(value="upload", method=RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file,
-                                  @RequestParam("category") PhotoCategory category,
-                                        HttpSession session,
-                                        HttpServletRequest request,
-                                        Model model ) {
+                              @RequestParam("category") PhotoCategory category,
+                              HttpSession session) {
 
         // Define the file path and name
         ServletContext context = session.getServletContext();
@@ -183,18 +229,13 @@ public class FileUploadController {
                 return "error";
         }
 
-        // Get geolocation
-        // double[] latLon is a two element array, where first element is latitude, and second is Longitude
-        double[] latLng = getGeoLocation(file);
-
-        // TODO: if latLng is null, ask user to input geoLocation, maybe do this in the getGeoLocation method
-//        if (latLng == null) {
-//            return "error";
-//        }
-
         // Get highest primary key of Photos
         String filename = file.getOriginalFilename();
         filename = DatabaseAccess.getNextPhotoPrimaryKey() + "_" + filename;  // TODO: This method may cause an exception if no photos available
+
+
+        // TODO: GET LAT LNG
+        double[] latLng = {0.0,0.0};
 
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
@@ -219,13 +260,9 @@ public class FileUploadController {
             return "error";
         }
 
-        // Add the image attribute to model
-        model.addAttribute("uploadedImage",
-                        request.getScheme() + "://" +
-                        request.getServerName() + ":" +
-                        request.getServerPort() + "/images/" + filename);
-
+        // TODO: FIX THIS TO HAVE ACTUAL PAGE
         return "confirm-upload";
+
     }
 
 }

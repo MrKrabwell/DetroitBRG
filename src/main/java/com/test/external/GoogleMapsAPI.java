@@ -18,8 +18,17 @@ public class GoogleMapsAPI {
             "https://maps.googleapis.com/maps/api/staticmap?" +
                     "zoom=12&size=250x250&maptype=roadmap&markers=color:blue%7C";
 
-    // This is Rob's Google Maps API Key
-    private static final String GMAP_API_KEY = "AIzaSyBh9tfoktOW9Xl28YUX7l6jipoSN4ji_7I";
+    // This is Yosuke's Google Maps JS API Key
+    private static final String GMAP_API_KEY = "AIzaSyB5R8XSQs8UQrW49sj_AM9nrQBuKOGRIak";
+
+
+    /**
+     * Getter for the API Key
+     * @return String API key
+     */
+    public static String getApiKey() {
+        return GMAP_API_KEY;
+    }
 
 
     /**

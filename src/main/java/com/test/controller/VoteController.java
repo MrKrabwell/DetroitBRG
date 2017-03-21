@@ -22,11 +22,11 @@ public class VoteController {
 
     /**
      * This method is responsible for updating the votes
-     * @param photoID
-     * @param upvote
-     * @param session
-     * @param model
-     * @return
+     * @param photoID int photoID to identify the photo in database
+     * @param upvote boolean, true if user is upvoting, false if user is downvoting
+     * @param session HttpSession to see if user is logged in
+     * @param model Model to be returned in the view
+     * @return String view of resulting page
      */
     @RequestMapping(value="vote")
     public String votePhoto(@RequestParam("photoId") int photoID,
@@ -106,7 +106,8 @@ public class VoteController {
         }
         // If user isn't logged in, then tell them you can't do that
         else {
-            model.addAttribute("message", "You must be logged in to do that!");
+            model.addAttribute("message", "You must be logged in to do that!" +
+                                "");
             model.addAttribute("photo", photo);
             return "photo-detail";
         }

@@ -29,8 +29,11 @@ public class HomeController {
                                 HttpSession session,
                                 Model model) {
 
+        // Report Spring Version to Console
+        System.out.println("Welcome, this website is built using Spring " +
+                org.springframework.core.SpringVersion.getVersion());
 
-        //Check to see if user is logged in, and provide name
+        // Check to see if user is logged in, and provide name
         if (LoginController.userLoggedIn(session)) {
             model.addAttribute("loggedIn", true);
             Cookie[] cookies = request.getCookies();

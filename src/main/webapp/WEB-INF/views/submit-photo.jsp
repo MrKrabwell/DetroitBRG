@@ -47,7 +47,7 @@
 
   <div align="center">
 
-  <form action="uploadPhoto" method="post" enctype="multipart/form-data" >
+  <form action="preview" method="post" enctype="multipart/form-data" >
 
     <h4  for="photo">Choose a Photo:</h4><br>
 
