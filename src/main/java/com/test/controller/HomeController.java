@@ -58,11 +58,7 @@ public class HomeController {
                         request.getServerName() + ":" +
                         request.getServerPort() + "/"
         ));
-
-        // TODO: Add the top 3 photos to front page
-//        model.addAttribute("gMapTopPhotosLocationURL",
-//                GoogleMapsAPI.getMapsURLOfPhotoLocations(DatabaseAccess.getTopPhotos(0,3)));
-
+        
         // Add an ability to call the category
         model.addAttribute("category", PhotoCategory.values());
 

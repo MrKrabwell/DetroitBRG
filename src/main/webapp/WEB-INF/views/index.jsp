@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Rob
@@ -57,9 +58,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="${facebookLogin}">Log in with Facebook</a>
-                </li>
+                <c:choose>
+                    <c:when test="${loggedIn}">
+                        <li>
+                            <a href="welcome">Hi, ${userFirstName}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="${facebookLogin}">Log in with Facebook</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+
+
                 <!--<li>
                     <a href="showLogin">Log In</a>
                 </li>-->
@@ -217,13 +229,18 @@
                         <a href="/">Home</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="${facebookLogin}">Log in with Facebook</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <!--<li>
-                        <a href="#services">Services</a>
-                    </li>-->
+                    <c:choose>
+                        <c:when test="${loggedIn}">
+                            <li>
+                                <a href="welcome">Hi, ${userFirstName}</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li>
+                                <a href="${facebookLogin}">Log in with Facebook</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
                         <a href="submit">Submit Photos</a>
