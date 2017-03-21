@@ -39,9 +39,9 @@ public class ClarifaiAPI {
         client = initialClient;
 
 
-        /*******************************
-        *-New Detroit Model and train-*
-        *******************************/
+/*******************************
+*-New Detroit Model and train-*
+*******************************/
         // Refresh the Model
         initialClient.deleteModel("Beauty").executeSync();
 

@@ -66,6 +66,9 @@
                 <li>
                     <a href="submit">Submit Photos</a>
                 </li>
+                <li>
+                    <a href="TermOfService">Terms Of Service</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
