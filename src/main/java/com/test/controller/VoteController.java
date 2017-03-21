@@ -130,13 +130,18 @@ public class VoteController {
             return true;
         }
 
-        // If any history of the vote (should only be one) is different than the previous vote,
-        // let the user vote
-        for (VoteHistory history : voteHistories) {
-            if (((history.getUpvote()&0x01) != 0) == upvote) { // This converts byte to boolean
-                return false;
-            }
+        // If only one history, and upvote is same, then cannot vote
+        if (voteHistories.size() == 1 && ((voteHistories.get(0).getUpvote()&0x01) != 0) == upvote) {
+            return false;
         }
+
+        // If two consecutive votes are the same and the next is also the same, then don't let them vote
+        if (((voteHistories.get(0).getUpvote()&0x01) != 0) == ((voteHistories.get(1).getUpvote()&0x01) != 0)
+                && ((voteHistories.get(0).getUpvote()&0x01) != 0) == upvote) {
+            return false;
+        }
+
+        // Else, let them vote
         return true;
     }
 

@@ -397,7 +397,8 @@ public class DatabaseAccess {
     }
 
     /**
-     * This method return the Vote History entity with the particular userID and photoID
+     * This method return the Vote History entity with the particular userID and photoID,
+     * in descending order chronologically
      * @param user Users entity to get userID
      * @param photo Photos entity to get photoID
      * @return List of VoteHisotry objects with the matching userID and photoID
@@ -417,6 +418,7 @@ public class DatabaseAccess {
             Criteria criteria = session.createCriteria(VoteHistory.class);
             criteria.add(Restrictions.eq("photoId", photo.getPhotoId()));
             criteria.add(Restrictions.eq("userId", user.getUserId()));
+            criteria.addOrder(Order.desc("historyId"));
             List<VoteHistory> voteHistories = criteria.list();
 
             // Close the session
