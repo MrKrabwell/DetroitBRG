@@ -61,7 +61,7 @@
                     <a href="${facebookLogin}">Register with Facebook</a>
                 </li>
                 <li>
-                    <a href="showLogin">Log In</a>
+                    <a href="">Log In</a>
                 </li>
                 <li>
                     <a href="submit">Submit Photos</a>
@@ -215,7 +215,7 @@
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="#about">About</a>
+                        <a href="${facebookLogin}">Register with Facebook</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>

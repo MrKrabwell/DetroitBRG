@@ -44,7 +44,6 @@ public class PhotoDisplayController {
         int numEntries = DatabaseAccess.getNumberOfEntries(category);
 
         // If no entries, show empty page
-        // TODO: think of good logic here for JSP page instead of error
         if (numEntries < 1) {
             return "error";
         }
@@ -139,59 +138,6 @@ public class PhotoDisplayController {
                 GoogleMapsAPI.getMapsURLOfPhotoLocation(DatabaseAccess.getPhoto(photoID)));
 
         return "photo-detail";
-    }
-
-
-    /**
-     * This method is responsible for updating the votes
-     * @param photoID
-     * @param upvote
-     * @param session
-     * @param model
-     * @return
-     */
-    @RequestMapping(value="vote")
-    public String votePhoto(@RequestParam("photoId") int photoID,
-                            @RequestParam("type") boolean upvote,
-                            HttpSession session,
-                            HttpServletRequest request,
-                            Model model) {
-
-        // Get URL of images and add to model
-        model.addAttribute("imageURL",
-                request.getScheme() + "://" +
-                        request.getServerName() + ":" +
-                        request.getServerPort() + "/images/");
-
-        // Update the votes, if updating the database fails, return error page
-        // If user is not logged in, return them to the page.
-        if (LoginController.userLoggedIn(session) && upvote) {
-            Photos photo = DatabaseAccess.getPhoto(photoID);
-            photo.setVotes(photo.getVotes() + 1);
-            if (DatabaseAccess.updatePhoto(photo)) {
-                model.addAttribute("photo", photo);
-            }
-            else {
-                return "error";
-            }
-            return "photo-detail";
-        }
-        else if (LoginController.userLoggedIn(session) && !upvote) {
-            Photos photo = DatabaseAccess.getPhoto(photoID);
-            photo.setVotes(photo.getVotes() - 1);
-            if (DatabaseAccess.updatePhoto(photo)) {
-                model.addAttribute("photo", photo);
-            }
-            else {
-                return "error";
-            }
-            return "photo-detail";
-        }
-        else {
-            model.addAttribute("photo", DatabaseAccess.getPhoto(photoID));
-            return "photo-detail";
-        }
-
     }
 
 }

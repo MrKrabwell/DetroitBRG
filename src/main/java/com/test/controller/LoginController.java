@@ -46,7 +46,7 @@ public class LoginController {
      * @param model Model to show information on page
      * @return String either new-user page or error page, depending on result
      */
-    @RequestMapping(value="register")
+    @RequestMapping(value="login")
     public String showLoginResult(@RequestParam("code") String code,
                                   HttpServletRequest request,
                                   HttpServletResponse response,
@@ -83,11 +83,14 @@ public class LoginController {
 
         // If it gets here, then we can send a cookie to the user to remember.
         // TODO: Do we need this?
-        response.addCookie(new Cookie("userID", fbProfileData.get("id")));
+        Cookie cookie = new Cookie("userID", fbProfileData.get("id"));
+        cookie.setMaxAge(-1); // Set it to only last for one browser session
+        response.addCookie(cookie);
 
         // Use a session to remember that user is logged in.
-        if (session.getAttribute("loggedIn") == null) {
+        if (session.getAttribute("loggedIn") == null || !LoginController.userLoggedIn(session)) {
             session.setAttribute("loggedIn",true);
+            session.setAttribute("userID", fbProfileData.get("id"));
         }
 
         // Add a attribute to reference the user later
@@ -96,12 +99,6 @@ public class LoginController {
         return "user";
     }
 
-
-    @RequestMapping("login")
-    public String login() {
-
-        return "";
-    }
 
 
     /**
@@ -117,5 +114,4 @@ public class LoginController {
             return false;
         }
     }
-
 }

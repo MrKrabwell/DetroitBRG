@@ -3,6 +3,7 @@ package com.test.dataaccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.entity.Users;
+import com.test.entity.VoteHistory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +13,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -391,6 +392,86 @@ public class DatabaseAccess {
             return true;
         } catch (Exception e) {
             System.out.println("Error updating " + photo.toString() + " to database");
+            return false;
+        }
+    }
+
+    /**
+     * This method return the Vote History entity with the particular userID and photoID
+     * @param user Users entity to get userID
+     * @param photo Photos entity to get photoID
+     * @return List of VoteHisotry objects with the matching userID and photoID
+     */
+    public static List<VoteHistory> getVoteHistory(Users user, Photos photo) {
+
+        // Logging
+        System.out.println("DatabaseAccess.getVoteHistory(" + user.toString() + ", " +
+                photo.toString() + ")");
+
+        try {
+
+            // Create a new session
+            Session session = sessionFactory.openSession();
+
+            // Create criteria to get the last photo primary key, ###Be careful with query case!!!!###
+            Criteria criteria = session.createCriteria(Photos.class);
+            criteria.add(Restrictions.eq("photoId", photo.getPhotoId()));
+            criteria.add(Restrictions.eq("userId", user.getUserId()));
+            List<VoteHistory> voteHistories = criteria.list();
+
+            // Close the session
+            session.close();
+
+            System.out.println("Successfully received VoteHistory");
+            return voteHistories;
+        }
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("Error getting vote history");
+            e.printStackTrace();
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("Error getting last Photos primary key!");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * This method saves a new VoteHistory to the database
+     * @param user Users entity to create a new VoteHistory object to save
+     * @param photo Photos entity to create a new VoteHistory object to save
+     * @param upvote boolean, true if upvote, false if downvote
+     * @return boolean true if update was successful, false otherwise
+     */
+    public static boolean updateVoteHistory(Users user, Photos photo, boolean upvote) {
+        // Logging
+        System.out.println("DatabaseAccess.updateVoteHistory(user,photo,upvote)");
+
+        try {
+            // Create a new session and start transaction
+            Session session = sessionFactory.openSession();
+
+            // Begin the transaction
+            Transaction tr = session.beginTransaction();
+
+            // Insert into the database
+            VoteHistory history = new VoteHistory();
+            history.setPhotoId(photo.getPhotoId());
+            history.setUserId(user.getUserId());
+            history.setTotalVotes(photo.getVotes());
+            history.setUpvote(upvote ? (byte)1 : (byte)0);
+            history.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            session.save(history);
+            tr.commit();
+
+            // Close the session
+            session.close();
+
+            System.out.println("Successfully updated VoteHistory to database");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updating VoteHistory to database");
             return false;
         }
     }

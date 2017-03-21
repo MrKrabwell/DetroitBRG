@@ -15,7 +15,7 @@ public class FBConnection {
     public static final String FB_APP_ID = "1114928768619109";
     public static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
     // The URI below is what facebook uses to comeback to request a re-direct.
-    public static final String REDIRECT_REQUEST = "register";
+    public static final String REDIRECT_REQUEST = "login";
     public static String accessToken = "";
 
 
@@ -46,6 +46,12 @@ public class FBConnection {
         return fbGraphUrl;
     }
 
+    /**
+     * This method will provide the access token, provided the code from facebook and a redirect URL
+     * @param code String code obtained by facebook
+     * @param redirectURL String URL to redirect to login
+     * @return
+     */
     public static String getAccessToken(String code, String redirectURL) {
         if (accessToken.equals("")) {
             URL fbGraphURL;

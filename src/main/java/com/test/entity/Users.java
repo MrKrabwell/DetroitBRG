@@ -8,7 +8,7 @@ public class Users {
     private String firstName;
     private String lastName;
     private Integer favorites;
-    private byte admin;
+    private boolean admin;
 
     public String getUserId() {
         return userId;
@@ -42,11 +42,11 @@ public class Users {
         this.favorites = favorites;
     }
 
-    public byte getAdmin() {
+    public boolean getAdmin() {
         return admin;
     }
 
-    public void setAdmin(byte admin) {
+    public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
@@ -72,7 +72,7 @@ public class Users {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (favorites != null ? favorites.hashCode() : 0);
-        result = 31 * result + (int) admin;
+        result = 31 * result + ((admin) ? 1 : 0);
         return result;
     }
 }
