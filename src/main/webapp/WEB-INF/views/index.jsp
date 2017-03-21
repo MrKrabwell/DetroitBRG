@@ -58,8 +58,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="${facebookLogin}">Login with Facebook</a>
+                    <a href="${facebookLogin}">Log in with Facebook</a>
                 </li>
+                <!--<li>
+                    <a href="showLogin">Log In</a>
+                </li>-->
                 <li>
                     <a href="submit">Submit Photos</a>
                 </li>
@@ -113,11 +116,11 @@
             <div class="col-lg-5 col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">Death to the Stock Photo:<br>Special Thanks</h2>
-                <p class="lead">A special thanks to <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+                <h2 class="section-heading">Building</h2>
+                <p class="lead">A symbol of the new Detroit, built with a purpose. To rejoin the ranks of World-Class cities as it forges into a bright new future.</p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="/webresources/img/ipad.png" alt="">
+                <img class="img-responsive" src="/webresources/img/RS1008Little_Caesars_Arena.jpg" alt="">
             </div>
         </div>
 
@@ -135,11 +138,11 @@
             <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
-                <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                <h2 class="section-heading">Life</h2>
+                <p class="lead">The art of Detroit life. Symbolizing the youthful energy and vibrant culture that gives the city it's uniqueness.</p>
             </div>
             <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                <img class="img-responsive" src="/webresources/img/dog.png" alt="">
+                <img class="img-responsive" src="/webresources/img/det-future_4697.jpg" alt="">
             </div>
         </div>
 
@@ -157,11 +160,11 @@
             <div class="col-lg-5 col-sm-6">
                 <hr class="section-heading-spacer">
                 <div class="clearfix"></div>
-                <h2 class="section-heading">Google Web Fonts and<br>Font Awesome Icons</h2>
-                <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
+                <h2 class="section-heading">Experience</h2>
+                <p class="lead">Glorious remnants of the Detroit of yesteryear. A symbol of the generations of people who've worked to make Detroit what it is.</p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="/webresources/img/phones.png" alt="">
+                <img class="img-responsive" src="/webresources/img/IMG_1765-e1436227771690.jpg" alt="">
             </div>
         </div>
 
@@ -208,19 +211,19 @@
             <div class="col-lg-12">
                 <ul class="list-inline">
                     <li>
-                        <a href="#">Home</a>
+                        <a href="/">Home</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="${facebookLogin}">Register with Facebook</a>
+                        <a href="${facebookLogin}">Log in with Facebook</a>
                     </li>
                     <li class="footer-menu-divider">&sdot;</li>
-                    <li>
+                    <!--<li>
                         <a href="#services">Services</a>
-                    </li>
+                    </li>-->
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="#contact">Contact</a>
+                        <a href="submit">Submit Photos</a>
                     </li>
                 </ul>
                 <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
