@@ -124,6 +124,11 @@
       alert("${message}");
 
     </script>
+      <!--<div class="alert alert-danger fade in alert-dismissable">
+          <a href="${facebookLogin}" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>
+          <strong>${message}</strong>
+      </div>-->
+
 
   </c:if>
 

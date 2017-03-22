@@ -72,12 +72,6 @@
                 </c:choose>
 
 
-                <!--<li>
-                    <a href="showLogin">Log In</a>
-                </li>-->
-                <li>
-                    <a href="submit">Submit Photos</a>
-                </li>
                 <li>
                     <a href="TermOfService">Terms Of Service</a>
                 </li>
@@ -110,7 +104,10 @@
                         <li>
                             <a href= "browse?cat=REMAINS&page=1" class="btn btn-default btn-lg"> <span class="network-name">Experience</span></a>
                         </li>
-                    </ul>
+                    </ul><br>
+                    <div align="center">
+                    <a href="submit" class="btn btn-default btn-lg"> <span class="network-name">Submit Photos</span></a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -38,8 +38,8 @@
 
     <style>
       #map {
-        width: 100%;
-        height: 400px;
+        width: 45%;
+        height: 45%;
         background-color: grey;
       }
     </style>
@@ -66,9 +66,13 @@
 
     </form>
 
-    <img src="${imageURL}" alt="Preview" style="width: 500px; length:750px"/>
+    <img src="${imageURL}" alt="Preview" style="width:40%;height:90%" align="left""/>
 
     <!-- Google Maps API -->
+
+    <div align="right">
+
+      <div align="top">
 
     <div id="map"></div>
 
@@ -110,7 +114,11 @@
         src="https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap">
 
     </script>
+
+      </div>
+
     </div>
+
 
   </body>
 
