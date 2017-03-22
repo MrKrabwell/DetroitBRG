@@ -61,7 +61,10 @@
                 <c:choose>
                     <c:when test="${loggedIn}">
                         <li>
-                            <a href="welcome">Hi, ${userFirstName}</a>
+                            <a href="user">Hi, ${userFirstName}</a>
+                        </li>
+                        <li>
+                            <a href="logout">Logout</a>
                         </li>
                     </c:when>
                     <c:otherwise>
@@ -73,7 +76,7 @@
 
 
                 <li>
-                    <a href="TermOfService">Terms Of Service</a>
+                    <a href="Terms-of-Service">Terms Of Service</a>
                 </li>
             </ul>
         </div>
@@ -229,7 +232,11 @@
                     <c:choose>
                         <c:when test="${loggedIn}">
                             <li>
-                                <a href="welcome">Hi, ${userFirstName}</a>
+                                <a href="user">Hi, ${userFirstName}</a>
+                            </li>
+                            <li class="footer-menu-divider">&sdot;</li>
+                            <li>
+                                <a href="logout">Logout</a>
                             </li>
                         </c:when>
                         <c:otherwise>

@@ -31,7 +31,6 @@ public class DatabaseAccess {
     private static SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
 
 
-
     /**
      * This method will save the Photos entity information to the database
      * @param photo Photos entity to store to database
@@ -223,6 +222,7 @@ public class DatabaseAccess {
 
     }
 
+
     /**
      * This is an overloaded method to get the number of entries in the Photos table with a specific category
      * @param category PhotosCategory of photos
@@ -288,7 +288,11 @@ public class DatabaseAccess {
     }
 
 
-
+    /**
+     * This method will get a single Users entity provided the userID
+     * @param userID String userID of the Users entity you want to get
+     * @return Users single Users entity
+     */
     public static Users getUser(String userID) {
 
         //Logging
@@ -315,7 +319,11 @@ public class DatabaseAccess {
     }
 
 
-
+    /**
+     * This method determines if an user exists in the database
+     * @param userID String userID of the user you're trying to determine if they exist or not
+     * @return boolean true if user exists, false otherwise
+     */
     public static boolean userExists(String userID) {
 
         //Logging
@@ -396,6 +404,7 @@ public class DatabaseAccess {
         }
     }
 
+
     /**
      * This method return the Vote History entity with the particular userID and photoID,
      * in descending order chronologically
@@ -438,6 +447,7 @@ public class DatabaseAccess {
             return null;
         }
     }
+
 
     /**
      * This method saves a new VoteHistory to the database

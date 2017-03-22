@@ -12,11 +12,11 @@ import java.net.URLConnection;
  */
 public class FBConnection {
     // These values are provided from facebook developer site.  Yosuke's Detroit BRG App ID and App Secret
-    public static final String FB_APP_ID = "1114928768619109";
-    public static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
+    private static final String FB_APP_ID = "1114928768619109";
+    private static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
     // The URI below is what facebook uses to comeback to request a re-direct.
-    public static final String REDIRECT_REQUEST = "login";
-    public static String accessToken = "";
+    private static final String REDIRECT_REQUEST = "login";
+    private static String accessToken = "";
 
 
     /**
@@ -33,8 +33,9 @@ public class FBConnection {
 
     /**
      * This method returns the accessToken for a user
-     * @param code
-     * @return
+     * @param code String code to request access token from facebook
+     * @param redirectURL String of redirect URL from facebook
+     * @return String of the URL to get access token from facebook
      */
     public static String getFBGraphUrl(String code, String redirectURL) {
 
@@ -50,7 +51,7 @@ public class FBConnection {
      * This method will provide the access token, provided the code from facebook and a redirect URL
      * @param code String code obtained by facebook
      * @param redirectURL String URL to redirect to login
-     * @return
+     * @return String access token to get user information
      */
     public static String getAccessToken(String code, String redirectURL) {
         //if (accessToken.equals("")) {  // Comment this out to allow for more users to login using facebook

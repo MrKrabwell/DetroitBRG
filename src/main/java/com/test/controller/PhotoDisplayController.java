@@ -3,6 +3,7 @@ package com.test.controller;
 import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
+import com.test.external.FBConnection;
 import com.test.external.GoogleMapsAPI;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 public class PhotoDisplayController {
 
     // Class fields
-    private int NUM_PHOTO_PER_PAGE = 8;  // number of photos per page
+    private int NUM_PHOTO_PER_PAGE = 6;  // number of photos per page
 
 
     /**
@@ -136,6 +137,12 @@ public class PhotoDisplayController {
 
         // Get API Key for Google Maps
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
+
+        // Return facebook login url
+        model.addAttribute("facebookLogin", FBConnection.getFBAuthUrl(
+                request.getScheme() + "://" +
+                        request.getServerName() + ":" +
+                        request.getServerPort() + "/"));
 
         return "photo-detail";
     }

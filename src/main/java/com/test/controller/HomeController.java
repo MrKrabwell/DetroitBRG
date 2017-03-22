@@ -4,11 +4,9 @@ import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.PhotoCategory;
 import com.test.entity.Users;
 import com.test.external.FBConnection;
-import javafx.scene.chart.PieChart;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class HomeController {
+
 
     /**
      * This method will show the index page
@@ -78,9 +77,14 @@ public class HomeController {
         return "submit-photo";
     }
 
-    @RequestMapping(value="TermOfService")
+
+    /**
+     * This method will return the Terms-of-service Page
+     * @return String terms-of-service jsp
+     */
+    @RequestMapping(value="Terms-of-Service")
     public String showTermsOfService(){
-        return "TermOfService";
+        return "terms-of-service";
     }
 
 }

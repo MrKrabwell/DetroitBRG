@@ -152,7 +152,7 @@ public class FileUploadController {
      * @param file CommonsMultipartFile file uploaded by user
      * @param session HttpSession current HTTP session
      * @param model Model of view
-     * @return
+     * @return String view of preview page
      */
     @RequestMapping(value="preview", method= RequestMethod.POST)
     public String showUploadPreview(@RequestParam("file") CommonsMultipartFile file,
@@ -181,7 +181,6 @@ public class FileUploadController {
         }
 
         // Get URL of images and add to model
-        // TODO: FIX THIS
         model.addAttribute("imageURL",
                 request.getScheme() + "://" +
                         request.getServerName() + ":" +
@@ -201,8 +200,14 @@ public class FileUploadController {
     }
 
 
-
-    // TODO: Upload after confiramtion
+    /**
+     * This method will finally upload the photo once the user confirms the details on the preview page
+     * @param category PhotoCategory category of the
+     * @param lat
+     * @param lng
+     * @param session
+     * @return
+     */
     @RequestMapping(value="upload", method=RequestMethod.POST)
     public String uploadPhoto(@RequestParam("category") PhotoCategory category,
                               @RequestParam("lat") double lat,

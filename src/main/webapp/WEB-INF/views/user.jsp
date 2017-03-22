@@ -40,6 +40,7 @@
         <h1>Welcome ${userFirstName}</h1>
         <br><br>
         <a href="/" class="btn btn-info" role="button">Return to Home</a>
+        <h3>User menu page coming soon!!</h3>
     </div>
 
 </body>

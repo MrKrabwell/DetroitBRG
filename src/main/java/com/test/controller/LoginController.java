@@ -41,6 +41,19 @@ public class LoginController {
         return false;
     }
 
+    @RequestMapping(value="user")
+    public String showUserPage(HttpSession session,
+                               Model model) {
+
+        // Get Users entity
+        Users user = DatabaseAccess.getUser(session.getAttribute("userID").toString());
+
+        // Add a attribute to reference the user later
+        model.addAttribute("userFirstName", user.getFirstName());
+
+        return "user";
+    }
+
 
     /**
      * This method is the redirect from facebook OAuth to register a new user.
@@ -48,7 +61,7 @@ public class LoginController {
      * @param model Model to show information on page
      * @return String either new-user page or error page, depending on result
      */
-    @RequestMapping(value="user")
+    @RequestMapping(value="login")
     public String showLoginResult(@RequestParam("code") String code,
                                   HttpServletRequest request,
                                   HttpServletResponse response,
