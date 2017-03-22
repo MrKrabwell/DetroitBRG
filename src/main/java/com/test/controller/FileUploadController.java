@@ -243,6 +243,7 @@ public class FileUploadController {
         // Get the lat and lng from the page
         double[] latLng = {lat, lng};
 
+
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
         photo.setFileName(filename);
