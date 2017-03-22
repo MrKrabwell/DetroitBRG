@@ -41,9 +41,16 @@
 
 <body>
 
-<h2 align="center" class="well">${category.toString()}</h2><br>
+    <div class="well">
+        <h2>
+        <span>${category.toString()}</span>
+        <a href="/" class="btn btn-info pull-right" style="margin-right: 10%" role="button">Home</a>
+        </h2>
+    </div>
 
-<a href="/" class="btn btn-info" role="button">Home</a><br><br><br>
+
+
+<br><br><br>
 
 <div class="BrowseImages">
 

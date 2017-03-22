@@ -44,8 +44,12 @@
 <body>
 
 
-
-  <h1 align="center" class="well">Submit your Detroit Photo</h1><br><br>
+    <div class="well">
+  <h1><!--Submit your Detroit Photo</h1>-->
+      <span>Submit your photos of Detroit</span>
+      <a href="/" class="btn btn-info pull-right" style="margin-right: 10%" role="button">Home</a>
+  </h1>
+    </div><br><br>
 
 
 
@@ -53,7 +57,7 @@
 
     <form action="preview" method="post" enctype="multipart/form-data">
 
-        <h4 for="photo">Choose a Photo:</h4><br>
+        <h2 for="photo">Choose a Photo:</h2><br>
 
         <!--<input type="file"  name="file" id="photo"/>-->
 
@@ -63,7 +67,7 @@
 
         <br>
 
-        <h4>Select a category:</h4><br>
+        <h2>Select a category:</h2><br>
 
 
         <select class="form-control" name="category">
