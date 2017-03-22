@@ -94,22 +94,22 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="intro-message">
-                    <h1>Detroit ABLE</h1>
-                    <h3>Browse Archives</h3>
+                    <h1>Detroit Perspective</h1>
+                    <h3>Browse Galleries</h3>
                     <hr class="intro-divider">
                     <ul class="list-inline intro-social-buttons">
                         <li>
-                            <a href="browse?cat=BEAUTY&page=1" class="btn btn-default btn-lg"> <span class="network-name">Building</span></a>
+                            <a href="browse?cat=BEAUTY&page=1" class="btn btn-default btn-lg"> <span class="network-name">Beauty</span></a>
                         </li>
                         <li>
-                            <a href="browse?cat=ART&page=1" class="btn btn-default btn-lg"> <span class="network-name">Life</span></a>
+                            <a href="browse?cat=ART&page=1" class="btn btn-default btn-lg"> <span class="network-name">Art</span></a>
                         </li>
                         <li>
-                            <a href= "browse?cat=REMAINS&page=1" class="btn btn-default btn-lg"> <span class="network-name">Experience</span></a>
+                            <a href= "browse?cat=REMAINS&page=1" class="btn btn-default btn-lg"> <span class="network-name">Remains</span></a>
                         </li>
                     </ul><br>
                     <div align="center">
-                    <a href="submit" class="btn btn-default btn-lg"> <span class="network-name">Submit Photos</span></a>
+                    <a href="submit" class="btn btn-default btn-lg"> <span class="network-name">Anonymously Submit Photos</span></a>
                     </div>
                 </div>
             </div>
