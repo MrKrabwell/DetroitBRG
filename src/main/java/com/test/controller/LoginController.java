@@ -1,6 +1,7 @@
 package com.test.controller;
 
 import com.test.dataaccess.DatabaseAccess;
+import com.test.entity.PhotoCategory;
 import com.test.entity.Users;
 import com.test.external.FBConnection;
 import com.test.external.FBGraph;
@@ -40,13 +41,14 @@ public class LoginController {
         return false;
     }
 
+
     /**
      * This method is the redirect from facebook OAuth to register a new user.
      * @param code code returned from FB's OAuth
      * @param model Model to show information on page
      * @return String either new-user page or error page, depending on result
      */
-    @RequestMapping(value="login")
+    @RequestMapping(value="user")
     public String showLoginResult(@RequestParam("code") String code,
                                   HttpServletRequest request,
                                   HttpServletResponse response,
@@ -55,7 +57,6 @@ public class LoginController {
 
         // See if we got anything back for code
         if (code == null || code.equals("")) {
-            // TODO: can we make it to show an error page here??
             throw new RuntimeException("ERROR: Did not get any code parameter in callback.  " +
                     "Facebook registration failed");
         }
@@ -72,7 +73,6 @@ public class LoginController {
         Map<String, String> fbProfileData = fbGraph.getGraphData(graph);
 
         // Create strings for displaying info
-        // TODO: register to database, if it doesn't exist already
         Users user = new Users();
         user.setUserId(fbProfileData.get("id"));
         user.setFirstName(fbProfileData.get("first_name"));
@@ -100,11 +100,10 @@ public class LoginController {
     }
 
 
-
     /**
-     * This method determines if the user is logged in
-     * @param session
-     * @return
+     * This method determines if the user is logged in via current session
+     * @param session HttpSession current session
+     * @return boolean true if user is logged in, false otherwise
      */
     public static boolean userLoggedIn(HttpSession session) {
         if (session.getAttribute("loggedIn") != null && (Boolean)session.getAttribute("loggedIn")) {
@@ -114,4 +113,42 @@ public class LoginController {
             return false;
         }
     }
+
+
+    /**
+     * This method will logout the user and return the home page
+     * @param request HttpServletRequest, to get the current context for FB Login URL
+     * @param session HttpSession session to change the user login status
+     * @param model Model to add all the attributes to the homepage
+     * @return String homepage
+     */
+    @RequestMapping(value="logout")
+    public static String logoutUser(HttpServletRequest request,
+                                    HttpSession session,
+                                    Model model) {
+
+        // If user is not logged in, just return the home page
+        if (session.getAttribute("loggedIn") == null || !LoginController.userLoggedIn(session)) {
+            return "/";
+        }
+
+        // Logout user
+        session.setAttribute("loggedIn",false);
+        model.addAttribute("userFirstName", null);
+
+        // Add a facebook login URL to the model, first get redirect URL
+        model.addAttribute("facebookLogin",
+                FBConnection.getFBAuthUrl(
+                        request.getScheme() + "://" +
+                                request.getServerName() + ":" +
+                                request.getServerPort() + "/"
+                ));
+
+        // Add an ability to call the category
+        model.addAttribute("category", PhotoCategory.values());
+
+        return "index";
+    }
+
+
 }
