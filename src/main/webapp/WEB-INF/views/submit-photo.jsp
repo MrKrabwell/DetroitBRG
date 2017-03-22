@@ -93,13 +93,13 @@
         
         We check if your photo matches the criteria for a given category.<br><br>
 
-        For Building, photos must be of downtown architecture and rebuilt structures.<br>
+        For Skyline, photos must be of downtown architecture and rebuilt structures.<br>
         Pictures of houses and mansions outside Detroit will not pass.<br><br>
 
-        For Life, photos must contain images of colorful and creative images.<br>
+        For Street Art, photos must contain images of colorful and creative images.<br>
         Pictures of crude graffiti tags containing single-line and/or single-color will not pass.<br><br>
 
-        For Experience photos must be inside abandoned structures or outside vacant buildings.<br>
+        For Ruins photos must be inside abandoned structures or outside vacant buildings.<br>
         Pictures of ruined houses especially caved in roofs will not pass.<br><br>
 
     </h3>
