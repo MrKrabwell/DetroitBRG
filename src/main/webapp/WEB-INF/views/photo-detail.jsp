@@ -91,6 +91,7 @@
 
 
   <div>
+
     <div align="left">
 
         <br><br>
@@ -102,16 +103,8 @@
     <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a><br><br>
 
 
-    <button type="button" class="btn btn-info" role="button" onclick="goBack()">Back to Gallery</button>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-
-
+    <button type="button" class="btn btn-info" role="button" onclick="location.href='browse?cat=${category}&prev=${currentPage}';">Back to Gallery</button>
+        
     </div>
 
   </div>

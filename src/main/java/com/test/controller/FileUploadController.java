@@ -221,12 +221,12 @@ public class FileUploadController {
 
         // Check to see if image meets the criteria
         switch (category) {
-            case BEAUTY:
+            case SKYLINE:
                 if (!ClarifaiAPI.determineBeautyClarifai(tempFile)) {
                     return "invalid-photo";
                 }
                 break;
-            case ART:
+            case STREET_ART:
                 if (!ClarifaiAPI.streetArtModelClarifai(tempFile)) {
                     return "invalid-photo";
                 }

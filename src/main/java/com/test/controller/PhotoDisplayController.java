@@ -100,10 +100,10 @@ public class PhotoDisplayController {
         model.addAttribute("currentPage", currentPage);
 
         // Add number of pages
-        model.addAttribute("numPages",numPages);
+        model.addAttribute("numPages", numPages);
 
         // Add the current category
-        model.addAttribute("category",category);
+        model.addAttribute("category", category);
 
         // Show the browse page to user
         return "browse";
@@ -119,8 +119,12 @@ public class PhotoDisplayController {
      */
     @RequestMapping("photo")
     public String showPhotoDetails(@RequestParam("id") int photoID,
+                                   @RequestParam("prev") int prevPage,
                                    HttpServletRequest request,
                                    Model model) {
+
+        // Pass back the current page for "back to browse"
+        model.addAttribute("currentPage", prevPage);
 
         // Get photo and add to model
         Photos photo = DatabaseAccess.getPhoto(photoID);
@@ -132,8 +136,10 @@ public class PhotoDisplayController {
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/");
 
-        // Add category to attribute
-        model.addAttribute("category", PhotoCategory.values());
+
+
+        // Add category to attribute, to allow going back to home page
+        model.addAttribute("category", PhotoCategory.getEnum(photo.getCategory()));
 
         // Get API Key for Google Maps
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());

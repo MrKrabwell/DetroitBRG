@@ -98,15 +98,11 @@
                     <h3>Browse Galleries</h3>
                     <hr class="intro-divider">
                     <ul class="list-inline intro-social-buttons">
-                        <li>
-                            <a href="browse?cat=BEAUTY&page=1" class="btn btn-default btn-lg"> <span class="network-name">Beauty</span></a>
-                        </li>
-                        <li>
-                            <a href="browse?cat=ART&page=1" class="btn btn-default btn-lg"> <span class="network-name">Art</span></a>
-                        </li>
-                        <li>
-                            <a href= "browse?cat=REMAINS&page=1" class="btn btn-default btn-lg"> <span class="network-name">Remains</span></a>
-                        </li>
+                        <c:forEach items="${category}" var="category">
+                            <li>
+                                <a href="browse?cat=${category}&page=1" class="btn btn-default btn-lg"> <span class="network-name">${category.toString()}</span></a>
+                            </li>
+                        </c:forEach>
                     </ul><br>
                     <div align="center">
                     <a href="submit" class="btn btn-default btn-lg"> <span class="network-name">Anonymously Submit Photos</span></a>

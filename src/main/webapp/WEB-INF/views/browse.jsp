@@ -56,7 +56,7 @@
 
     <c:forEach var="photo" items="${photos}">
 
-        <a href="photo?id=${photo.photoId}">
+        <a href="photo?id=${photo.photoId}&page=${currentPage}">
 
             <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
 

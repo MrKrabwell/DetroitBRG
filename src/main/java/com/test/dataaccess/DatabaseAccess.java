@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.SourceType;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Order;
@@ -414,11 +415,11 @@ public class DatabaseAccess {
      */
     public static List<VoteHistory> getVoteHistory(Users user, Photos photo) {
 
-        // Logging
-        System.out.println("DatabaseAccess.getVoteHistory(" + user.toString() + ", " +
-                photo.toString() + ")");
-
         try {
+
+            // Logging
+            System.out.println("DatabaseAccess.getVoteHistory(" + user.toString() + ", " +
+                    photo.toString() + ")");
 
             // Create a new session
             Session session = sessionFactory.openSession();
@@ -438,6 +439,11 @@ public class DatabaseAccess {
         }
         catch (IndexOutOfBoundsException e) {
             System.out.println("Error getting vote history");
+            e.printStackTrace();
+            return null;
+        }
+        catch (NullPointerException e) {
+            System.out.println("Error!  This could! happen when photo.toString is null??");
             e.printStackTrace();
             return null;
         }

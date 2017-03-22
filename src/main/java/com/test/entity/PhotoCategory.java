@@ -4,8 +4,8 @@ package com.test.entity;
  * This is the enum for the photo categories
  */
 public enum PhotoCategory {
-    BEAUTY("Beauty"),
-    ART("Art"),
+    SKYLINE("Skyline"),
+    STREET_ART("Street Art"),
     REMAINS("Remains");
 
     // TODO: Add enumerations to reflect more categories
@@ -14,6 +14,20 @@ public enum PhotoCategory {
 
     PhotoCategory(String name) {
         this.name = name;
+    }
+
+    /**
+     * This method will return the enum value of a the string value input
+     * @param name Name you want to compare against
+     * @return PhotoCategory enum
+     */
+    public static PhotoCategory getEnum(String name) {
+        for ( PhotoCategory c : values() ) {
+           if (c.toString().equalsIgnoreCase(name)) {
+               return c;
+           }
+        }
+        return null;
     }
 
     @Override
