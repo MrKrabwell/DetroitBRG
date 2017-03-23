@@ -42,9 +42,11 @@
   <div align="center">
 
     <h2 class="text-danger">Uh Oh! Something went wrong!</h2>
-
+    <br>
+    <br>
     Message: ${message} <br>
-
+    <br>
+    <br>
     <a href="/" class="btn btn-info" role="button">Return to home</a>
 
   </div>

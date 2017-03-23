@@ -45,12 +45,13 @@ public class PhotoDisplayController {
         // If no entries, show empty page
         if (numEntries < 1) {
             System.out.println("Error! No entries in category: " + category.toString());
-            model.addAttribute("message", "No entries in category: " + category.toString());
+            model.addAttribute("message", "No photo entries in category - " + category.toString() + ".  " +
+                    "Be the first one to upload! <a href=\"submit\"");
             return "error";
         }
 
         // Determine number of pages needed
-        int numPages = 0;
+        int numPages;
         if (numEntries % NUM_PHOTO_PER_PAGE != 0) {
             numPages = numEntries / NUM_PHOTO_PER_PAGE + 1;
         }
