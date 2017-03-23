@@ -374,7 +374,7 @@ public class DatabaseAccess {
 
 
     /**
-     * This method will update the update the information about the photo
+     * This method will update the update the information about the photo TODO: Do we need?
      * @param photo Photos of the photo to update
      * @return boolean true if successful, false otherwise.
      */
@@ -456,7 +456,7 @@ public class DatabaseAccess {
 
 
     /**
-     * This method saves a new VoteHistory to the database
+     * This method saves a new VoteHistory to the database TODO: Do we need?
      * @param user Users entity to create a new VoteHistory object to save
      * @param photo Photos entity to create a new VoteHistory object to save
      * @param upvote boolean, true if upvote, false if downvote
@@ -494,8 +494,14 @@ public class DatabaseAccess {
         }
     }
 
-
-    /*
+    /**
+     * This method will update the photo's vote count and also insert a new vote history,
+     * and fail if either fails
+     * @param user Users user to get the userID
+     * @param photo Photos to update the photo
+     * @param upvote boolean, direction of vote, true if upvote, false if downvote
+     * @return true if successful, false otherwise
+     */
     public static boolean updateVoteOnPhotoAndHistory(Users user, Photos photo, boolean upvote){
         // Logging
         System.out.println("DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)");
@@ -518,33 +524,19 @@ public class DatabaseAccess {
             history.setUpvote(upvote ? (byte)1 : (byte)0);
             history.setTimestamp(new Timestamp(System.currentTimeMillis()));
             session.save(history);
+
+            // Finally commit
             tr.commit();
 
             // Close the session
             session.close();
 
-            System.out.println("Successfully updated VoteHistory to database");
+            // Success
+            System.out.println("Successfully updated Photos and VoteHistory in database");
             return true;
         } catch (Exception e) {
-            System.out.println("Error updating VoteHistory to database");
+            System.out.println("Error updating Photos and VoteHistory to database");
             return false;
         }
-
-
-        // Begin the transaction
-        Transaction tr = session.beginTransaction();
-
-
-
-        // Close the session
-        session.close();
-
-        System.out.println("Successfully updated " + photo.toString() + " to database");
-        return true;
-    } catch (Exception e) {
-        System.out.println("Error updating " + photo.toString() + " to database");
-        return false;
     }
-
-    }*/
 }

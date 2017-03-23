@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Detroit ABLE</title>
+    <title>Detroit Perspective</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/webresources/css/bootstrap.min.css" rel="stylesheet">

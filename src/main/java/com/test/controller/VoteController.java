@@ -71,7 +71,7 @@ public class VoteController {
                     photo.setVotes(photo.getVotes() - 1);
                 }
                 // Update database
-                if (DatabaseAccess.updatePhoto(photo) && DatabaseAccess.updateVoteHistory(user,photo,upvote)) {
+                if (DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)) {
                     model.addAttribute("photo", photo);
                     return "photo-detail";
                 }
@@ -93,7 +93,7 @@ public class VoteController {
                         photo.setVotes(photo.getVotes() - 1);
                     }
                     // Update database
-                    if (DatabaseAccess.updatePhoto(photo) && DatabaseAccess.updateVoteHistory(user,photo,upvote)) {
+                    if (DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)) {
                         model.addAttribute("photo", photo);
                         return "photo-detail";
                     }

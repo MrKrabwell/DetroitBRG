@@ -10,7 +10,7 @@
 <html>
 <head>
 
-  <title>DetroitABLE</title>
+  <title>Detroit Perspective</title>
 
   <!-- TODO: link CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
