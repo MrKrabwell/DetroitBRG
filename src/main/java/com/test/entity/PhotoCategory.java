@@ -6,7 +6,7 @@ package com.test.entity;
 public enum PhotoCategory {
     SKYLINE("Skyline"),
     STREET_ART("Street Art"),
-    REMAINS("Remains");
+    OLD_DETROIT("Old Detroit");
 
     // TODO: Add enumerations to reflect more categories
 

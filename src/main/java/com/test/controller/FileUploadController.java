@@ -104,14 +104,14 @@ public class FileUploadController {
      * @param file CommonsMultipartFile to get information
      * @return double[] first element is latitude, second element is longitude
      */
-    private double[] getGeoLocation(CommonsMultipartFile file) {
+    private double[] getGeoLocation(CommonsMultipartFile file, String currPath) {
         double lat = 0.0;
         double lng = 0.0;
 
         try {
             // Convert CommonsMultipartFile to File
-            File convFile = new File(file.getOriginalFilename());
-            if (convFile.createNewFile()) {
+            File convFile = new File(currPath + file.getOriginalFilename());
+                if (convFile.createNewFile()) {
                 FileOutputStream fos = new FileOutputStream(convFile);
                 fos.write(file.getBytes());
                 fos.close();
@@ -166,9 +166,14 @@ public class FileUploadController {
         tempFile = file.getBytes();
         tempFileName = file.getOriginalFilename();
 
+        // Need current path for server deployment
+        String currPath = request.getScheme() + "://" +
+                request.getServerName() + ":" +
+                request.getServerPort() + "/";
+
         // Get geolocation if available
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
-        double[] latLng = getGeoLocation(file);
+        double[] latLng = getGeoLocation(file, currPath);
 
         // If latLng is null, default location is set
         if (latLng == null) {
@@ -188,11 +193,7 @@ public class FileUploadController {
         }
 
         // Get URL of images and add to model
-        model.addAttribute("imageURL",
-                request.getScheme() + "://" +
-                        request.getServerName() + ":" +
-                        request.getServerPort() + "/temp/" +
-                        file.getOriginalFilename());
+        model.addAttribute("imageURL", currPath + "temp/" + file.getOriginalFilename());
 
         // Add the Google maps API key
         model.addAttribute("apiKey", GoogleMapsAPI.getApiKey());
@@ -237,7 +238,7 @@ public class FileUploadController {
                     return "invalid-photo";
                 }
                 break;
-            case REMAINS:
+            case OLD_DETROIT:
                 if (!ClarifaiAPI.oldDetroitModelClarifai(tempFile)) {
                     return "invalid-photo";
                 }
