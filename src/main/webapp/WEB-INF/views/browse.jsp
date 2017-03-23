@@ -37,54 +37,46 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+
 </head>
 
 <body>
 
-    <div class="well">
-        <h2>
-        <span>${category.toString()}</span>
-        <a href="/" class="btn btn-info pull-right" style="margin-right: 10%" role="button">Home</a>
-        </h2>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-content" style="max-width:1500px">
+
+        <!-- Header -->
+        <div class="well">
+            <h1><!--Submit your Detroit Photo</h1>-->
+                <span>${category.toString()}</span>
+                <a href="/" class="btn btn-info pull-right" style="margin-right: 10%" role="button">Home</a>
+            </h1>
+        </div>
+
+        <!-- Photo Grid -->
+        <div class="">
+            <c:forEach var="photo" items="${photos}">
+                <a href="photo?id=${photo.photoId}&prev=${currentPage}">
+                    <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width: 500px;">
+                </a>
+            </c:forEach>
+        </div>
+
+        <!-- End Page Content -->
     </div>
 
+    <br>
 
-
-<br><br><br>
-
-<div class="BrowseImages">
-
-    <c:forEach var="photo" items="${photos}">
-
-        <a href="photo?id=${photo.photoId}&page=${currentPage}">
-
-            <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:500px;height:350px">
-
-        </a>
-
-    </c:forEach>
-
-</div>
-
-<br><br>
-
-<div class="PageControl">
-
-    <a href="browse?cat=${category}&page=${currentPage-1}" class="btn btn-info" role="button">Back</a>
-
-        <c:forEach begin="1" end="${numPages}" var="page">
-
-            <a href="browse?cat=${category}&page=${page}">${page}</a>
-
-        </c:forEach>
-
-    <a href="browse?cat=${category}&page=${currentPage+1}" class="btn btn-info" role="button">Forward</a>
-
-</div>
-
-
-
-
+    <footer class="w3-light-grey w3-padding-32 w3-center" id="about">
+        <h2>
+            <a href="browse?cat=${category}&page=${currentPage-1}" class="btn btn-info" role="button">Back</a>
+                <c:forEach begin="1" end="${numPages}" var="page">
+                    <a href="browse?cat=${category}&page=${page}">${page}</a>
+                </c:forEach>
+            <a href="browse?cat=${category}&page=${currentPage+1}" class="btn btn-info" role="button">Forward</a>
+        </h2>
+    </footer>
 
 </body>
 

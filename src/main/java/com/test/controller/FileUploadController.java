@@ -283,6 +283,9 @@ public class FileUploadController {
             return "error";
         }
 
+        // Let user browse the category
+        model.addAttribute("category", category);
+
         // Return the view.
         return "confirm-upload";
     }

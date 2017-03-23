@@ -41,7 +41,10 @@
         width: 45%;
         height: 45%;
         background-color: grey;
+        padding-right: 30px;
       }
+
+      { display: inline-block; }
 
       img {
         display: block;
@@ -49,6 +52,7 @@
         max-height: 70%;
         width: auto;
         height: auto;
+        padding-left: 30px;
       }
     </style>
 
@@ -64,7 +68,7 @@
 
     <a href="/">Home</a><br><br><br>
 
-    <form action="upload" method="post">
+    <form action="upload" method="post" align="center">
 
       <input name="category" type="hidden" value="${category}" />
 
@@ -74,7 +78,7 @@
 
     </form>
 
-    <img src="${imageURL}" alt="Preview" align="left"/>
+    <img class="visible-lg-inline-block" src="${imageURL}" alt="Preview" align="left"/>
 
     <!-- Google Maps API -->
 
@@ -82,7 +86,7 @@
 
       <div align="top">
     ${geoMessage}<br>
-    <div id="map"></div>
+    <div id="map" class="visible-lg-inline-block"></div>
 
     <script type="text/javascript">
 

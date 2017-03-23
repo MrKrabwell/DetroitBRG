@@ -1,10 +1,12 @@
 package com.test.controller;
 
 import com.test.dataaccess.DatabaseAccess;
+import com.test.entity.PhotoCategory;
 import com.test.entity.Photos;
 import com.test.entity.Users;
 import com.test.entity.VoteHistory;
 import com.test.external.GoogleMapsAPI;
+import javafx.scene.chart.PieChart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +33,16 @@ public class VoteController {
     @RequestMapping(value="vote")
     public String votePhoto(@RequestParam("photoId") int photoID,
                             @RequestParam("type") boolean upvote,
+                            @RequestParam("prev") int prevPage,
                             HttpSession session,
                             HttpServletRequest request,
                             Model model) {
+
+        // Add the return to gallery page number
+        model.addAttribute("prevPage", prevPage);
+
+        // Add the return to gallery category
+        model.addAttribute("category", PhotoCategory.getEnum(DatabaseAccess.getPhoto(photoID).getCategory()));
 
         // Get URL of images and add to model
         model.addAttribute("imageURL",
@@ -73,6 +82,10 @@ public class VoteController {
                 // Update database
                 if (DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)) {
                     model.addAttribute("photo", photo);
+                    // Add vote status to color the buttons
+                    model.addAttribute("voteStat",
+                            VoteController.userLastVote(user.getUserId(), photoID));
+
                     return "photo-detail";
                 }
                 else {
@@ -95,6 +108,8 @@ public class VoteController {
                     // Update database
                     if (DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)) {
                         model.addAttribute("photo", photo);
+                        model.addAttribute("voteStat",
+                                VoteController.userLastVote(user.getUserId(), photoID));
                         return "photo-detail";
                     }
                     else {
@@ -115,6 +130,7 @@ public class VoteController {
         else {
             model.addAttribute("message", "You must be logged in to do that!");
             model.addAttribute("photo", photo);
+            model.addAttribute("voteStat", 0);
             return "photo-detail";
         }
 
@@ -134,10 +150,10 @@ public class VoteController {
         System.out.println("Checking to see if user can vote on photo");
 
         // Get the vote history
-        List<VoteHistory> voteHistories = DatabaseAccess.getVoteHistory(user, photo);
+        List<VoteHistory> voteHistories = DatabaseAccess.getVoteHistory(user, photo, 2);
 
         // If no history of particular vote, let user vote
-        if (voteHistories == null || voteHistories.isEmpty()) {
+        if (voteHistories.isEmpty() || voteHistories == null) {
             return true;
         }
 
@@ -158,6 +174,51 @@ public class VoteController {
 
         // Else, let them vote
         return true;
+    }
+
+
+    /**
+     * This method will let you know what the last vote of the user was
+     * @param userID String userID to check against
+     * @param photoID int photoID to check against
+     * @return byte -1 if downvote, +1 if upvote, and 0 if neutral
+     */
+    public static byte userLastVote(String userID, int photoID) {
+
+        // Get user
+        Users user = DatabaseAccess.getUser(userID);
+
+        // Get Photo
+        Photos photo = DatabaseAccess.getPhoto(photoID);
+
+        // Get the vote history
+        List<VoteHistory> voteHistories = DatabaseAccess.getVoteHistory(user, photo, 2);
+
+        // if no vote history, then return 0 (neutral)
+        if (voteHistories.isEmpty() || voteHistories == null) {
+            return 0;
+        }
+        // if one history and upvote, return 1 (upvote) return 1 (downvote)
+        else if ((voteHistories.size() == 1) && (voteHistories.get(0).getUpvote() == 1)) {
+            if ((voteHistories.get(0).getUpvote() == 1)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+        //If two or more histories and same vote, return last vote else, neutral
+        else {
+            if (voteHistories.get(0).getUpvote() == voteHistories.get(1).getUpvote()) {
+                if ((voteHistories.get(0).getUpvote() == 1)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            else {
+                return 0;
+            }
+        }
     }
 
 }

@@ -413,7 +413,7 @@ public class DatabaseAccess {
      * @param photo Photos entity to get photoID
      * @return List of VoteHisotry objects with the matching userID and photoID
      */
-    public static List<VoteHistory> getVoteHistory(Users user, Photos photo) {
+    public static List<VoteHistory> getVoteHistory(Users user, Photos photo, int numEntries) {
 
         try {
 
@@ -429,6 +429,7 @@ public class DatabaseAccess {
             criteria.add(Restrictions.eq("photoId", photo.getPhotoId()));
             criteria.add(Restrictions.eq("userId", user.getUserId()));
             criteria.addOrder(Order.desc("historyId"));
+            criteria.setMaxResults(numEntries);
             List<VoteHistory> voteHistories = criteria.list();
 
             // Close the session

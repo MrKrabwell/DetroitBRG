@@ -26,7 +26,8 @@
 
     <!-- Custom Fonts -->
     <link href="/webresources/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,86 +45,103 @@
     </style>
 
 </head>
+
 <body>
 
+<img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:40%;height:90%" align="left">
+
+<!-- Google Maps API -->
+
+<div align="right">
+
+    <div align="top">
+
+        <div id="map"></div>
+
+        <script type="text/javascript">
+
+            var latLng = {lat: ${photo.latitude}, lng: ${photo.longitude}};
+
+            function initMap() {
 
 
-  <img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:40%;height:90%" align="left">
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: latLng
+                });
 
-    <!-- Google Maps API -->
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
 
-  <div align="right">
+            }
 
-      <div align="top">
+        </script>
 
-    <div id="map"></div>
+        <script async defer
 
-    <script type="text/javascript">
+                src="https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap">
 
-        var latLng = {lat: ${photo.latitude}, lng: ${photo.longitude}};
+        </script>
 
-        function initMap() {
+    </div>
 
-
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: latLng
-            });
-
-            var marker = new google.maps.Marker({
-                position: latLng,
-                map: map
-            });
-
-        }
-
-    </script>
-
-    <script async defer
-
-            src="https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap">
-
-    </script>
-
-  </div>
-
-  </div>
+</div>
 
 
-  <div>
+<div>
 
     <div align="left">
 
         <br><br>
 
-    <a href="vote?type=true&photoId=${photo.photoId}" class="btn btn-info" role="button"> Upvote </a>
+        <c:choose>
+            <c:when test="${voteStat > 0}">
+                <a href="vote?type=true&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-warning" role="button"> Upvote </a>
 
-    Votes: ${photo.votes}
+                Total Votes: ${photo.votes}
 
-    <a href="vote?type=false&photoId=${photo.photoId}"class="btn btn-info" role="button"> Downvote </a><br><br>
+                <a href="vote?type=false&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-info" role="button"> Downvote </a><br><br>
+            </c:when>
+            <c:when test="${voteStat < 0}">
+                <a href="vote?type=true&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-info" role="button"> Upvote </a>
 
+                Total Votes: ${photo.votes}
 
-    <button type="button" class="btn btn-info" role="button" onclick="location.href='browse?cat=${category}&prev=${currentPage}';">Back to Gallery</button>
-        
+                <a href="vote?type=false&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-warning" role="button">
+                    Downvote </a><br><br>
+            </c:when>
+            <c:otherwise>
+                <a href="vote?type=true&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-info" role="button"> Upvote </a>
+
+                Total Votes: ${photo.votes}
+
+                <a href="vote?type=false&photoId=${photo.photoId}&prev=${prevPage}" class="btn btn-info" role="button"> Downvote </a><br><br>
+            </c:otherwise>
+        </c:choose>
+
+        <a href="browse?cat=${category}&page=${prevPage}" class="btn btn-info" role="button"> Back to Gallery </a>
+
     </div>
 
-  </div>
+</div>
 
 
-  <c:if test="${message != null}">
+<c:if test="${message != null}">
 
     <script>
 
-      alert("${message}");
+        alert("${message}");
 
     </script>
-      <!--<div class="alert alert-danger fade in alert-dismissable">
-          <a href="${facebookLogin}" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>
-          <strong>${message}</strong>
-      </div>-->
+    <!--<div class="alert alert-danger fade in alert-dismissable">
+    <a href="${facebookLogin}" class="close" data-dismiss="alert" aria-label="close" title="close">&times;</a>
+    <strong>${message}</strong>
+    </div>-->
 
 
-  </c:if>
+</c:if>
 
 </body>
 </html>

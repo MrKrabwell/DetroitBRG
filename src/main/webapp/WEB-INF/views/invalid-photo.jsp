@@ -39,7 +39,7 @@
 <body>
 <div align="center">
 
-    <h2 class="well">Your photo doesn't match the category!</H2>
+    <h2 class="well">Your photo doesn't match the category and/or location!</H2>
 
     <h1 class="text-danger" href="submit">Try again</h1><br>
 

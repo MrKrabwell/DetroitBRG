@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 public class PhotoDisplayController {
 
     // Class fields
-    private int NUM_PHOTO_PER_PAGE = 6;  // number of photos per page
+    private int NUM_PHOTO_PER_PAGE = 3;  // number of photos per page
 
 
     /**
@@ -125,10 +126,11 @@ public class PhotoDisplayController {
     public String showPhotoDetails(@RequestParam("id") int photoID,
                                    @RequestParam("prev") int prevPage,
                                    HttpServletRequest request,
+                                   HttpSession session,
                                    Model model) {
 
         // Pass back the current page for "back to browse"
-        model.addAttribute("currentPage", prevPage);
+        model.addAttribute("prevPage", prevPage);
 
         // Get photo and add to model
         Photos photo = DatabaseAccess.getPhoto(photoID);
@@ -140,7 +142,14 @@ public class PhotoDisplayController {
                         request.getServerName() + ":" +
                         request.getServerPort() + "/images/");
 
-
+        // Add vote status to the model to color the buttons
+        if (LoginController.userLoggedIn(session)) {
+            model.addAttribute("voteStat",
+                    VoteController.userLastVote(session.getAttribute("userID").toString(), photoID));
+        }
+        else {
+            model.addAttribute("voteStat", 0);
+        }
 
         // Add category to attribute, to allow going back to home page
         model.addAttribute("category", PhotoCategory.getEnum(photo.getCategory()));
