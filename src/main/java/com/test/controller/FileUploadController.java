@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
-
+import java.nio.file.*;
+import java.util.EnumSet;
 
 /**
  * This controller class is for file uploads
@@ -42,18 +43,18 @@ public class FileUploadController {
     private boolean createDirectory(String path) {
 
         // Define the directory
-        File imagesDir = new File(path);
+        File dir = new File(path);
 
         // if the directory does not exist, create it
-        if (!imagesDir.exists()) {
-            System.out.println(imagesDir.getName() + " directory doesn't exist.  Creating directory...");
+        if (!dir.exists()) {
+            System.out.println(dir.getName() + " directory doesn't exist.  Creating directory...");
             try {
-                imagesDir.mkdir();
+                dir.mkdir();
                 System.out.println("Directory successfully created!");
                 return true;
             }
             catch (SecurityException se) {
-                System.out.println(imagesDir.getName() + " directory could not be created!");
+                System.out.println(dir.getName() + " directory could not be created!");
                 return false;
             }
         }
@@ -103,19 +104,24 @@ public class FileUploadController {
      * @param file CommonsMultipartFile to get information
      * @return double[] first element is latitude, second element is longitude
      */
-    private double[] getGeoLocation(CommonsMultipartFile file, String currPath) {
+    private double[] getGeoLocation(CommonsMultipartFile file, HttpSession session) {
         double lat = 0.0;
         double lng = 0.0;
 
-        try {
+        // Define the file path and name, temporary storage of File object
+        ServletContext context = session.getServletContext();
+        String path = context.getRealPath(UPLOAD_DIRECTORY);
 
-            // Create new directory to store the temporary file
-            if (!createDirectory(currPath + "temp/")) {
-                return null;
+        try {
+            // Convert CommonsMultipartFile to File
+            File convFile = new File(path, file.getOriginalFilename());
+
+            // Delete the files so there are no duplicates
+            if (convFile.exists()) {
+                convFile.delete();
             }
 
-            // Convert CommonsMultipartFile to File
-            File convFile = new File(currPath + "temp/" ,file.getOriginalFilename());
+            // Convert into
             if (convFile.createNewFile()) {
                 FileOutputStream fos = new FileOutputStream(convFile);
                 fos.write(file.getBytes());
@@ -178,7 +184,7 @@ public class FileUploadController {
 
         // Get geolocation if available
         // double[] latLon is a two element array, where first element is latitude, and second is Longitude
-        double[] latLng = getGeoLocation(file, currPath);
+        double[] latLng = getGeoLocation(file, session);
 
         // If latLng is null, default location is set
         if (latLng == null) {
