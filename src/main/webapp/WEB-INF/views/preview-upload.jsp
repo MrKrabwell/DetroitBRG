@@ -42,6 +42,14 @@
         height: 45%;
         background-color: grey;
       }
+
+      img {
+        display: block;
+        max-width: 100%;
+        max-height: 70%;
+        width: auto;
+        height: auto;
+      }
     </style>
 
     <!-- For Croppie -->
@@ -66,14 +74,14 @@
 
     </form>
 
-    <img src="${imageURL}" alt="Preview" style="width:40%;height:90%" align="left""/>
+    <img src="${imageURL}" alt="Preview" align="left"/>
 
     <!-- Google Maps API -->
 
     <div align="right">
 
       <div align="top">
-
+    ${geoMessage}<br>
     <div id="map"></div>
 
     <script type="text/javascript">

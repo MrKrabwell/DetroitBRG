@@ -174,10 +174,17 @@ public class FileUploadController {
         if (latLng == null) {
             model.addAttribute("lat", DEFAULT_PHOTO_LOCATION[0]);
             model.addAttribute("lng", DEFAULT_PHOTO_LOCATION[1]);
+            model.addAttribute("geoMessage", "Your photo did not contain data " +
+                    "that indicates where the picture was taken.<br>" +
+                    "We've dropped a pin in the center of Detroit.  " +
+                    "Move it to where the photo was taken by double-clicking on the map.");
         }
         else {
             model.addAttribute("lat", latLng[0]);
             model.addAttribute("lng", latLng[1]);
+            model.addAttribute("geoMessage", "Your photo contained data " +
+                    "that indicates the picture was taken where the pin is dropped.<br>" +
+                    "If this is incorrect, double click on the map where it was taken to change the pin location.");
         }
 
         // Get URL of images and add to model
@@ -192,8 +199,6 @@ public class FileUploadController {
 
         // Add the categories to display
         model.addAttribute("category", category);
-
-
 
         // Show preview-upload page
         return "preview-upload";
