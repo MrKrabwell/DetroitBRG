@@ -112,6 +112,11 @@ public class FileUploadController {
         ServletContext context = session.getServletContext();
         String path = context.getRealPath(UPLOAD_DIRECTORY);
 
+        // Create a new directory, if fails, show error page
+        if (!createDirectory(path)) {
+            return null;
+        }
+
         try {
             // Convert CommonsMultipartFile to File
             File convFile = new File(path, file.getOriginalFilename());
