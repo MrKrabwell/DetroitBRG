@@ -74,7 +74,6 @@
                     </c:otherwise>
                 </c:choose>
 
-
                 <li>
                     <a href="terms-of-service">Terms Of Service</a>
                 </li>

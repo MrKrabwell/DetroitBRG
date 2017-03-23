@@ -122,6 +122,8 @@ public class VoteController {
                 else {
                     model.addAttribute("message", "You can only cast one vote per photo!");
                     model.addAttribute("photo", photo);
+                    model.addAttribute("voteStat",
+                            VoteController.userLastVote(user.getUserId(), photoID));
                     return "photo-detail";
                 }
             }
