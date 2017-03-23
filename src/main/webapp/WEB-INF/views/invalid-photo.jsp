@@ -39,9 +39,9 @@
 <body>
 <div align="center">
 
-    <h2 class="well">Your photo doesn't match the category and/or location!</H2>
+    <h2 class="well">Your photo doesn't pass the requirement!<br>${message}</H2>
 
-    <h1 class="text-danger" href="submit">Try again</h1><br>
+    <a href="submit"><h1 class="text-danger">Try again</h1></a><br>
 
     <a href="/" class="btn btn-info" role="button">Home</a>
 

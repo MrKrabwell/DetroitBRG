@@ -14,12 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.apache.commons.codec.binary.StringUtils;
-import org.apache.commons.codec.binary.Base64;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.*;
 import java.io.IOException;
 
@@ -33,6 +30,8 @@ public class FileUploadController {
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads
     private final double[] DEFAULT_PHOTO_LOCATION = {42.3314, -83.0458}; // In center of Detroit
+    private final double[] LAT_COORDINATE_LIMIT = {42.30, 42.40};
+    private final double[] LNG_COORDINATE_LIMIT = {-83.13, -82.96};
     private static byte[] tempFile = null;
     private static String tempFileName = null;
 
@@ -40,7 +39,7 @@ public class FileUploadController {
      * This method creates a new images directory if it doesn't exist
      * @return boolean true if already created or successfully created, false otherwise
      */
-    private boolean createImagesDirectory(String path) {
+    private boolean createDirectory(String path) {
 
         // Define the directory
         File imagesDir = new File(path);
@@ -74,7 +73,7 @@ public class FileUploadController {
                                          String filename) {
 
         // Create a new directory, if fails, show error page
-        if (!createImagesDirectory(path)) {
+        if (!createDirectory(path)) {
             return false;
         }
 
@@ -109,9 +108,15 @@ public class FileUploadController {
         double lng = 0.0;
 
         try {
+
+            // Create new directory to store the temporary file
+            if (!createDirectory(currPath + "temp/")) {
+                return null;
+            }
+
             // Convert CommonsMultipartFile to File
-            File convFile = new File(currPath + file.getOriginalFilename());
-                if (convFile.createNewFile()) {
+            File convFile = new File(currPath + "temp/" ,file.getOriginalFilename());
+            if (convFile.createNewFile()) {
                 FileOutputStream fos = new FileOutputStream(convFile);
                 fos.write(file.getBytes());
                 fos.close();
@@ -184,6 +189,14 @@ public class FileUploadController {
                     "We've dropped a pin in the center of Detroit.  " +
                     "Move it to where the photo was taken by double-clicking on the map.");
         }
+        else if ( // If not in limit, return invalid
+                latLng[0] < LAT_COORDINATE_LIMIT[0]
+                        || latLng[0] > LAT_COORDINATE_LIMIT[1]
+                        || latLng[1] < LNG_COORDINATE_LIMIT[0]
+                        || latLng[1] > LNG_COORDINATE_LIMIT[1]) {
+            model.addAttribute("message", "Your photo contained data that tells us it was taken outside of Detroit!");
+            return "invalid-photo";
+        }
         else {
             model.addAttribute("lat", latLng[0]);
             model.addAttribute("lng", latLng[1]);
@@ -209,10 +222,11 @@ public class FileUploadController {
     /**
      * This method will finally upload the photo once the user confirms the details on the preview page
      * @param category PhotoCategory category of the
-     * @param lat
-     * @param lng
-     * @param session
-     * @return
+     * @param lat double latitude of the photo
+     * @param lng double longitude of the photo
+     * @param session HttpSession current session to referene path
+     * @param model Model to return error message
+     * @return String view of confirm upload or error
      */
     @RequestMapping(value="upload", method=RequestMethod.POST)
     public String uploadPhoto(@RequestParam("category") PhotoCategory category,
@@ -230,16 +244,19 @@ public class FileUploadController {
         switch (category) {
             case SKYLINE:
                 if (!ClarifaiAPI.determineBeautyClarifai(tempFile)) {
+                    model.addAttribute("message", "Photo photo doesn't match the " + category.toString() + " category!");
                     return "invalid-photo";
                 }
                 break;
             case STREET_ART:
                 if (!ClarifaiAPI.streetArtModelClarifai(tempFile)) {
+                    model.addAttribute("message", "Photo photo doesn't match the " + category.toString() + " category!");
                     return "invalid-photo";
                 }
                 break;
             case OLD_DETROIT:
                 if (!ClarifaiAPI.oldDetroitModelClarifai(tempFile)) {
+                    model.addAttribute("message", "Photo photo doesn't match the " + category.toString() + " category!");
                     return "invalid-photo";
                 }
                 break;
@@ -256,6 +273,14 @@ public class FileUploadController {
         // Get the lat and lng from the page
         double[] latLng = {lat, lng};
 
+        if ( // If not in limit, return invalid
+                latLng[0] < LAT_COORDINATE_LIMIT[0]
+                        || latLng[0] > LAT_COORDINATE_LIMIT[1]
+                        || latLng[1] < LNG_COORDINATE_LIMIT[0]
+                        || latLng[1] > LNG_COORDINATE_LIMIT[1]) {
+            model.addAttribute("message", "You chose a location that is outside of Detroit!");
+            return "invalid-photo";
+        }
 
         // Create a new Photos entity to store into the database
         Photos photo = new Photos();
