@@ -66,7 +66,7 @@
 
     <h1>Upload Preview</h1>
 
-    <a href="/">Home</a><br><br><br>
+    <a href="/" class="btn btn-info">Home</a><br><br><br>
 
     <form action="upload" method="post" align="center">
 

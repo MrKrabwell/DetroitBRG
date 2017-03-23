@@ -48,7 +48,7 @@
 
 <body>
 
-<img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:40%;height:90%" align="left">
+<img src="${imageURL}${photo.fileName}" alt="${photo.fileName}" style="width:49%;height:auto;display:block" align="left">
 
 <!-- Google Maps API -->
 
@@ -90,11 +90,13 @@
 </div>
 
 
-<div>
+<!--<div>
 
     <div align="left">
 
-        <br><br>
+        <br><br>-->
+<footer class="w3-light-grey w3-padding-32 w3-center" id="about">
+    <div class="container text-center">
 
         <c:choose>
             <c:when test="${voteStat > 0}">
@@ -123,9 +125,11 @@
 
         <a href="browse?cat=${category}&page=${prevPage}" class="btn btn-info" role="button"> Back to Gallery </a>
 
+
+
     </div>
 
-</div>
+</footer>
 
 
 <c:if test="${message != null}">
