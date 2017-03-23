@@ -45,6 +45,7 @@ public class PhotoDisplayController {
         // If no entries, show empty page
         if (numEntries < 1) {
             System.out.println("Error! No entries in category: " + category.toString());
+            model.addAttribute("message", "No entries in category: " + category.toString());
             return "error";
         }
 
@@ -86,6 +87,8 @@ public class PhotoDisplayController {
                             category);
         }
         else { // You shouldn't get here...
+            System.out.println("Error! Creating list of Photos failed!");
+            model.addAttribute("message", "Couldn't retrieve photos from database.  Please try again later.");
             return "error";
         }
 

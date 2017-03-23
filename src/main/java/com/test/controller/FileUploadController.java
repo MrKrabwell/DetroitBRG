@@ -212,7 +212,8 @@ public class FileUploadController {
     public String uploadPhoto(@RequestParam("category") PhotoCategory category,
                               @RequestParam("lat") double lat,
                               @RequestParam("lng") double lng,
-                              HttpSession session) {
+                              HttpSession session,
+                              Model model) {
 
 
         // Define the file path and name
@@ -237,7 +238,8 @@ public class FileUploadController {
                 }
                 break;
             default:
-                System.out.println("Error!  Can't determine category");
+                System.out.println("Error!  Can't determine category.");
+                model.addAttribute("message", "Can't determine category.");
                 return "error";
         }
 
@@ -264,11 +266,15 @@ public class FileUploadController {
 
         // Store photo entity to database
         if (!DatabaseAccess.insertPhotoToDatabase(photo)) {
+            model.addAttribute("message", "Could not store photo information to database.  " +
+                    "Please contact administrator.");
             return "error";
         }
 
         // Write to the images directory
         if (!saveImageToDirectory(tempFile, path, filename)) {
+            model.addAttribute("message", "Could not store image data to server.  " +
+                    "Please contact administrator.");
             return "error";
         }
 

@@ -82,7 +82,7 @@ public class HomeController {
      * This method will return the Terms-of-service Page
      * @return String terms-of-service jsp
      */
-    @RequestMapping(value="Terms-of-Service")
+    @RequestMapping(value="terms-of-service")
     public String showTermsOfService(){
         return "terms-of-service";
     }

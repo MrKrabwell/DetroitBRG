@@ -494,4 +494,57 @@ public class DatabaseAccess {
         }
     }
 
+
+    /*
+    public static boolean updateVoteOnPhotoAndHistory(Users user, Photos photo, boolean upvote){
+        // Logging
+        System.out.println("DatabaseAccess.updateVoteOnPhotoAndHistory(user,photo,upvote)");
+
+        try {
+            // Create a new session and start transaction
+            Session session = sessionFactory.openSession();
+
+            // Begin the transaction
+            Transaction tr = session.beginTransaction();
+
+            // Update the photo the database
+            session.update(photo);
+
+            // Insert into the database
+            VoteHistory history = new VoteHistory();
+            history.setPhotoId(photo.getPhotoId());
+            history.setUserId(user.getUserId());
+            history.setTotalVotes(photo.getVotes());
+            history.setUpvote(upvote ? (byte)1 : (byte)0);
+            history.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            session.save(history);
+            tr.commit();
+
+            // Close the session
+            session.close();
+
+            System.out.println("Successfully updated VoteHistory to database");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error updating VoteHistory to database");
+            return false;
+        }
+
+
+        // Begin the transaction
+        Transaction tr = session.beginTransaction();
+
+
+
+        // Close the session
+        session.close();
+
+        System.out.println("Successfully updated " + photo.toString() + " to database");
+        return true;
+    } catch (Exception e) {
+        System.out.println("Error updating " + photo.toString() + " to database");
+        return false;
+    }
+
+    }*/
 }

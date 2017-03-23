@@ -76,7 +76,7 @@
 
 
                 <li>
-                    <a href="Terms-of-Service">Terms Of Service</a>
+                    <a href="terms-of-service">Terms Of Service</a>
                 </li>
             </ul>
         </div>
@@ -243,7 +243,7 @@
                     </c:choose>
                     <li class="footer-menu-divider">&sdot;</li>
                     <li>
-                        <a href="submit">Submit Photos</a>
+                        <a href="terms-of-service">Terms of Service</a>
                     </li>
                 </ul>
                 <p class="copyright text-muted small">Created by Grand Circus Java January 2017 Team 2!</p>

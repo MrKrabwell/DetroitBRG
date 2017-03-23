@@ -76,7 +76,9 @@ public class VoteController {
                     return "photo-detail";
                 }
                 else {
-                    System.out.println("Error while voting.");
+                    System.out.println("Error!  Could not update admin vote information.");
+                    model.addAttribute("message", "Error occurred while storing your vote.  " +
+                            "Please contact the administrator.");
                     return "error";
                 }
             }
@@ -96,7 +98,9 @@ public class VoteController {
                         return "photo-detail";
                     }
                     else {
-                        System.out.println("Error updating vote information!");
+                        System.out.println("Error updating user vote information!");
+                        model.addAttribute("message", "Error occurred while storing your vote.  " +
+                                "Please contact the administrator.");
                         return "error";
                     }
                 }
@@ -109,8 +113,7 @@ public class VoteController {
         }
         // If user isn't logged in, then tell them you can't do that
         else {
-            model.addAttribute("message", "You must be logged in to do that!" +
-                                "");
+            model.addAttribute("message", "You must be logged in to do that!");
             model.addAttribute("photo", photo);
             return "photo-detail";
         }
