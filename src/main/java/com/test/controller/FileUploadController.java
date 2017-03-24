@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.EnumSet;
 
 /**
  * This controller class is for file uploads
@@ -96,7 +94,6 @@ public class FileUploadController {
             return false;
         }
     }
-
 
 
     /**
@@ -192,7 +189,7 @@ public class FileUploadController {
         double[] latLng = getGeoLocation(file, session);
 
         // If latLng is null, default location is set
-        if (latLng == null) {
+        if (latLng == null || (latLng[0] == 0.0 && latLng[1] == 0.0)) {
             model.addAttribute("lat", DEFAULT_PHOTO_LOCATION[0]);
             model.addAttribute("lng", DEFAULT_PHOTO_LOCATION[1]);
             model.addAttribute("geoMessage", "Your photo did not contain data " +
