@@ -1,5 +1,7 @@
 package com.test.external;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +18,6 @@ public class FBConnection {
     private static final String FB_APP_SECRET = "a07cefe0048cd27d95c4aaae28a75c05";
     // The URI below is what facebook uses to comeback to request a re-direct.
     private static final String REDIRECT_REQUEST = "login";
-    private static String accessToken = "";
 
 
     /**
@@ -54,38 +55,34 @@ public class FBConnection {
      * @return String access token to get user information
      */
     public static String getAccessToken(String code, String redirectURL) {
-        //if (accessToken.equals("")) {  // Comment this out to allow for more users to login using facebook
-            URL fbGraphURL;
-            try {
-                fbGraphURL = new URL(getFBGraphUrl(code,redirectURL));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Invalid code received " + e);
-            }
-            URLConnection fbConnection;
-            StringBuffer b = null;
-            try {
-                fbConnection = fbGraphURL.openConnection();
-                BufferedReader in;
-                in = new BufferedReader(new InputStreamReader(
-                        fbConnection.getInputStream()));
-                String inputLine;
-                b = new StringBuffer();
-                while ((inputLine = in.readLine()) != null)
-                    b.append(inputLine + "\n");
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Unable to connect with Facebook "
-                        + e);
-            }
 
-            accessToken = b.toString();
-            if (accessToken.startsWith("{")) {
-                throw new RuntimeException("ERROR: Access Token Invalid: "
-                        + accessToken);
-            }
-        //}
-        return accessToken;
+        URL fbGraphURL;
+        try {
+            fbGraphURL = new URL(getFBGraphUrl(code,redirectURL));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Invalid code received " + e);
+        }
+        URLConnection fbConnection;
+        StringBuffer b = null;
+        try {
+            fbConnection = fbGraphURL.openConnection();
+            BufferedReader in;
+            in = new BufferedReader(new InputStreamReader(
+                    fbConnection.getInputStream()));
+            String inputLine;
+            b = new StringBuffer();
+            while ((inputLine = in.readLine()) != null)
+                b.append(inputLine + "\n");
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unable to connect with Facebook "
+                    + e);
+        }
+
+        JSONObject accessTokenJSONObject = new JSONObject(b.toString());
+
+        return "access_token=" + accessTokenJSONObject.getString("access_token");
     }
 }
