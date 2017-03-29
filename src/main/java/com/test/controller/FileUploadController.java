@@ -10,6 +10,7 @@ import com.test.dataaccess.DatabaseAccess;
 import com.test.entity.Photos;
 import com.test.external.ClarifaiAPI;
 import com.test.external.GoogleMapsAPI;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class FileUploadController {
 
     /* Class fields */
     private static final String UPLOAD_DIRECTORY = "images";  // Directory path of uploads
+    private static final String TEMP_DIRECTORY = "temp";      // Temporary directory
     private final double[] DEFAULT_PHOTO_LOCATION = {42.3314, -83.0458}; // In center of Detroit
     private final double[] LAT_COORDINATE_LIMIT = {42.30, 42.40};
     private final double[] LNG_COORDINATE_LIMIT = {-83.13, -82.96};
@@ -107,14 +109,17 @@ public class FileUploadController {
 
         // Define the file path and name, temporary storage of File object
         ServletContext context = session.getServletContext();
-        String path = context.getRealPath(UPLOAD_DIRECTORY);
+        String path = context.getRealPath(TEMP_DIRECTORY);
 
-        // Create a new directory, if fails, show error page
+        // Create a new directory, if fails, return null which would show error page
         if (!createDirectory(path)) {
             return null;
         }
 
         try {
+            // Clean out any file that was in the temporary path
+            FileUtils.cleanDirectory(new File(path));
+
             // Convert CommonsMultipartFile to File
             File convFile = new File(path, file.getOriginalFilename());
 
@@ -123,7 +128,7 @@ public class FileUploadController {
                 convFile.delete();
             }
 
-            // Convert into
+            // Convert into FileOutputStream to geolocation
             if (convFile.createNewFile()) {
                 FileOutputStream fos = new FileOutputStream(convFile);
                 fos.write(file.getBytes());
